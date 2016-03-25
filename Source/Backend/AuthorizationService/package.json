@@ -1,0 +1,32 @@
+{
+  "name": "mijo_oauth_api",
+  "version": "1.0.0",
+  "description": "The OAuth 2.0 API for MiJo. This API is conforms the Resource Owner Password Credentials Grant.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThoWim/MiJo.git"
+  },
+  "keywords": [
+    "MiJo"
+  ],
+  "author": "Thomas Wimmer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ThoWim/MiJo/issues"
+  },
+  "homepage": "https://github.com/ThoWim/MiJo#readme",
+  "dependencies": {
+    "basic-auth": "^1.0.3",
+    "bcrypt": "^0.8.5",
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "mongoose": "^4.4.10",
+    "nconf": "^0.8.4",
+    "winston": "^2.2.0",
+    "winston-daily-rotate-file": "^1.0.1"
+  }
+}

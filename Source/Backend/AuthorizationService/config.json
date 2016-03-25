@@ -1,0 +1,10 @@
+{
+    "port" : 8080,
+    "log_directory": "..\\Logs",
+    "database_url": "mongodb://localhost/AuthorizationDatabase",
+    "message_gateway_url": "http://localhost:8081",
+    "security": {
+        "accessTokenLifeTime" : 5184000000,
+        "refreshTokenLifeTime": 5184000000
+    }
+}
