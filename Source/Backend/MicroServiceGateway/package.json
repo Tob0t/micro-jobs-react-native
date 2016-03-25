@@ -1,0 +1,32 @@
+{
+  "name": "micro_service_gateway",
+  "version": "1.0.0",
+  "description": "Gateway which enables IPC between different MicroServices via Socket.IO",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThoWim/MiJo.git"
+  },
+  "keywords": [
+    "micro",
+    "IPC",
+    "micro",
+    "services"
+  ],
+  "author": "Thomas Wimmer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ThoWim/MiJo/issues"
+  },
+  "homepage": "https://github.com/ThoWim/MiJo#readme",
+  "dependencies": {
+    "express": "^4.13.4",
+    "nconf": "^0.8.4",
+    "socket.io": "^1.4.5",
+    "winston": "^2.2.0",
+    "winston-daily-rotate-file": "^1.0.1"
+  }
+}
