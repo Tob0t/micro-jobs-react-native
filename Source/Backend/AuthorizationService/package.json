@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/ThoWim/MiJo/issues"
   },
-  "homepage": "https://github.com/ThoWim/MiJo#readme",
+  "homepage": "https://github.com/ThoWim/MiJo",
   "dependencies": {
     "basic-auth": "^1.0.3",
     "bcrypt": "^0.8.5",
