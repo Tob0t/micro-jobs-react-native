@@ -1,0 +1,5 @@
+{
+  "log_directory": "..\\Logs",
+  "database_url": "mongodb://localhost/AuthorizationDatabase",
+  "micro_service_gateway_url": "http://localhost:8081"
+}
