@@ -1,0 +1,174 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: MiJo Client API
+# during dev, should point to your local machine
+host: localhost:10010
+# basePath prefixes all resource paths 
+basePath: /api/client/v1
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /offers:
+    x-swagger-router-controller: offers
+    get:
+        summary: Returns all available offers around certain location.
+        description: Returns all available offers around certain location. This path allows pagination.
+        operationId: offers
+        parameters:
+          - name: lat 
+            in: query
+            description: The latitude of the center.
+            required: true
+            type: string
+          - name: lon 
+            in: query
+            description: The longitude of the center.
+            required: true
+            type: string
+          - name: radius
+            in: query
+            description: The radius in meters of the area where to search around the center.
+            required: true
+            type: number
+            format: int64
+          - name: page
+            in: query
+            description: The page to get.
+            required: false
+            type: number
+            format: int32
+            default: 1
+          - name: per_page
+            in: query
+            description: The number of offers to return per page
+            required: false
+            type: number
+            format: int32
+            default: 10
+            maximum: 20
+        responses:
+          '200':
+            description: An array of all offers within the requested area.
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/Offer'
+          '400':
+            description: An api error (caused by the client) occurred.
+            schema:
+              $ref: '#/definitions/ApiError'
+          '401':
+            description: An authorization error occurred.
+            schema:
+              $ref: '#/definitions/AuthorizationError'
+          '500':
+            description: An internal server error occurred.
+            schema:
+              $ref: '#/definitions/ServerError'
+        security:
+          - MiJo API Key: []
+# complex objects have schema definitions
+definitions:
+    Offer:
+      type: object
+      description: Represents an offer of a micro job
+      required:
+        - title
+        - description
+        - deadline
+        - payment
+      properties:
+        title:
+          type: string
+          description: The title of the offer.
+        description:
+          type: string
+          description: The description of the offer.
+        image:
+          type: string
+          format: byte
+          description: The image of the offer as base64 string.
+        deadline:
+          type: string
+          format: date-time
+          description: The deadline of the offer.
+        payment:
+          type: object
+          description: The payment of the offer.
+          properties:
+            type:
+              type: string
+              enum:
+                - MONEY
+                - SERVICE
+            value:
+              type: string
+    ServerError:
+      type: object
+      description: Represents an error which occurred due to an internal server error.
+      required:
+        - error
+        - error_description
+      properties:
+        error:
+          enum:
+            - general
+            - database
+          type: string
+          description: Indicates the type of the ServerError.
+          x-example: database
+        error_description:
+          type: string
+          description: A detailed description of the ServerError.
+          x-example: Error finding client
+    AuthorizationError:
+      type: object
+      description: Represents an authorization error.
+      required:
+        - error
+        - error_description
+      properties:
+        error:
+          enum:
+            - invalid_access_token
+          type: string
+          description: Indicates the type of the AuthorizationError.
+          x-example: authorization
+        error_description:
+          type: string
+          description: A detailed description of the AuthorizationError.
+          x-example: Invalid access token
+    ApiError:
+      type: object
+      description: Represents an API error.
+      required:
+        - error
+        - error_description
+      properties:
+        error:
+          enum:
+            - invalid_data
+          type: string
+          description: Indicates the type of the ApiError.
+          x-example: authorization
+        error_description:
+          type: string
+          description: A detailed description of the ApiError.
+          x-example: Error deleting Workout
+securityDefinitions:
+  MiJo API Key:
+    description: The MiJo access token received from the AuthAPI.
+    type: apiKey
+    name: Authorization
+    in: header
+security: []
