@@ -2,28 +2,71 @@
 
 var SwaggerExpress = require('swagger-express-mw');
 var app = require('express')();
-module.exports = app; // for testing
+var config = require("./util/config");
+var log = require("./util/log");
+var mongoose = require("mongoose");
+var gatewayConnection = require("./gateway/gatewayConnection");
+var packageJson = require('./package.json');
 
-var config = {
-  appRoot: __dirname,
-  swaggerSecurityHandlers: {
-    'MiJo API Key': function (req, authOrSecDef, scopesOrApiKey, cb) {
-      req.userId = "TEST";
-      cb(false);
+var swaggerConfig = {
+    appRoot: __dirname,
+    swaggerSecurityHandlers: {
+        'MiJo API Key': function (req, authOrSecDef, scopesOrApiKey, cb) {
+            if(!scopesOrApiKey){
+                cb(new Error('Unauthorized'));
+                return;
+            }
+            var token = scopesOrApiKey.match("^Bearer (.*)");
+            if (!token) {
+                cb(new Error('Invalid authorization header'));
+                return;
+            }
+            token = token[1];
+            var tokenValidator = require("./gateway/sender/tokenValidator");
+            tokenValidator.validateAccessToken(token, function (err, userId) {
+                if (err) {
+                    log.error("Error validating access token : " + err.toString());
+                    cb(new Error('Error validating token'));
+                    return;
+                }
+                if (userId) {
+                    req.userId = userId;
+                    cb(false);
+                } else {
+                    cb(new Error('Invalid token'));
+                }
+            });
+        }
     }
-  }
 };
 
-SwaggerExpress.create(config, function(err, swaggerExpress) {
-  if (err) { throw err; }
+SwaggerExpress.create(swaggerConfig, function (err, swaggerExpress) {
+    if (err) {
+        throw err;
+    }
 
-  // install middleware
-  swaggerExpress.register(app);
+    // install middleware
+    swaggerExpress.register(app);
 
-  var port = process.env.PORT || 10010;
-  app.listen(port);
+    var port = config.getPort();
 
-  if (swaggerExpress.runner.swagger.paths['/offers']) {
-    console.log('try this:\ncurl http://127.0.0.1:' + port + '/hello?name=Scott');
-  }
+    var database = mongoose.connection;
+    database.on("open", function (ref) {
+        log.info("Connected to database");
+        gatewayConnection.init(function (err) {
+            if (err) {
+                log.error("Connection to message gateway failed: " + err);
+                return;
+            }
+            log.info("Connected to message gateway");
+
+            app.listen(port, function () {
+                log.info(packageJson.name + " listen on port " + port);
+            });
+        });
+    });
+    database.on("error", function (err) {
+        log.error("Could not connect to database");
+    });
+    mongoose.connect(config.getDatabaseUrl());
 });

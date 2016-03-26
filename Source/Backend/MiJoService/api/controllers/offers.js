@@ -13,9 +13,13 @@ function offers(req, res) {
     var per_page = params.per_page.value;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     console.log(name);
 >>>>>>> Added first demo route.
+=======
+    console.log(lat);
+>>>>>>> Added validation of access token in MiJoService.
     res.json([{
         title: "Title of offer",
         description: "Description of offer",

@@ -9,7 +9,12 @@
   "main": "app.js",
   "dependencies": {
     "express": "^4.12.3",
-    "swagger-express-mw": "^0.1.0"
+    "mongoose": "^4.4.10",
+    "nconf": "^0.8.4",
+    "socket.io-client": "^1.4.5",
+    "swagger-express-mw": "^0.1.0",
+    "winston": "^2.2.0",
+    "winston-daily-rotate-file": "^1.0.1"
   },
   "devDependencies": {
     "should": "^7.1.0",
