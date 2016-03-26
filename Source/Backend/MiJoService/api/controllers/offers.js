@@ -12,7 +12,7 @@ function offers(req, res) {
     var page = params.page.value;
     var per_page = params.per_page.value;
 
-    console.log(name);
+    console.log(lat);
     res.json([{
         title: "Title of offer",
         description: "Description of offer",

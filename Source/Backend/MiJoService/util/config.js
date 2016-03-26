@@ -16,8 +16,8 @@ module.exports = {
         return nconf.get("database_url");
     },
 
-    getMessageGatewayUrl: function(){
-        return nconf.get("message_gateway_url");
+    getMicroServiceGatewayUrl: function(){
+        return nconf.get("micro_service_gateway_url");
     },
 
     getShareUrl: function(){
