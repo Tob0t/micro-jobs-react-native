@@ -4,6 +4,7 @@ npm install --save <folderToLocalMiJoRepo>/Source/Client/SwaggerProxies/mijo-aut
 ```
 
 # Usage
+```javascript
 var MiJoAuthorizationApi = require('mijo-authorization-api');
 
 //Set the authorization for the APIs -> Just certain clients are allowed to make requests to the api
@@ -26,3 +27,6 @@ tokenApi.getKeyPairForUsernameAndPassword(grantType, username, password, mijoCli
         console.log(data);
     }
 });
+
+npm install --save D:/FH/MCM_2/MC507_Cross-Platform/MiJo/Source/Client/SwaggerProxies/mijo-authorization-api
+```
