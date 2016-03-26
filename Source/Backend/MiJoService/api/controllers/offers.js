@@ -12,6 +12,10 @@ function offers(req, res) {
     var page = params.page.value;
     var per_page = params.per_page.value;
 
+<<<<<<< HEAD
+=======
+    console.log(name);
+>>>>>>> Added first demo route.
     res.json([{
         title: "Title of offer",
         description: "Description of offer",
