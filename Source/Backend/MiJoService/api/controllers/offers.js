@@ -4,7 +4,14 @@ module.exports = {
 };
 
 function offers(req, res) {
-    var name = req.swagger.params.lat.value;
+    var params = req.swagger.params;
+
+    var lat = params.lat.value;
+    var lon = params.lon.value;
+    var radius = params.radius.value;
+    var page = params.page.value;
+    var per_page = params.per_page.value;
+
     console.log(name);
     res.json([{
         title: "Title of offer",

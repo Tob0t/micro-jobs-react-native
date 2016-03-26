@@ -1,0 +1,6 @@
+{
+  "port": 8082,
+  "log_directory": "..\\Logs",
+  "database_url": "mongodb://localhost/MiJoDatabase",
+  "message_gateway_url": "http://localhost:8081"
+}
