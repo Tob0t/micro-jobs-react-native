@@ -9,7 +9,19 @@ let Card = React.createClass({
     return (
       <View style={styles.card}>
         <Image style={styles.thumbnail} source={{uri: this.props.image}} />
-        <Text style={styles.text}>This is card {this.props.name}</Text>
+        <Text style={styles.text_title}>Job Title {this.props.name}</Text>
+        <View style={styles.submenu}>
+          <Text style={styles.text_subtitle}>Job description</Text>
+        </View>
+        <Text style={styles.text_description}>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. #Lateinnachhilfe</Text>
+        <View style={styles.text_container}>
+          <Text style={styles.text_subtitle}>Deadline: </Text>
+          <Text style={styles.text_subtitle_flat}>01.01.1970</Text>
+        </View>
+        <View style={styles.text_container}>
+          <Text style={styles.text_subtitle}>Payment: </Text>
+          <Text style={styles.text_subtitle_flat}>20$ per hour</Text>
+        </View>
       </View>
     )
   }
@@ -24,6 +36,7 @@ let NoMoreCards = React.createClass({
     )
   }
 })
+
 
 const Cards = [
   {name: '1', image: 'https://media.giphy.com/media/GfXFVHUzjlbOg/giphy.gif'},
@@ -103,22 +116,49 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderColor: 'grey',
     backgroundColor: 'white',
+    padding: 15,
+    margin: 10,
     borderWidth: 1,
     elevation: 1,
   },
-  thumbnail: {
-    flex: 1,
+  submenu: {
     width: 300,
-    height: 300,
+    alignItems: 'flex-start',
   },
-  text: {
+  thumbnail: {
+    width: 300,
+    height: 100,
+  },
+  text_title: {
     fontSize: 20,
     paddingTop: 10,
-    paddingBottom: 10
+    paddingBottom: 10,
+    fontWeight: 'bold',
+  },
+  text_subtitle: {
+    fontSize: 16,
+    paddingTop: 10,
+    fontWeight: 'bold',
+  },
+  text_subtitle_flat: {
+    fontSize: 16,
+    paddingTop: 10,
+    paddingLeft: 10,
+  },
+  text_description: {
+    fontSize: 16,
+    padding: 10,
+    paddingBottom: 10,
   },
   noMoreCards: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  text_container: {
+    width: 300,
+    flexDirection: 'row',
   }
+
+
 })
