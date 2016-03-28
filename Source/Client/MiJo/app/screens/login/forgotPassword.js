@@ -18,13 +18,14 @@ var {
 
 var globalStyle = require('./style.js');
 
-var ForgotPassword = React.createClass({
-  getInitialState: function() {
-    return {
+class ForgotPassword extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
       email: '',
-    }
-  },
-  render: function() {
+    };
+  }
+  render() {
     var TouchableElement = TouchableHighlight;
     if(Platform.OS === 'android'){
       TouchableElement = TouchableNativeFeedback;
@@ -57,7 +58,7 @@ var ForgotPassword = React.createClass({
                 </View>
               </View>
               <TouchableElement
-                onPress={this._handleResetPassword}>
+                onPress={() => this._handleResetPassword()}>
                 <View style={globalStyle.submit}>
                     <Text style={globalStyle.whiteFont}>Reset Password</Text>
                 </View>
@@ -66,14 +67,14 @@ var ForgotPassword = React.createClass({
               <View style={globalStyle.bottomArea}>
                   <Text style={globalStyle.greyFont}>Don't have an account?
                     <Text style={globalStyle.whiteFont}
-                      onPress={this._handleSignUp}>  Sign Up
+                      onPress={() => this._handleSignUp()}>  Sign Up
                     </Text>
                   </Text>
               </View>
           </View>
         </View>
     );
-  },
+  }
   _handleResetPassword(event){
     console.log('Reset Password pressed');
     console.log('Email: '+this.state.email)
@@ -84,15 +85,15 @@ var ForgotPassword = React.createClass({
         });
       }
   */
-  },
+  }
   _handleSignUp(event){
     console.log('Sign Up pressed');
     this.props.navigator.replace({
       id: 'SignUp'
     });
-  },
+  }
 
-});
+}
 
 var styles = StyleSheet.create({
     innerContainer: {
@@ -121,7 +122,7 @@ var styles = StyleSheet.create({
         marginBottom: 10,
         flex: .5
     },
-})
+});
 
 
 module.exports = ForgotPassword;

@@ -18,15 +18,16 @@ var {
 
 var globalStyle = require('./style.js');
 
-var SignUp = React.createClass({
-  getInitialState: function() {
-    return {
+class SignUp extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
       username: '',
       email: '',
-      password: ''
-    }
-  },
-  render: function() {
+      password: '',
+    };
+  }
+  render() {
     var TouchableElement = TouchableHighlight;
     if(Platform.OS === 'android'){
       TouchableElement = TouchableNativeFeedback;
@@ -76,7 +77,7 @@ var SignUp = React.createClass({
                   </View>
               </View>
               <TouchableElement
-                onPress={this._handleSignUp}>
+                onPress={() => this._handleSignUp()}>
                 <View style={globalStyle.submit}>
                     <Text style={globalStyle.whiteFont}>Sign Up</Text>
                 </View>
@@ -85,25 +86,25 @@ var SignUp = React.createClass({
               <View style={globalStyle.bottomArea}>
                   <Text style={globalStyle.greyFont}>Already have an account?
                     <Text style={globalStyle.whiteFont}
-                      onPress={this._handleSignIn}>  Sign In
+                      onPress={() => this._handleSignIn()}>  Sign In
                     </Text>
                   </Text>
               </View>
           </View>
         </View>
     );
-  },
+  }
   _handleSignIn(event){
     console.log('Sign In pressed');
     this.props.navigator.push({
       id: 'SignIn'
     });
-  },
+  }
   _handleSignUp(event){
     console.log('Sign Up pressed');
-  },
+  }
 
-});
+}
 
 var styles = StyleSheet.create({
     innerContainer: {
@@ -128,7 +129,7 @@ var styles = StyleSheet.create({
         marginBottom: 10,
         flex: .5
     },
-})
+});
 
 
 module.exports = SignUp;

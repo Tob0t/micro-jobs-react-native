@@ -18,14 +18,15 @@ var {
 
 var globalStyle = require('./style.js');
 
-var SignIn = React.createClass({
-  getInitialState: function() {
-    return {
+class SignIn extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
       username: '',
-      password: ''
-    }
-  },
-  render: function() {
+      password: '',
+    };
+  }
+  render() {
     var TouchableElement = TouchableHighlight;
     if(Platform.OS === 'android'){
       TouchableElement = TouchableNativeFeedback;
@@ -62,11 +63,11 @@ var SignIn = React.createClass({
                 </View>
                 <View style={styles.forgotContainer}>
                     <Text style={globalStyle.greyFont}
-                      onPress={this._handleForgotPassword}>Forgot Password</Text>
+                      onPress={() => this._handleForgotPassword()}>Forgot Password</Text>
                 </View>
             </View>
             <TouchableElement
-              onPress={this._handleSignIn}>
+              onPress={() => this._handleSignIn()}>
               <View style={globalStyle.submit}>
                   <Text style={globalStyle.whiteFont}>Sign In</Text>
               </View>
@@ -81,28 +82,57 @@ var SignIn = React.createClass({
             </View>
         </View>
     );
-  },
+  }
   _handleSignIn(event){
     console.log('Sign In pressed');
-    var username = this.state.username;
-    var password = this.state.password;
-    console.log(username);
-    console.log(password);
-  },
+    console.log(this.props.tokenApi);
+    var nav = this.props.navigator;
+
+    var tokenApi = this.props.tokenApi;
+    var grantType = "password"; // {String} The grant type. Should be password.
+    var username = this.state.username; // {String} The email of the user.
+    var password = this.state.password; // {String} The password of the user.
+    var mijoClientInstanceId = "SomeIdWhichIsUniqueForThisClientInstallation"; // {String} The client instance id which identifies the client of the user.
+
+    console.log("Captured Username: "+username);
+    console.log("Captured Password: "+password);
+
+    // MOCK DATA
+    username = "tom.wimmer@hotmail.com";
+    password = "password";
+
+    console.log("Mock Username: "+username);
+    console.log("Mock Password: "+password);
+
+    tokenApi.getKeyPairForUsernameAndPassword(grantType, username, password, mijoClientInstanceId, function (error, data, response) {
+      if (error) {
+          console.log("Error: ");
+          console.error(error);
+      } else {
+        console.log("Success: ");
+        console.log(data);
+        nav.push({
+          id: 'HomeScene',
+          token: data,
+        })
+      }
+    });
+
+  }
   _handleSignUp(){
     console.log('Sign Up pressed');
     this.props.navigator.push({
       id: 'SignUp'
     });
-  },
+  }
   _handleForgotPassword(event){
     console.log('Forgot Password pressed');
     this.props.navigator.push({
       id: 'ForgotPassword'
     });
-  },
+  }
 
-});
+}
 
 var styles = StyleSheet.create({
     header: {
@@ -124,6 +154,6 @@ var styles = StyleSheet.create({
       alignItems: 'flex-end',
       padding: 15,
     },
-})
+});
 
 module.exports = SignIn;
