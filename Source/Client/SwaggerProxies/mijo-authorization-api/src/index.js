@@ -1,4 +1,7 @@
 (function (factory) {
+    var base64 = require('base-64');
+	btoa = base64.encode;
+	atob = base64.decode;
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
         define(['./ApiClient', './model/KeyPair', './model/OAuthError', './model/ServerError', './api/TokenApi'], factory);
