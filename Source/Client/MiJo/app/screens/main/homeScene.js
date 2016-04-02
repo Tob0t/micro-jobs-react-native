@@ -1,8 +1,11 @@
 'use strict';
-var React = require('react-native');
-var Dimensions = require('Dimensions');
-var windowSize = Dimensions.get('window');
 
+// imports
+import React from 'react-native';
+import GlobalStyle from './GlobalStyle.js';
+import Card from './Card.js';
+
+// global vars
 var {
   AppRegistry,
   StyleSheet,
@@ -17,32 +20,21 @@ var {
   Navigator
 } = React;
 
-import Card from './Card.js';
-var globalStyle = require('./style.js');
 var access_token;
 
 class HomeScene extends React.Component{
   constructor(props){
     super(props);
-    access_token = this.props.token.access_token;
+    this.state = {
+      accessToken: this.props.token.access_token
+    };
   }
   render() {
-    console.log("Received Data: "+access_token);
+    console.log("Received Data: "+this.state.accessToken);
     console.log(this.props.token);
-    var TouchableElement = TouchableHighlight;
-    if(Platform.OS === 'android'){
-      TouchableElement = TouchableNativeFeedback;
 
-    }
     return (
-      <View style={globalStyle.container}>
-        <Image style={globalStyle.bg} source={require('./img/login_bg.png')} />
-        <View style={styles.innerContainer}>
-        <TouchableOpacity
-            onPress={this.props.navigator.pop}>
-              <Image style={globalStyle.arrowBack} source={require('./img/login_back.png')}/>
-          </TouchableOpacity>
-        </View>
+      <View style={GlobalStyle.container}>
         <Card style = {{flex: 1}} />
       </View>
     );
@@ -58,10 +50,10 @@ var styles = StyleSheet.create({
     },
     innerContainer: {
       flexDirection: 'column',
-      flex: 0.1,
+      flex: 0.05,
       backgroundColor: 'transparent',
-      marginTop: 25
+      marginTop: 5
     },
 })
 
-module.exports = HomeScene;
+export default HomeScene;

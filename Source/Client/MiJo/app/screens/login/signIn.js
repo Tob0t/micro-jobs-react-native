@@ -1,8 +1,12 @@
 'use strict';
-var React = require('react-native');
-var Dimensions = require('Dimensions');
-var windowSize = Dimensions.get('window');
 
+// imports
+import React from 'react-native';
+import GlobalStyle from './GlobalStyle.js';
+import LoginButton from '../../components/buttons/LoginButton';
+import LoginTextInput from '../../components/textInputs/LoginTextInput';
+
+// global vars
 var {
   AppRegistry,
   StyleSheet,
@@ -10,13 +14,8 @@ var {
   Text,
   TextInput,
   Image,
-  Platform,
-  TouchableHighlight,
-  TouchableNativeFeedback,
   Navigator
 } = React;
-
-var globalStyle = require('./style.js');
 
 class SignIn extends React.Component{
   constructor(props){
@@ -27,55 +26,40 @@ class SignIn extends React.Component{
     };
   }
   render() {
-    var TouchableElement = TouchableHighlight;
-    if(Platform.OS === 'android'){
-      TouchableElement = TouchableNativeFeedback;
-
-    }
     return (
-        <View style={globalStyle.container}>
-            <Image style={globalStyle.bg} source={require('./img/login_bg.png')} />
+        <View style={GlobalStyle.container}>
+            <Image style={GlobalStyle.bg} source={require('./img/login_bg.png')} />
             <View style={styles.header}>
                 <Image style={styles.mark} source={require('./img/login_mask.png')} />
             </View>
             <View style={styles.inputs}>
-                <View style={globalStyle.inputContainer}>
-                    <Image style={globalStyle.inputUsername} source={require('./img/login_person.png')}/>
-                    <TextInput
-                        style={[globalStyle.input, globalStyle.whiteFont]}
-                        placeholder="Username"
-                        placeholderTextColor="#FFF"
+                <View style={GlobalStyle.inputContainer}>
+                    <Image style={GlobalStyle.inputUsername} source={require('./img/login_person.png')}/>
+                      <LoginTextInput
+                        placeholder='Username'
                         value={this.state.username}
                         onChangeText={(username) => this.setState({username})}
-                        underlineColorAndroid="rgba(0,0,0,0)"
-                    />
+                      />
                 </View>
-                <View style={globalStyle.inputContainer}>
-                    <Image style={globalStyle.inputPassword} source={require('./img/login_lock.png')}/>
-                    <TextInput
+                <View style={GlobalStyle.inputContainer}>
+                    <Image style={GlobalStyle.inputPassword} source={require('./img/login_lock.png')}/>
+                      <LoginTextInput
                         password={true}
-                        style={[globalStyle.input, globalStyle.whiteFont]}
-                        placeholder="Password"
-                        placeholderTextColor="#FFF"
+                        placeholder='Password'
                         value={this.state.password}
                         onChangeText={(password) => this.setState({password})}
-                    />
+                      />
                 </View>
                 <View style={styles.forgotContainer}>
-                    <Text style={globalStyle.greyFont}
+                    <Text style={GlobalStyle.greyFont}
                       onPress={() => this._handleForgotPassword()}>Forgot Password</Text>
                 </View>
             </View>
-            <TouchableElement
-              onPress={() => this._handleSignIn()}>
-              <View style={globalStyle.submit}>
-                  <Text style={globalStyle.whiteFont}>Sign In</Text>
-              </View>
-            </TouchableElement>
+            <LoginButton onPress={() => this._handleSignIn()} text="Sign in"/>
 
-            <View style={globalStyle.bottomArea}>
-                <Text style={globalStyle.greyFont}>Don't have an account?
-                  <Text style={globalStyle.whiteFont}
+            <View style={GlobalStyle.bottomArea}>
+                <Text style={GlobalStyle.greyFont}>Don't have an account?
+                  <Text style={GlobalStyle.whiteFont}
                     onPress={() => this._handleSignUp()}>  Sign Up
                   </Text>
                 </Text>
@@ -83,7 +67,7 @@ class SignIn extends React.Component{
         </View>
     );
   }
-  _handleSignIn(event){
+  _handleSignIn(){
     console.log('Sign In pressed');
     console.log(this.props.tokenApi);
     var nav = this.props.navigator;
@@ -156,4 +140,4 @@ var styles = StyleSheet.create({
     },
 });
 
-module.exports = SignIn;
+export default SignIn;

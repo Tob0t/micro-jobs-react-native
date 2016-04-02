@@ -1,26 +1,21 @@
 'use strict';
-var React = require('react-native');
-var Dimensions = require('Dimensions');
-var windowSize = Dimensions.get('window');
 
+// imports
+import React from 'react-native';
+import SignIn from './signIn.js'
+import SignUp from './signUp.js'
+import ForgotPassword from './forgotPassword.js'
+import HomeScene from '../main/homeScene.js'
+
+// global vars
 var {
-  AppRegistry,
   StyleSheet,
   View,
-  Text,
-  TextInput,
-  Image,
-  Platform,
   TouchableHighlight,
   TouchableNativeFeedback,
   Navigator,
   BackAndroid,
 } = React;
-
-import SignIn from './signIn.js'
-import SignUp from './signUp.js'
-import ForgotPassword from './forgotPassword.js'
-import HomeScene from '../main/homeScene.js'
 
 var MiJoAuthorizationApi = require('mijo-authorization-api');
 
@@ -37,7 +32,7 @@ var username = "tom.wimmer@hotmail.com"; // {String} The email of the user.
 var password = "password"; // {String} The password of the user.
 var mijoClientInstanceId = "SomeIdWhichIsUniqueForThisClientInstallation"; // {String} The client instance id which identifies the client of the user.
 
-
+// For navigation purpose
 var _navigator;
 
 BackAndroid.addEventListener('hardwareBackPress', () => {
@@ -79,4 +74,4 @@ var styles = StyleSheet.create({
 })
 
 
-module.exports = Login;
+export default Login;

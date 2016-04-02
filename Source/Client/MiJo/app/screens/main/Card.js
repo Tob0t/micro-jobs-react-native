@@ -4,7 +4,7 @@ import React, {StyleSheet, Text, View, Image} from 'react-native';
 
 import SwipeCards from 'react-native-swipe-cards';
 
-let Card = React.createClass({
+class Card extends React.Component{
   render() {
     return (
       <View style={styles.card}>
@@ -25,9 +25,9 @@ let Card = React.createClass({
       </View>
     )
   }
-})
+}
 
-let NoMoreCards = React.createClass({
+class NoMoreCards extends React.Component{
   render() {
     return (
       <View style={styles.noMoreCards}>
@@ -35,7 +35,7 @@ let NoMoreCards = React.createClass({
       </View>
     )
   }
-})
+}
 
 
 const Cards = [
@@ -57,20 +57,21 @@ const Cards2 = [
   {name: '13', image: 'https://media.giphy.com/media/OVHFny0I7njuU/giphy.gif'},
 ]
 
-export default React.createClass({
-  getInitialState() {
-    return {
+class CardScene extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
       cards: Cards,
       outOfCards: false
-    }
-  },
-  handleYup (card) {
+    };
+  }
+  _handleYup (card) {
     console.log("yup")
-  },
-  handleNope (card) {
+  }
+  _handleNope (card) {
     console.log("nope")
-  },
-  cardRemoved (index) {
+  }
+  _cardRemoved (index) {
     console.log(`The index is ${index}`);
 
     let CARD_REFRESH_LIMIT = 3
@@ -89,7 +90,7 @@ export default React.createClass({
 
     }
 
-  },
+  }
   render() {
     return (
       <SwipeCards
@@ -101,13 +102,13 @@ export default React.createClass({
         showYup={true}
         showNope={true}
 
-        handleYup={this.handleYup}
-        handleNope={this.handleNope}
-        cardRemoved={this.cardRemoved}
+        handleYup={(card) => this._handleYup(card)}
+        handleNope={(card) => this._handleNope(card)}
+        cardRemoved={(index) => this._cardRemoved(index)}
       />
     )
   }
-})
+}
 
 const styles = StyleSheet.create({
   card: {
@@ -159,6 +160,6 @@ const styles = StyleSheet.create({
     width: 300,
     flexDirection: 'row',
   }
+});
 
-
-})
+export default CardScene;
