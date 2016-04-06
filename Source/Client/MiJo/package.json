@@ -8,7 +8,7 @@
   "dependencies": {
     "mijo-authorization-api": "../SwaggerProxies/mijo-authorization-api",
     "react": "^0.14.7",
-    "react-native": "^0.22.2",
+    "react-native": "^0.23.0",
     "react-native-swipe-cards": "0.0.7"
   }
 }
