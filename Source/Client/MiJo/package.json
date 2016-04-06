@@ -6,7 +6,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
-    "mijo-authorization-api": "file:///Users/tobi/Documents/MiJo/Source/Client/SwaggerProxies/mijo-authorization-api",
+    "mijo-authorization-api": "file:///Users/Tob0t/repos/ReactNativeProjects/MiJo/Source/Client/SwaggerProxies/mijo-authorization-api",
     "react": "^0.14.7",
     "react-native": "^0.22.2",
     "react-native-swipe-cards": "0.0.7"

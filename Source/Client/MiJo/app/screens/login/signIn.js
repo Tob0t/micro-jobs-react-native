@@ -30,7 +30,7 @@ class SignIn extends React.Component{
         <View style={GlobalStyle.container}>
             <Image style={GlobalStyle.bg} source={require('./img/login_bg.png')} />
             <View style={styles.header}>
-                <Image style={styles.mark} source={require('./img/login_mask.png')} />
+                <Image style={styles.mark} source={require('./img/logo.png')} />
             </View>
             <View style={styles.inputs}>
                 <View style={GlobalStyle.inputContainer}>
