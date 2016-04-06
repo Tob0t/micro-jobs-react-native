@@ -43,11 +43,9 @@ var styles = StyleSheet.create({
   input: {
       position: 'absolute',
       left: 61,
-      top: 12,
-      //top: (Platform.OS === 'android') ? 6 : 12,
+      top: (Platform.OS === 'android') ? 10 : 12,
       right: 0,
-      height: 20,
-      //height: (Platform.OS === 'android') ? 35 : 20,
+      height: (Platform.OS === 'android') ? 35 : 20,
       fontSize: 14,
   },
   whiteFont: {
