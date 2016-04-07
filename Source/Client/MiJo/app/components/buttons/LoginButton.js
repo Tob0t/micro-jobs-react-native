@@ -41,7 +41,7 @@ LoginButton.PropTypes = {
 
 var styles = StyleSheet.create({
     submit: {
-        backgroundColor: '#FEC709',
+        backgroundColor: '#FCA600',
         padding: 20,
         alignItems: 'center'
     },
