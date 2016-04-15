@@ -1,8 +1,12 @@
 'use strict';
-var React = require('react-native');
-var Dimensions = require('Dimensions');
-var windowSize = Dimensions.get('window');
 
+// imports
+import React from 'react-native';
+import GlobalStyle from './GlobalStyle';
+import LoginButton from '../../components/buttons/LoginButton';
+import LoginTextInput from '../../components/textInputs/LoginTextInput';
+
+// global vars
 var {
   AppRegistry,
   StyleSheet,
@@ -10,13 +14,8 @@ var {
   Text,
   TextInput,
   Image,
-  Platform,
-  TouchableHighlight,
-  TouchableNativeFeedback,
   TouchableOpacity,
 } = React;
-
-var globalStyle = require('./style.js');
 
 class ForgotPassword extends React.Component{
   constructor(props){
@@ -26,47 +25,37 @@ class ForgotPassword extends React.Component{
     };
   }
   render() {
-    var TouchableElement = TouchableHighlight;
-    if(Platform.OS === 'android'){
-      TouchableElement = TouchableNativeFeedback;
-    }
     return (
-        <View style={globalStyle.container}>
-            <Image style={globalStyle.bg} source={require('./img/login_bg.png')} />
+        <View style={GlobalStyle.container}>
+            <Image style={GlobalStyle.bg} source={require('./img/login_bg.png')} />
             <View style={styles.innerContainer}>
             <TouchableOpacity
               onPress={this.props.navigator.pop}>
-                <Image style={globalStyle.arrowBack} source={require('./img/login_back.png')}/>
+                <Image style={GlobalStyle.arrowBack} source={require('./img/login_back.png')}/>
             </TouchableOpacity>
               <View style={styles.header}>
-                  <Text style={[globalStyle.whiteFont, styles.headline]}>Forgot Password</Text>
+                  <Text style={[GlobalStyle.whiteFont, styles.headline]}>Forgot Password</Text>
               </View>
-
               <View style={styles.inputs}>
                 <View style={styles.instructions}>
-                  <Text style={globalStyle.whiteFont}>Please type in your Email!</Text>
+                  <Text style={GlobalStyle.whiteFont}>Please type in your Email!</Text>
                 </View>
-                <View style={globalStyle.inputContainer}>
-                    <Image style={globalStyle.inputEmail} source={require('./img/login_email.png')}/>
-                    <TextInput
-                        style={[globalStyle.input, globalStyle.whiteFont]}
-                        placeholder="Email"
-                        placeholderTextColor="#FFF"
-                        value={this.state.email}
-                        onChangeText={(email) => this.setState({email})}
+                <View style={GlobalStyle.inputContainer}>
+                    <Image style={GlobalStyle.inputEmail} source={require('./img/login_email.png')}/>
+                    <LoginTextInput
+                      placeholder='Email'
+                      value={this.state.email}
+                      onChangeText={(email) => this.setState({email})}
                     />
                 </View>
               </View>
-              <TouchableElement
-                onPress={() => this._handleResetPassword()}>
-                <View style={globalStyle.submit}>
-                    <Text style={globalStyle.whiteFont}>Reset Password</Text>
-                </View>
-              </TouchableElement>
-
-              <View style={globalStyle.bottomArea}>
-                  <Text style={globalStyle.greyFont}>Don't have an account?
-                    <Text style={globalStyle.whiteFont}
+              <LoginButton
+                onPress={() => this._handleResetPassword()}
+                text='Reset Password'
+              />
+              <View style={GlobalStyle.bottomArea}>
+                  <Text style={GlobalStyle.greyFont}>Don't have an account?
+                    <Text style={GlobalStyle.whiteFont}
                       onPress={() => this._handleSignUp()}>  Sign Up
                     </Text>
                   </Text>
@@ -125,4 +114,4 @@ var styles = StyleSheet.create({
 });
 
 
-module.exports = ForgotPassword;
+export default ForgotPassword;

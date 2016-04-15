@@ -1,14 +1,18 @@
 'use strict';
-var React = require('react-native');
-var Dimensions = require('Dimensions');
-var windowSize = Dimensions.get('window');
 
+// imports
+import React from 'react-native';
+import Dimensions from 'Dimensions';
+
+// global vars
 var {
   StyleSheet,
   Platform,
 } = React;
 
-var Style = StyleSheet.create({
+var windowSize = Dimensions.get('window');
+
+var GlobalStyle = StyleSheet.create({
     container: {
       flexDirection: 'column',
       flex: 1,
@@ -72,19 +76,6 @@ var Style = StyleSheet.create({
         borderBottomColor: '#CCC',
         borderColor: 'transparent'
     },
-    input: {
-        position: 'absolute',
-        left: 61,
-        top: (Platform.OS === 'android') ? 6 : 12,
-        right: 0,
-        height: (Platform.OS === 'android') ? 35 : 20,
-        fontSize: 14,
-    },
-    submit: {
-        backgroundColor: '#FF3366',
-        padding: 20,
-        alignItems: 'center'
-    },
     bottomArea: {
       justifyContent: 'center',
       alignItems: 'center',
@@ -98,5 +89,4 @@ var Style = StyleSheet.create({
     }
 })
 
-
-module.exports = Style;
+module.exports = GlobalStyle;

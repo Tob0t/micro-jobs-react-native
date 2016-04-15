@@ -1,22 +1,21 @@
 'use strict';
-var React = require('react-native');
-var Dimensions = require('Dimensions');
-var windowSize = Dimensions.get('window');
 
+// imports
+import React from 'react-native';
+import GlobalStyle from './GlobalStyle.js';
+import LoginButton from '../../components/buttons/LoginButton';
+import LoginTextInput from '../../components/textInputs/LoginTextInput';
+
+// global vars
 var {
   AppRegistry,
   StyleSheet,
   View,
   Text,
   TextInput,
-  Image,
-  Platform,
-  TouchableHighlight,
-  TouchableNativeFeedback,
   TouchableOpacity,
+  Image,
 } = React;
-
-var globalStyle = require('./style.js');
 
 class SignUp extends React.Component{
   constructor(props){
@@ -28,64 +27,49 @@ class SignUp extends React.Component{
     };
   }
   render() {
-    var TouchableElement = TouchableHighlight;
-    if(Platform.OS === 'android'){
-      TouchableElement = TouchableNativeFeedback;
-    }
     return (
-        <View style={globalStyle.container}>
-            <Image style={globalStyle.bg} source={require('./img/login_bg.png')} />
+        <View style={GlobalStyle.container}>
+            <Image style={GlobalStyle.bg} source={require('./img/login_bg.png')} />
             <View style={styles.innerContainer}>
             <TouchableOpacity
               onPress={this.props.navigator.pop}>
-                <Image style={globalStyle.arrowBack} source={require('./img/login_back.png')}/>
+                <Image style={GlobalStyle.arrowBack} source={require('./img/login_back.png')}/>
             </TouchableOpacity>
               <View style={styles.header}>
-                  <Text style={[globalStyle.whiteFont, styles.headline]}>Sign Up</Text>
+                  <Text style={[GlobalStyle.whiteFont, styles.headline]}>Sign Up</Text>
               </View>
               <View style={styles.inputs}>
-                  <View style={globalStyle.inputContainer}>
-                      <Image style={globalStyle.inputUsername} source={require('./img/login_person.png')}/>
-                      <TextInput
-                          style={[globalStyle.input, globalStyle.whiteFont]}
-                          placeholder="Username"
-                          placeholderTextColor="#FFF"
+                  <View style={GlobalStyle.inputContainer}>
+                      <Image style={GlobalStyle.inputUsername} source={require('./img/login_person.png')}/>
+                        <LoginTextInput
+                          placeholder='Username'
                           value={this.state.username}
                           onChangeText={(username) => this.setState({username})}
-                      />
+                        />
                   </View>
-                  <View style={globalStyle.inputContainer}>
-                      <Image style={globalStyle.inputEmail} source={require('./img/login_email.png')}/>
-                      <TextInput
-                          style={[globalStyle.input, globalStyle.whiteFont]}
-                          placeholder="Email"
-                          placeholderTextColor="#FFF"
+                  <View style={GlobalStyle.inputContainer}>
+                      <Image style={GlobalStyle.inputEmail} source={require('./img/login_email.png')}/>
+                        <LoginTextInput
+                          placeholder='Email'
                           value={this.state.email}
                           onChangeText={(email) => this.setState({email})}
-                      />
+                        />
                   </View>
-                  <View style={globalStyle.inputContainer}>
-                      <Image style={globalStyle.inputPassword} source={require('./img/login_lock.png')}/>
-                      <TextInput
+                  <View style={GlobalStyle.inputContainer}>
+                      <Image style={GlobalStyle.inputPassword} source={require('./img/login_lock.png')}/>
+                        <LoginTextInput
                           password={true}
-                          style={[globalStyle.input, globalStyle.whiteFont]}
-                          placeholder="Password"
-                          placeholderTextColor="#FFF"
+                          placeholder='Password'
                           value={this.state.password}
                           onChangeText={(password) => this.setState({password})}
-                      />
+                        />
                   </View>
               </View>
-              <TouchableElement
-                onPress={() => this._handleSignUp()}>
-                <View style={globalStyle.submit}>
-                    <Text style={globalStyle.whiteFont}>Sign Up</Text>
-                </View>
-              </TouchableElement>
+              <LoginButton onPress={() => this._handleSignUp()} text="Sign up"/>
 
-              <View style={globalStyle.bottomArea}>
-                  <Text style={globalStyle.greyFont}>Already have an account?
-                    <Text style={globalStyle.whiteFont}
+              <View style={GlobalStyle.bottomArea}>
+                  <Text style={GlobalStyle.greyFont}>Already have an account?
+                    <Text style={GlobalStyle.whiteFont}
                       onPress={() => this._handleSignIn()}>  Sign In
                     </Text>
                   </Text>
@@ -132,4 +116,4 @@ var styles = StyleSheet.create({
 });
 
 
-module.exports = SignUp;
+export default SignUp;
