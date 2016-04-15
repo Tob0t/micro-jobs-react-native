@@ -23,21 +23,21 @@ paths:
     get:
         summary: Returns all available offers around certain location.
         description: Returns all available offers around certain location. This path allows pagination.
-        operationId: offers
+        operationId: getOffers
         parameters:
           - name: lat 
             in: query
-            description: The latitude of the center.
+            description: The latitude of the search location.
             required: true
-            type: string
+            type: number
           - name: lon 
             in: query
-            description: The longitude of the center.
+            description: The longitude of search location.
             required: true
-            type: string
-          - name: radius
+            type: number
+          - name: max_distance
             in: query
-            description: The radius in meters of the area where to search around the center.
+            description: The maximum distance to search away from the search location
             required: true
             type: number
             format: int64
@@ -63,6 +63,10 @@ paths:
               type: array
               items:
                 $ref: '#/definitions/Offer'
+            headers:
+              Link:
+                description: The number of allowed requests in the current period
+                type: integer
           '400':
             description: An api error (caused by the client) occurred.
             schema:
@@ -86,7 +90,6 @@ definitions:
         - title
         - description
         - deadline
-        - payment
       properties:
         title:
           type: string
@@ -98,21 +101,25 @@ definitions:
           type: string
           format: byte
           description: The image of the offer as base64 string.
+        location:
+          $ref: '#/definitions/Location'
         deadline:
           type: string
           format: date-time
           description: The deadline of the offer.
-        payment:
-          type: object
-          description: The payment of the offer.
-          properties:
-            type:
-              type: string
-              enum:
-                - MONEY
-                - SERVICE
-            value:
-              type: string
+    Location:
+      type: object
+      description: A location on a WGS84 sphere. Represented by longitude and latitude.
+      required:
+        - lon
+        - lat
+      properties:
+        lon:
+          type: number
+          description: The longitude of the location.
+        lat:
+          type: number
+          description: The latitude of the location.
     ServerError:
       type: object
       description: Represents an error which occurred due to an internal server error.
