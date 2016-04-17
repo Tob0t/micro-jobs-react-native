@@ -1,8 +1,8 @@
 'use strict';
 
 // imports
-import React from 'react-native';
-import Dimensions from 'Dimensions';
+import React from 'react-native'
+import Dimensions from 'Dimensions'
 
 // global vars
 var {
@@ -89,4 +89,4 @@ var GlobalStyle = StyleSheet.create({
     }
 })
 
-module.exports = GlobalStyle;
+export default GlobalStyle;

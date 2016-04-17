@@ -1,10 +1,10 @@
 'use strict';
 
 // imports
-import React from 'react-native';
-import GlobalStyle from './GlobalStyle.js';
-import LoginButton from '../../components/buttons/LoginButton';
-import LoginTextInput from '../../components/textInputs/LoginTextInput';
+import React from 'react-native'
+import GlobalStyle from './GlobalStyle.js'
+import LoginButton from 'MiJo/app/components/buttons/LoginButton'
+import LoginTextInput from 'MiJo/app/components/textInputs/LoginTextInput'
 
 // global vars
 var {
