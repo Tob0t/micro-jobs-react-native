@@ -5,7 +5,6 @@ import React from 'react-native';
 
 // global vars
 var {
-  Navigator,
   Platform,
   PropTypes,
   StyleSheet,
