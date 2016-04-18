@@ -11,13 +11,13 @@ import React, {
   View
 } from 'react-native';
 
-import Login from './app/screens/login/login.js'
+import App from './app/App'
 
 class MiJo extends Component {
   render() {
 
     return (
-      <Login />
+      <App />
     );
   }
 }
