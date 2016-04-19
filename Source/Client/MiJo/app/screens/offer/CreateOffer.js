@@ -3,7 +3,10 @@
 // imports
 import React from 'react-native'
 import GlobalStyle from './GlobalStyle'
-import MK from 'react-native-material-kit';
+
+// import not working, but require?
+//import MK from 'react-native-material-kit'
+const MK = require('react-native-material-kit');
 
 
 
@@ -28,12 +31,12 @@ const {
 } = MK;
 
 
-/*const ColoredRaisedButton = MKButton.coloredButton()
+const ColoredRaisedButton = MKButton.coloredButton()
   .withText('BUTTON')
   .withOnPress(() => {
     console.log("Hi, it's a colored button!");
   })
-  .build();*/
+  .build();
 
 class CreateOffer extends React.Component {
   constructor(props) {
@@ -47,12 +50,6 @@ class CreateOffer extends React.Component {
         <View style={styles.row}>
           <View style={styles.col}>
             <ColoredRaisedButton />
-          </View>
-        </View>
-        <View style={styles.row}>
-          <View style={styles.col}>
-
-            <Text style={styles.legendLabel}>Raised button</Text>
           </View>
         </View>
       </ScrollView>
