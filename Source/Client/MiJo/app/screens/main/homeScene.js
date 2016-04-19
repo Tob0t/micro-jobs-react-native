@@ -6,6 +6,9 @@ import GlobalStyle from './GlobalStyle'
 import Card from './Card'
 import Api from 'MiJo/app/Api'
 
+// temp
+import LoginButton from 'MiJo/app/components/buttons/LoginButton'
+
 // global vars
 var {
   AppRegistry,
@@ -28,11 +31,19 @@ class HomeScene extends React.Component {
   render() {
     return (
       <View style={GlobalStyle.container}>
+        <LoginButton onPress={() => this._handleCreateOffer()} text="Create Offer"/>
         <Card style={{flex: 1}}/>
       </View>
     );
 
 
+  }
+
+  _handleCreateOffer() {
+    console.log('Create Offer pressed');
+    this.props.navigator.push({
+      id: 'CreateOffer'
+    });
   }
 }
 

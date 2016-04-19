@@ -1,11 +1,12 @@
 'use strict';
 
 // imports
-import React from 'react-native';
+import React from 'react-native'
 import SignIn from 'MiJo/app/screens/login/SignIn'
 import SignUp from 'MiJo/app/screens/login/SignUp'
 import ForgotPassword from 'MiJo/app/screens/login/ForgotPassword'
 import HomeScene from 'MiJo/app/screens/main/HomeScene'
+import CreateOffer from 'MiJo/app/screens/offer/CreateOffer'
 import Api from './Api';
 
 // global vars
@@ -27,7 +28,7 @@ export default class Router extends React.Component{
 
   render() {
     const {id, navigator} = this.props;
-    const guardedScences = ['HomeScene'];
+    const guardedScences = ['HomeScene', 'CreateOffer'];
 
     // check if user is allowed to view scene otherwise return to SignIn Page
     if(!Api().isLoggedIn() && guardedScences.indexOf(id) > -1) {
@@ -42,6 +43,8 @@ export default class Router extends React.Component{
             return <ForgotPassword navigator={navigator}/>
         case 'HomeScene':
             return <HomeScene navigator={navigator}/>
+        case 'CreateOffer':
+            return <CreateOffer navigator={navigator}/>
       }
   }
 }
