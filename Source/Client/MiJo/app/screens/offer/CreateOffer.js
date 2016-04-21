@@ -3,10 +3,8 @@
 // imports
 import React from 'react-native'
 import GlobalStyle from './GlobalStyle'
-
-// import not working, but require?
-//import MK from 'react-native-material-kit'
-const MK = require('react-native-material-kit');
+import MaterialButton from 'MiJo/app/components/buttons/MaterialButton'
+import MK, {MKColor} from 'react-native-material-kit'
 
 
 
@@ -18,25 +16,9 @@ var {
   Text,
   TextInput,
   Image,
-  Platform,
   ScrollView,
-  TouchableHighlight,
-  TouchableNativeFeedback,
-  TouchableOpacity,
 } = React;
 
-const {
-  MKButton,
-  MKColor,
-} = MK;
-
-
-const ColoredRaisedButton = MKButton.coloredButton()
-  .withText('BUTTON')
-  .withOnPress(() => {
-    console.log("Hi, it's a colored button!");
-  })
-  .build();
 
 class CreateOffer extends React.Component {
   constructor(props) {
@@ -46,10 +28,15 @@ class CreateOffer extends React.Component {
   render() {
     return (
       <ScrollView style={styles.scrollView}
-                  contentContainerStyle={styles.container}>
+          contentContainerStyle={styles.container}>
         <View style={styles.row}>
           <View style={styles.col}>
-            <ColoredRaisedButton />
+            <MaterialButton text="Back" onPress={() => this.props.navigator.pop()} backgroundColor={MKColor.DeepPurple}/>
+          </View>
+        </View>
+        <View style={styles.row}>
+          <View style={styles.col}>
+            
           </View>
         </View>
       </ScrollView>

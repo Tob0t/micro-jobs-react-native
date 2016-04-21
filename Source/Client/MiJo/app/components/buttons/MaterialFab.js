@@ -12,37 +12,31 @@ var {
   View,
 } = React;
 
-const MaterialButton = ({
-  text,
+const MaterialFab = ({
   onPress,
   backgroundColor,
 }) => {
-  const ColoredRaisedButton = new MKButton.coloredButton()
+  const ColoredFab = new MKButton.coloredFab()
       .build();
   return(
-    <ColoredRaisedButton
+    <ColoredFab
       onPress={onPress}
       backgroundColor={backgroundColor}>
-      <View>
-        <Text>{text}</Text>
-      </View>
-    </ColoredRaisedButton>
+    </ColoredFab>
   )
 };
 
-MaterialButton.PropTypes = {
-  text: PropTypes.string,
+MaterialFab.PropTypes = {
   onPress: PropTypes.func,
   backgroundColor: PropTypes.text,
 }
 
-MaterialButton.defaultProps = {
-  text: 'Button',
-  backgroundColor: MKColor.Green,
+MaterialFab.defaultProps = {
+  backgroundColor: MKColor.Blue,
 }
 
 
 var styles = StyleSheet.create({
 });
 
-export default MaterialButton;
+export default MaterialFab;
