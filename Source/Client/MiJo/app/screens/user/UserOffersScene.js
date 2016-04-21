@@ -5,6 +5,8 @@ import React from 'react-native'
 import MK, {MKProgress} from 'react-native-material-kit'
 import NavBarStandard from 'MiJo/app/components/navbar/NavBarStandard'
 import MaterialFab from 'MiJo/app/components/buttons/MaterialFab'
+import LoginButton from 'MiJo/app/components/buttons/LoginButton'
+
 
 
 // global vars
@@ -40,12 +42,29 @@ class UserOffersScene extends React.Component {
             </View>
           </View>
         </ScrollView>
+
+        <LoginButton onPress={() => this._createNewOffer()} text="Create new offer"/>
+
       </View>
     );
 
 
   }
+
+
+  _createNewOffer() {
+    console.log('Create new offer pressed');
+
+      this.props.navigator.push({
+        id: 'CreateOffer',
+      });
+
+  }
+
+
 }
+
+
 
 var styles = StyleSheet.create({
   scrollView:{
