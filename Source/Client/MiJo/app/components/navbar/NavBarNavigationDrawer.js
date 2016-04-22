@@ -1,7 +1,7 @@
 'use strict';
 
 // imports
-import React, { Component, PropTypes, StyleSheet } from 'react-native'
+import React, { Component, Platform, PropTypes, StyleSheet } from 'react-native'
 import NavBar, { NavButton, NavButtonText, NavTitle, NavGroup } from 'react-native-nav'
 import Icon from 'react-native-vector-icons/Ionicons'
 
@@ -35,7 +35,7 @@ NavBarNavigationDrawer.PropTypes = {
   title: PropTypes.string,
   onPress: PropTypes.function,
 }
-  
+
 var styles = StyleSheet.create({
   navBar: {
     // NavBar styles here (all view styles are valid)
@@ -49,7 +49,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
 
     // custom
-    paddingLeft: 0,
+    paddingLeft: (Platform.OS === 'android') ? 0 : 10
   },
   navGroup: {
      justifyContent: 'flex-start',

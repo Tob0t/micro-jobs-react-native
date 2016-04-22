@@ -1,7 +1,7 @@
 'use strict';
 
 // imports
-import React, { Component, PropTypes, StyleSheet } from 'react-native'
+import React, { Component, Platform, PropTypes, StyleSheet } from 'react-native'
 import NavBar, { NavButton, NavButtonText, NavTitle, NavGroup } from 'react-native-nav'
 import Icon from 'react-native-vector-icons/Ionicons'
 
@@ -50,12 +50,13 @@ var styles = StyleSheet.create({
     alignItems: 'center',
 
     // custom
-    paddingLeft: 0,
+    paddingLeft: (Platform.OS === 'android') ? 0 : 10
+
   },
   navGroup: {
      justifyContent: 'flex-start',
   }
 })
-  
+
 
 export default NavBarStandard;
