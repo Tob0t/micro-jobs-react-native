@@ -18,11 +18,8 @@ function getOffers(req, res) {
     var maxDistance = params.max_distance.value;
     var page = params.page.value;
     var per_page = params.per_page.value;
-
-    var userId = req.userId;
-
+    
     var conditions = {
-        user: userId,
         location: {
             $near: {
                 $geometry: {
