@@ -5,6 +5,7 @@ import React from 'react-native'
 import MK, {MKProgress} from 'react-native-material-kit'
 import NavBarStandard from 'MiJo/app/components/navbar/NavBarStandard'
 import MaterialFab from 'MiJo/app/components/buttons/MaterialFab'
+import Database from 'MiJo/app/Database'
 
 
 
@@ -29,20 +30,8 @@ class UserOffersScene extends React.Component {
     var ds = new ListView.DataSource(
       {rowHasChanged: (r1, r2) => r1.guid !== r2.guid});
     this.state = {
-      ds: [
-        {
-          offerId: 567,
-          img_url: 'http://www.autoserviceprices.com/wp-content/uploads/2015/02/car-repair-wrench.jpg',
-          title: 'Repairing Car',
-          interestedPeople: 3
-        },
-        {
-          offerId: 123,
-          img_url: 'http://i.telegraph.co.uk/multimedia/archive/02221/gardening_2221004b.jpg',
-          title: 'Garding Work',
-          interestedPeople: 1
-        }],
-        dataSource:ds,
+      ds:Database.getUserOffers(1),
+      dataSource:ds,
       }
   }
 
