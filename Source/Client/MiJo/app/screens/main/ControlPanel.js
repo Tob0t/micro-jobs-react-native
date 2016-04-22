@@ -4,6 +4,8 @@
 import React from 'react-native'
 import GlobalStyle from './GlobalStyle'
 import MK, {MKColor} from 'react-native-material-kit'
+import IconOct from 'react-native-vector-icons/Octicons'
+import IconFont from 'react-native-vector-icons/FontAwesome'
 
 
 
@@ -39,7 +41,7 @@ class ControlPanel extends React.Component {
         <TouchableOpacity onPress={() => this.props.navigator.push({id:'UserOffers'})}>
           <View style={styles.row}>
             <View style={styles.colIcon}>
-              <Image style={styles.icon} source={require('./img/login_lock.png')}/>
+              <IconOct name="clippy" size={24}/>
             </View>
             <View style={styles.colText}>
               <Text style={styles.linkText}>Your offers</Text>
@@ -49,7 +51,7 @@ class ControlPanel extends React.Component {
         <TouchableOpacity onPress={() => this.props.navigator.push({id:'UserRequests'})}>
           <View style={styles.row}>
             <View style={styles.colIcon}>
-              <Image style={styles.icon} source={require('./img/login_lock.png')}/>
+              <IconFont name="briefcase" size={24}/>
             </View>
             <View style={styles.colText}>
               <Text style={styles.linkText}>Your requests</Text>
@@ -59,7 +61,7 @@ class ControlPanel extends React.Component {
         <TouchableOpacity onPress={() => this.props.navigator.push({id:'UserSettings'})}>
           <View style={styles.row}>
             <View style={styles.colIcon}>
-              <Image style={styles.icon} source={require('./img/login_lock.png')}/>
+              <IconFont name="wrench" size={24}/>
             </View>
             <View style={styles.colText}>
               <Text style={styles.linkText}>Settings</Text>
@@ -69,7 +71,7 @@ class ControlPanel extends React.Component {
         <TouchableOpacity onPress={() => this.props.navigator.push({id:'Logout'})}>
           <View style={styles.row}>
             <View style={styles.colIcon}>
-              <Image style={styles.icon} source={require('./img/login_lock.png')}/>
+              <IconFont name="sign-out" size={24}/>
             </View>
             <View style={styles.colText}>
               <Text style={styles.linkText}>Logout</Text>

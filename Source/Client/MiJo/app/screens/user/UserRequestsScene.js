@@ -27,7 +27,7 @@ class UserRequestsScene extends React.Component {
   render() {
     return (
       <View>
-        <NavBarStandard title="Your Requests" onPress={() => this.props.navigator.pop()}/>
+        <NavBarStandard title="Your Requests" onPressLeft={() => this.props.navigator.pop()}/>
         <ScrollView style={styles.scrollView}
             contentContainerStyle={styles.container}>
           <View style={styles.row}>

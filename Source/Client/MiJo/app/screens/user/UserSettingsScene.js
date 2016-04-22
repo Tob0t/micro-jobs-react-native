@@ -27,7 +27,7 @@ class UserSettingsScene extends React.Component {
   render() {
     return (
       <View>
-        <NavBarStandard title="Settings" onPress={() => this.props.navigator.pop()}/>
+        <NavBarStandard title="Settings" onPressLeft={() => this.props.navigator.pop()}/>
         <ScrollView style={styles.scrollView}
             contentContainerStyle={styles.container}>
           <View style={styles.row}>

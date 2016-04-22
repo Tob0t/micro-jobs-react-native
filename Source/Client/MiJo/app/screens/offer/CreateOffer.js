@@ -62,7 +62,7 @@ class CreateOffer extends React.Component {
           contentContainerStyle={styles.container}>
         <View style={styles.row}>
           <View style={styles.col}>
-            <NavBarStandard title="Create new offer" onPress={() => this.props.navigator.pop()}/>
+            <NavBarStandard title="Create new offer" onPressLeft={() => this.props.navigator.pop()}/>
           </View>
         </View>
         <View style={styles.row}>

@@ -5,7 +5,6 @@ import React from 'react-native'
 import MK, {MKProgress} from 'react-native-material-kit'
 import NavBarStandard from 'MiJo/app/components/navbar/NavBarStandard'
 import MaterialFab from 'MiJo/app/components/buttons/MaterialFab'
-import LoginButton from 'MiJo/app/components/buttons/LoginButton'
 
 
 
@@ -30,7 +29,7 @@ class UserOffersScene extends React.Component {
   render() {
     return (
       <View>
-        <NavBarStandard title="Your Offers" onPress={() => this.props.navigator.pop()}/>
+        <NavBarStandard title="Your Offers" onPressLeft={() => this.props.navigator.pop()} onPressRight={() => this._createNewOffer()}/>
         <ScrollView style={styles.scrollView}
             contentContainerStyle={styles.container}>
           <View style={styles.row}>
@@ -42,9 +41,6 @@ class UserOffersScene extends React.Component {
             </View>
           </View>
         </ScrollView>
-
-        <LoginButton onPress={() => this._createNewOffer()} text="Create new offer"/>
-
       </View>
     );
 
