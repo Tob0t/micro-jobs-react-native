@@ -58,45 +58,30 @@ class CreateOffer extends React.Component {
 
   render() {
     return (
+
       <ScrollView style={styles.scrollView}
-          contentContainerStyle={styles.container}>
+          contentContainerStyle={styles.container} scrollEnabled={false}>
         <View style={styles.row}>
           <View style={styles.col}>
             <NavBarStandard title="Create new offer" onPressLeft={() => this.props.navigator.pop()}/>
           </View>
         </View>
-        <View style={styles.row}>
-          <View style={styles.col}>
-            <Text style={styles.buttonText} onPress={() => this._pickImage()}>Choose an Image</Text>
-            <View style={styles.header}>
-              <TouchableHighlight onPress={this._pickImage}>
-                <Image style={styles.mark} source={require('./img/jobnig.jpg')} />
-              </TouchableHighlight>
+        <View style={styles.card}>
+        <TouchableHighlight onPress={this._pickImage}>
+          <Image style={styles.thumbnail} source={require('./img/jobnig.jpg')} />
+        </TouchableHighlight>
+            <MKTextField style={styles.textInputTitle} placeholder="Job Title"/>
+          <View style={styles.submenu}>
+            <Text style={styles.text_subtitle}>Job description</Text>
             </View>
-          </View>
-        </View>
-        <View style={styles.row}>
-          <View style={styles.col}>
-            <Text style={styles.buttonText}>Job Title</Text>
-            <MKTextField style={styles.textFieldTitle} placeholder="Enter a title for the job"/>
-          </View>
-        </View>
-        <View style={styles.row}>
-          <View style={styles.col}>
-            <Text style={styles.buttonText}>Job Description</Text>
-            <MKTextField style={styles.textFieldDescr} placeholder="Enter a description for the job"/>
-          </View>
-        </View>
-        <View style={styles.row}>
-          <View style={styles.col}>
-            <Text style={styles.buttonText}>Deadline</Text>
-            <MKTextField style={styles.textFieldTitle} placeholder="MM.DD.YYYY"/>
-          </View>
-        </View>
-        <View style={styles.row}>
-          <View style={styles.col}>
-            <Text style={styles.buttonText}>Payment</Text>
-            <MKTextField style={styles.textFieldLastOnPage} placeholder="e.g. 20$ per hour"/>
+              <MKTextField style={styles.textFieldTitle} placeholder="Enter a description for the job" multiline={true}/>
+            <View style={styles.text_container}>
+              <Text style={styles.text_subtitle}>Deadline: </Text>
+              <MKTextField style={styles.textRightField} placeholder="MM.DD.YYYY"/>
+            </View>
+          <View style={styles.text_container }>
+            <Text style={styles.text_subtitle}>Payment: </Text>
+            <MKTextField style={styles.textRightField} placeholder="e.g. 20$ per hour"/>
           </View>
         </View>
         <View style={styles.row}>
@@ -104,12 +89,8 @@ class CreateOffer extends React.Component {
             <LoginButton onPress={() => this._createNewOffer()} text="Create offer"/>
           </View>
         </View>
-        <View style={styles.row}>
-          <View style={styles.col}>
-            <Text style={styles.buttonText}></Text>
-          </View>
-        </View>
       </ScrollView>
+
     );
 
 
@@ -133,9 +114,9 @@ class CreateOffer extends React.Component {
     // const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
 
     // uri (on iOS)
-    const source = {uri: response.uri.replace('file://', ''), isStatic: true};
+    //const source = {uri: response.uri.replace('file://', ''), isStatic: true};
     // uri (on android)
-    // const source = {uri: response.uri, isStatic: true};
+     // const source = {uri: response.uri, isStatic: true};
 
     this.setState({
       avatarSource: source
@@ -178,18 +159,76 @@ var styles = StyleSheet.create({
    width: 250,
  },
  textFieldTitle: {
-   height: 20,
-   paddingLeft: 15,
+   height: 250,
+   width: 300,
  },
  textFieldDescr: {
    height: 150,
    paddingLeft: 15,
+ },
+ textRightField: {
+   height: 25,
+   width: 220,
+ },
+ textInputTitle: {
+   height: 25,
+   width: 220,
+   margin: 8,
  },
  textFieldLastOnPage: {
    height: 45,
    paddingLeft: 15,
    paddingBottom: 25,
  },
+ card: {
+   alignItems: 'center',
+   borderRadius: 5,
+   overflow: 'hidden',
+   borderColor: 'grey',
+   backgroundColor: 'white',
+   padding: 15,
+   margin: 10,
+   borderWidth: 1,
+   elevation: 1,
+ },
+ submenu: {
+   width: 300,
+   alignItems: 'flex-start',
+ },
+ thumbnail: {
+   width: 300,
+   height: 110,
+ },
+ text_title: {
+   fontSize: 20,
+   paddingTop: 10,
+   paddingBottom: 10,
+   fontWeight: 'bold',
+ },
+ text_subtitle: {
+   fontSize: 16,
+   fontWeight: 'bold',
+ },
+ text_subtitle_flat: {
+   fontSize: 16,
+   paddingTop: 10,
+   paddingLeft: 10,
+ },
+ text_description: {
+   fontSize: 16,
+   padding: 10,
+   paddingBottom: 10,
+ },
+ noMoreCards: {
+   flex: 1,
+   justifyContent: 'center',
+   alignItems: 'center',
+ },
+ text_container: {
+   width: 300,
+   paddingTop: 15,
+   flexDirection: 'row',
+ }
 })
 
 export default CreateOffer;
