@@ -3,6 +3,7 @@
 // imports
 import React from 'react-native'
 import MK, {MKButton, MKColor} from 'react-native-material-kit'
+import Icon from 'react-native-vector-icons/Ionicons'
 
 // global vars
 var {
@@ -22,6 +23,7 @@ const MaterialFab = ({
     <ColoredFab
       onPress={onPress}
       backgroundColor={backgroundColor}>
+      <Icon name="plus-round" size={25}/>
     </ColoredFab>
   )
 };

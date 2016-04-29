@@ -2,10 +2,11 @@
 
 // imports
 import React from 'react-native'
-import MK, {MKProgress} from 'react-native-material-kit'
+import MK, {MKColor,MKProgress, MKSwitch} from 'react-native-material-kit'
 import NavBarStandard from 'MiJo/app/components/navbar/NavBarStandard'
 import MaterialFab from 'MiJo/app/components/buttons/MaterialFab'
 import Database from 'MiJo/app/Database'
+import Accordion from'react-native-collapsible/Accordion'
 
 
 
@@ -41,23 +42,56 @@ class UserOffersScene extends React.Component {
     })
 
   }
-
-  renderRow(rowData, sectionID, rowID) {
+   _renderHeader(rowData) {
     return (
-      <TouchableHighlight onPress={() => this.rowPressed(rowData.offerId)}
-       underlayColor='#dddddd'>
-     <View>
        <View style={styles.rowContainer}>
          <Image style={styles.thumb} source={{ uri: rowData.img_url }} />
          <View  style={styles.textContainer}>
            <Text style={styles.price}>{rowData.title}</Text>
-           <Text style={styles.title}
-                 numberOfLines={1}>{rowData.interestedPeople} people interested</Text>
+           <Text style={styles.title}>{rowData.interestedPeople.length} people interested</Text>
          </View>
-       </View>
-       <View style={styles.separator}/>
-     </View>
-   </TouchableHighlight>
+      </View>
+    );
+  }
+
+  _renderContent(rowData) {
+    var that = this;
+    var interestedPeople = rowData.interestedPeople;
+    var rows = interestedPeople.map(function(interestedPeople,i){
+      return (
+        <View style={styles.detailRowContainer} key={interestedPeople.id}>
+          <View style={styles.personContainer}>
+            <Text style={styles.textPerson} >{interestedPeople.name}</Text>
+            <Text style={styles.agePerson} >{interestedPeople.age} years</Text>
+          </View>
+            <MKSwitch style={styles.switch}
+              checked={interestedPeople.connected}
+              onPress={() => console.log('orange switch pressed')}
+              onCheckedChange={(e) => that._changeConnection(interestedPeople.id,e)}
+              />
+        </View>
+        );
+    });
+
+    return (
+      <View>
+        {rows}
+      </View>
+    );
+  }            
+
+  renderRow(rowData, sectionID, rowID) {
+    return (
+    <View>
+      <Accordion
+        sections={['Section']}
+        renderHeader={() => this._renderHeader(rowData)}
+        renderContent={() => this._renderContent(rowData)}
+      />
+      <View style={styles.separator}/>
+    </View>
+
+     
     );
   }
 
@@ -72,10 +106,21 @@ class UserOffersScene extends React.Component {
     );
   }
 
+  _changeConnection(id,e){
+    if(e.checked){
+      console.log("Attemp to create connection to: ", id);
+      // Database.createConnection(id);
+      // Database.getContactInformation(id);
+      alert("Contact Data of "+id+": \nTel.: 01/12312323 \nE-Mail: max.mustermann@example.com");
+    } else{
+      console.log("Attemp to delete connection to: ", id);
+      // Database.removeConnection(id);
+      alert("connection removed");
+    }
+  }
 
   _createNewOffer() {
     console.log('Create new offer pressed');
-
       this.props.navigator.push({
         id: 'CreateOffer',
       });
@@ -115,10 +160,31 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 10
   },
+  detailRowContainer: {
+    flexDirection: 'row',
+    padding: 10,
+    paddingRight: 20,
+  },
+  personContainer:{
+    flex: 1,
+    paddingLeft: 15,
+    padding: 5,
+  },
+  textPerson:{
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  agePerson:{
+    fontSize: 14,
+  },
+  logo:{
+    width: 30,
+    height: 30,
+    alignSelf: 'flex-end',
+  },
   fab: {
-    marginBottom : 5,
-    marginRight : 5,
-    alignSelf: 'flex-end'
+    position: 'absolute', bottom: 25, right: 25,
+                  width:56, height:56
   }
 })
 
