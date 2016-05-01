@@ -1,6 +1,7 @@
 'use strict';
 
 var SwaggerExpress = require('swagger-express-mw');
+var bodyParser = require('body-parser');
 var app = require('express')();
 var config = require("./util/config");
 var log = require("./util/log");
@@ -44,6 +45,8 @@ SwaggerExpress.create(swaggerConfig, function (err, swaggerExpress) {
     if (err) {
         throw err;
     }
+
+    app.use(bodyParser.json({limit: '1mb'}));
 
     // install middleware
     swaggerExpress.register(app);
