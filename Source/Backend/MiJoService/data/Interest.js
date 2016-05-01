@@ -2,6 +2,10 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var InterestSchema = mongoose.Schema({
+    offer: {
+        type: ObjectId,
+        required: true,
+    },
     offerer: {
         type: ObjectId,
         required: true,
@@ -21,7 +25,7 @@ var InterestSchema = mongoose.Schema({
         default: 'NONE'
     },
     modified: {
-        type: ObjectId,
+        type: Date,
         default: Date.now
     }
 });

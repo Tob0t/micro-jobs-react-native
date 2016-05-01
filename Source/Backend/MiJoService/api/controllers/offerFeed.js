@@ -42,8 +42,8 @@ function getOffers(req, res) {
                         }
                     },
                     _id: {
-                        //Exclude those which has been created or skipped by the user
-                        $nin: user.skips.concat(user.offers)
+                        //Exclude those which has been created or voted by the user
+                        $nin: user.skips.concat(user.offers).concat(user.requests)
                     }
                 })
             });
@@ -105,7 +105,50 @@ function getOffers(req, res) {
 function createUpVote(req, res) {
     var params = req.swagger.params;
     var userId = req.userId;
-    
+
+    var offerId = params.id.value;
+
+    async.waterfall([
+        function (callback) {
+            Offer.findById(offerId, function (err, offer) {
+                if (err) {
+                    log.error("Error querying offer " + offerId);
+                    callback(err, null);
+                }
+                callback(null, offer);
+            });
+        },
+        function (offer, callback) {
+            Interest.create({
+                offer: offerId,
+                offerer: offer.user,
+                taker: userId
+            }, function (err, interest) {
+                if (err) {
+                    log.error("Error creating interest " + offerId);
+                    callback(err, null);
+                }
+                callback(null);
+            });
+        }, function (callback) {
+            User.findByIdAndUpdate(userId, {$push: {"requests": offerId}}, function (err) {
+                if (err) {
+                    log.error("Error updating user requests " + offerId);
+                    callback(err, null);
+                }
+                callback(null);
+            });
+        }
+    ], function (err) {
+        if (err) {
+            log.error("Error creating upvote of user " + userId + " for offer " + offerId);
+            //TODO send error
+            res.statusCode = 400;
+            res.send("Error");
+            return;
+        }
+        res.send();
+    })
 }
 function createDownVote(req, res) {
     var params = req.swagger.params;
