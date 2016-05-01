@@ -1,57 +1,78 @@
 'use strict';
 
 var Offer = require('../../data/Offer');
+var User = require('../../data/User');
+var Interest = require('../../data/Interest');
 var log = require("../../util/log");
 var async = require('async');
-var url = require('url');
-var querystring = require('querystring');
+var linkingHeader = require('../../util/linkingHeader');
 
 module.exports = {
     getOffers: getOffers,
     createUpVote: createUpVote,
     createDownVote: createDownVote
-
 };
 
 function getOffers(req, res) {
     var params = req.swagger.params;
+    var userId = req.userId;
 
     var lon = params.lon.value;
     var lat = params.lat.value;
     var maxDistance = params.max_distance.value;
     var page = params.page.value;
     var per_page = params.per_page.value;
-    
-    var conditions = {
-        location: {
-            $near: {
-                $geometry: {
-                    type: "Point",
-                    coordinates: [lon, lat]
-                },
-                $maxDistance: maxDistance,
-            }
-        }
-    };
 
-    Offer.count(conditions, function (err, count) {
-        if (err) {
-            log.error("Error counting offers");
-            //TODO send server error
-            return;
-        }
-        Offer.find(conditions).limit(per_page).skip((page - 1) * per_page).exec(function (err, offers) {
-            if (err) {
-                log.error("Error finding offers " + offers);
-                //TODO send server error
-                return;
-            }
-
+    async.waterfall([
+        function (callback) {
+            //Query skips
+            User.findById(userId, function (err, user) {
+                if (err) {
+                    log.error("Error querying user " + user);
+                    callback(err, null);
+                }
+                callback(null, {
+                    location: {
+                        $near: {
+                            $geometry: {
+                                type: "Point",
+                                coordinates: [lon, lat]
+                            },
+                            $maxDistance: maxDistance,
+                        }
+                    },
+                    _id: {
+                        //Exclude those which has been created or skipped by the user
+                        $nin: user.skips.concat(user.offers)
+                    }
+                })
+            });
+        }, function (conditions, callback) {
+            //Count amount of offers
+            Offer.count(conditions, function (err, count) {
+                if (err) {
+                    log.error("Error counting offers");
+                    callback(err, null);
+                }
+                callback(null, conditions, count);
+            });
+        }, function (conditions, count, callback) {
+            //Query offers with pagination
+            Offer.find(conditions).limit(per_page).skip((page - 1) * per_page).exec(function (err, offers) {
+                if (err) {
+                    log.error("Error finding offers " + offers);
+                    callback(err, null);
+                }
+                callback(null, count, offers);
+            });
+        }, function (count, offers, callback) {
+            //Parse data
             var body = [];
 
             async.each(offers, function (offer, next) {
                 var location = offer.location;
                 body.push({
+                    id: offer._id,
                     title: offer.title,
                     description: offer.description,
                     image: offer.image,
@@ -63,65 +84,43 @@ function getOffers(req, res) {
                 });
                 next();
             }, function () {
-                generateLinkingHeader(req, page, per_page, count, function (linkingHeader) {
-                    res.set('Link', linkingHeader);
-                    res.json(body);
-                });
+                callback(null, count, body)
             })
+        }
+    ], function (err, count, body) {
+        if (err) {
+            //TODO send error
+            res.statusCode = 400;
+            res.send("Error");
+            return;
+        }
+        //Generate linking header
+        linkingHeader.generate(req, page, per_page, count, function (linkingHeader) {
+            res.set('Link', linkingHeader);
+            res.json(body);
         });
     });
 }
 
 function createUpVote(req, res) {
-    log.info("createUpVote");
+    var params = req.swagger.params;
+    var userId = req.userId;
+    
 }
 function createDownVote(req, res) {
-    log.info("createDownVote");
-}
+    var params = req.swagger.params;
+    var userId = req.userId;
 
-function generateLinkingHeader(req, page, per_page, count, done) {
-
-    function generateLinkingHeaderElement(req, page, rel) {
-        //Replace page parameter
-        req.query.page = page;
-
-        var urlObject = url.parse(req.url);
-
-        //Add new query string to url
-        urlObject.search = '?' + querystring.stringify(req.query);
-
-        return "<" + url.format(urlObject) + ">; rel=" + rel;
-    }
-
-    var linkingHeaderElements = [];
-
-    var next = page + 1;
-    var prev = page - 1;
-    var first = 1;
-    var last = count / per_page;
-
-    if (prev > 0) {
-        //There is a previous page
-        linkingHeaderElements.push(generateLinkingHeaderElement(req, first, "first"));
-        linkingHeaderElements.push(generateLinkingHeaderElement(req, prev, "prev"));
-    }
-
-    if (next < last) {
-        //There is a next page
-        linkingHeaderElements.push(generateLinkingHeaderElement(req, next, "next"));
-        linkingHeaderElements.push(generateLinkingHeaderElement(req, last, "last"));
-    }
-
-    var linkingHeader = "";
-
-    async.forEachOf(linkingHeaderElements, function (element, index, callback) {
-        linkingHeader += element
-        if (index < linkingHeaderElements.length - 1) {
-            linkingHeader += ",";
+    var offerId = params.id.value;
+    User.findByIdAndUpdate(userId, {$push: {"skips": offerId}}, function (err) {
+        if (err) {
+            log.error("Error creating downvote of user " + userId + " for offer " + offerId);
+            //TODO send error
+            res.statusCode = 400;
+            res.send("Error");
+            return;
         }
-        callback();
-    }, function (err) {
-        done(linkingHeader);
+        res.send();
     });
 }
 

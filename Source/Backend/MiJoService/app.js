@@ -57,7 +57,11 @@ SwaggerExpress.create(swaggerConfig, function (err, swaggerExpress) {
     database.on("open", function (ref) {
         log.info("Connected to database");
 
-        //require('./testData').generate();
+        /*
+        require('./testData').generate("5719ee9daf735ad40c73b96f");
+        require('./testData').generate("5719ee9eaf735ad40c73b971");
+        require('./testData').generate("5719ee9eaf735ad40c73b973");*/
+
         gatewayConnection.init(function (err) {
             if (err) {
                 log.error("Connection to message gateway failed: " + err);

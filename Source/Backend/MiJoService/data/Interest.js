@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var InterestSchema = mongoose.Schema({
-    provider: {
+    offerer: {
         type: ObjectId,
         required: true,
     },

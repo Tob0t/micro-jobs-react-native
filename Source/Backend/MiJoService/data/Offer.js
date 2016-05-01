@@ -1,6 +1,16 @@
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
+var Payment = new mongoose.Schema({
+    type: {
+        type: String,
+        enum: ['MONEY', 'SERVICE']
+    },
+    value : {
+        type: String,
+    }
+});
+
 var OfferSchema = mongoose.Schema({
     user: {
         type: ObjectId,
@@ -20,7 +30,12 @@ var OfferSchema = mongoose.Schema({
     },
     location: {
         type: [Number],
+        required: true,
         index: '2dsphere'
+    },
+    payment: {
+        type: Payment,
+        required: true,
     },
     deadline: {
         type: Date,
