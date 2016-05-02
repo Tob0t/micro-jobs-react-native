@@ -311,6 +311,12 @@ paths:
             description: ID of the offer to update.
             required: true
             type: string
+          - name: offer
+            in: body
+            description: The offer data to update.
+            required: true
+            schema:
+              $ref: '#/definitions/OfferData'
         responses:
           '200':
             description: The offer has been updated successful.
@@ -381,15 +387,17 @@ paths:
 definitions:
     Offer:
       type: object
-      description: Represents an offer of a micro job.
-      required:
-        - id
+      description: Represents the offer of an mirco job offer.
       allOf:
-        - $ref: '#/definitions/OfferData'
-        - properties:
-            id:
-              type: string
-              description: The id of the offer.
+      - type: object
+        required:
+        - id
+        properties:
+          id:
+            type: string
+            description: The id of the offer.
+      - $ref: '#/definitions/OfferData'
+      
     OfferData:
       type: object
       description: Represents the data of an mirco job offer.

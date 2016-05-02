@@ -96,7 +96,9 @@ function getOffers(req, res) {
         }
         //Generate linking header
         linkingHeader.generate(req, page, per_page, count, function (linkingHeader) {
-            res.set('Link', linkingHeader);
+            if(linkingHeader){
+                res.set('Link', linkingHeader);
+            }
             res.json(body);
         });
     });
