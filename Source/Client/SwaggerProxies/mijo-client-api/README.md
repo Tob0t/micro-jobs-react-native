@@ -10,7 +10,6 @@ var async = require('async'); //Very powerful package for asynchronous program f
 
 //Set the access token --> must only be done once
 var apiClient = MiJoClientApi.ApiClient.instance;
-apiClient.basePath = 'http://localhost:8082/api/client/v1'.replace(/\/+$/, '');
 var clientAuthentication = apiClient.authentications['MiJo API Key'];
 clientAuthentication.apiKeyPrefix = "Bearer";
 clientAuthentication.apiKey = "07ee6d1144252ae39074ce8f00a7b43f768f94ed";
