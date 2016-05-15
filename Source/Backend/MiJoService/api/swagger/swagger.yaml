@@ -1,12 +1,11 @@
 swagger: "2.0"
 info:
-  version: "1.0.0"
   title: MiJo Client API
-# during dev, should point to your local machine
-host: localhost:10010
-# basePath prefixes all resource paths 
+  description: API for MiJo clients.
+  version: 1.0.0
+host: mijo.wimki-apps.at
 basePath: /api/client/v1
-# 
+
 schemes:
   # tip: remove http to make production-grade
   - http
@@ -389,6 +388,7 @@ definitions:
       type: object
       description: Represents the offer of an mirco job offer.
       allOf:
+      - $ref: '#/definitions/OfferData'
       - type: object
         required:
         - id
@@ -396,7 +396,6 @@ definitions:
           id:
             type: string
             description: The id of the offer.
-      - $ref: '#/definitions/OfferData'
       
     OfferData:
       type: object
