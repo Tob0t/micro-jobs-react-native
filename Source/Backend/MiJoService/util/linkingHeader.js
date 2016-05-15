@@ -21,7 +21,7 @@ function generateLinkingHeader(req, page, per_page, count, done) {
     var next = page + 1;
     var prev = page - 1;
     var first = 1;
-    var last = count / per_page;
+    var last = Math.ceil(count / per_page);
 
     if (prev > 0) {
         //There is a previous page
@@ -29,7 +29,7 @@ function generateLinkingHeader(req, page, per_page, count, done) {
         linkingHeaderElements.push(generateLinkingHeaderElement(req, prev, "prev"));
     }
 
-    if (next < last) {
+    if (page < last) {
         //There is a next page
         linkingHeaderElements.push(generateLinkingHeaderElement(req, next, "next"));
         linkingHeaderElements.push(generateLinkingHeaderElement(req, last, "last"));

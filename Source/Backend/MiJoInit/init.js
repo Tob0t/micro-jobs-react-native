@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 var fs = require('fs');
 var bcrypt = require('bcrypt');
-var mijoDatabase = mongoose.createConnection('mongodb://ec2-52-58-93-139.eu-central-1.compute.amazonaws.com/MiJoDatabase');
-var authorizationDatabase = mongoose.createConnection('mongodb://ec2-52-58-93-139.eu-central-1.compute.amazonaws.com/AuthorizationDatabase');
+var mijoDatabase = mongoose.createConnection('mongodb://localhost:27017/MiJoDatabase');
+var authorizationDatabase = mongoose.createConnection('mongodb://localhost:27017/AuthorizationDatabase');
 var log = require("./util/log");
 var async = require('async');
 
