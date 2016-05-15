@@ -1,0 +1,581 @@
+swagger: "2.0"
+info:
+  title: MiJo Client API
+  description: API for MiJo clients.
+  version: 1.0.0
+host: mijo.wimki-apps.at
+basePath: /api/client/v1
+
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /offers:
+    x-swagger-router-controller: offerFeed
+    get:
+        summary: Returns all available offers around certain location.
+        description: Returns all available offers around certain location. This path allows pagination.
+        operationId: getOffers
+        tags:
+          - offer feed
+        parameters:
+          - name: lat 
+            in: query
+            description: The latitude of the search location.
+            required: true
+            type: number
+          - name: lon 
+            in: query
+            description: The longitude of search location.
+            required: true
+            type: number
+          - name: max_distance
+            in: query
+            description: The maximum distance to search away from the search location
+            required: true
+            type: number
+            format: int64
+          - name: page
+            in: query
+            description: The page to get.
+            required: false
+            type: number
+            format: int32
+            default: 1
+          - name: per_page
+            in: query
+            description: The number of offers to return per page
+            required: false
+            type: number
+            format: int32
+            default: 10
+            maximum: 20
+        responses:
+          '200':
+            description: An array of all offers within the requested area.
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/Offer'
+            headers:
+              Link:
+                description: Contains pagination information.
+                type: integer
+          '400':
+            description: An api error (caused by the client) occurred.
+            schema:
+              $ref: '#/definitions/ApiError'
+          '401':
+            description: An authorization error occurred.
+            schema:
+              $ref: '#/definitions/AuthorizationError'
+          '500':
+            description: An internal server error occurred.
+            schema:
+              $ref: '#/definitions/ServerError'
+        security:
+          - MiJo API Key: []
+  /offers/{id}/votes/up:
+    x-swagger-router-controller: offerFeed
+    put:
+        summary: Creates an up vote for the given offer by the given user.
+        description: Creates an up vote for the given offer by the given user.
+        operationId: createUpVote
+        tags:
+          - offer feed
+        parameters:
+          - in: path
+            name: id
+            description: ID of the offer to up vote.
+            required: true
+            type: string
+        responses:
+          '200':
+            description: The up vote was successful.
+          '400':
+            description: An api error (caused by the client) occurred.
+            schema:
+              $ref: '#/definitions/ApiError'
+          '401':
+            description: An authorization error occurred.
+            schema:
+              $ref: '#/definitions/AuthorizationError'
+          '500':
+            description: An internal server error occurred.
+            schema:
+              $ref: '#/definitions/ServerError'
+        security:
+          - MiJo API Key: []
+  /offers/{id}/votes/down:
+    x-swagger-router-controller: offerFeed
+    put:
+        summary: Creates an down vote for the given offer by the given user.
+        description: Creates down up vote for the given offer by the given user.
+        operationId: createDownVote
+        tags:
+          - offer feed
+        parameters:
+          - in: path
+            name: id
+            description: ID of the offer to down vote.
+            required: true
+            type: string
+        responses:
+          '200':
+            description: The down vote was successful.
+          '400':
+            description: An api error (caused by the client) occurred.
+            schema:
+              $ref: '#/definitions/ApiError'
+          '401':
+            description: An authorization error occurred.
+            schema:
+              $ref: '#/definitions/AuthorizationError'
+          '500':
+            description: An internal server error occurred.
+            schema:
+              $ref: '#/definitions/ServerError'
+        security:
+          - MiJo API Key: []
+  /user/offers/interest:
+    x-swagger-router-controller: offers
+    get:
+        summary: Returns all offer interest of the useres created offers.
+        description: Returns all offer interest of the useres created offers. This path allows pagination.
+        operationId: getOfferInterests
+        tags:
+          - your offers
+        parameters:
+          - name: page
+            in: query
+            description: The page to get.
+            required: false
+            type: number
+            format: int32
+            default: 1
+          - name: per_page
+            in: query
+            description: The number of offers to return per page
+            required: false
+            type: number
+            format: int32
+            default: 10
+            maximum: 20
+        responses:
+          '200':
+            description: An array of all offers interest within the given pages.
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/OfferInterest'
+            headers:
+              Link:
+                description: Contains pagination information.
+                type: integer
+          '400':
+            description: An api error (caused by the client) occurred.
+            schema:
+              $ref: '#/definitions/ApiError'
+          '401':
+            description: An authorization error occurred.
+            schema:
+              $ref: '#/definitions/AuthorizationError'
+          '500':
+            description: An internal server error occurred.
+            schema:
+              $ref: '#/definitions/ServerError'
+        security:
+          - MiJo API Key: []
+  /user/offers/{offerId}/interest/match/{userId}:
+    x-swagger-router-controller: offers
+    put:
+        summary: Creates a match between the offer and the given users.
+        description: Creates a match between the offer and the given users. If the match has been created successfully the contact information of the given user are returned.
+        operationId: createMatch
+        tags:
+          - your offers
+        parameters:
+          - in: path
+            name: offerId
+            description: ID of the offer to create a match for.
+            required: true
+            type: string
+          - in: path
+            name: userId
+            description: ID of the user to create a match for.
+            required: true
+            type: string
+        responses:
+          '200':
+            description: If user have been matched successfully.
+            schema:
+              $ref: '#/definitions/ContactInformation'
+          '400':
+            description: An api error (caused by the client) occurred.
+            schema:
+              $ref: '#/definitions/ApiError'
+          '401':
+            description: An authorization error occurred.
+            schema:
+              $ref: '#/definitions/AuthorizationError'
+          '500':
+            description: An internal server error occurred.
+            schema:
+              $ref: '#/definitions/ServerError'
+        security:
+          - MiJo API Key: []
+  /user/offers:
+    x-swagger-router-controller: offers
+    put:
+      summary: Creates a new offer for the given user.
+      description: Creates a new offer for the given user. The created offer will be available in the public offer feed.
+      operationId: createOffer
+      tags:
+        - offer create
+      parameters:
+        - name: offer
+          in: body
+          description: The offer created on the client.
+          required: true
+          schema:
+            $ref: '#/definitions/OfferData'
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: The offer has been created successful.
+        '400':
+          description: An api error (caused by the client) occurred.
+          schema:
+            $ref: '#/definitions/ApiError'
+        '401':
+          description: An authorization error occurred.
+          schema:
+            $ref: '#/definitions/AuthorizationError'
+        '500':
+          description: An internal server error occurred.
+          schema:
+            $ref: '#/definitions/ServerError'
+      security:
+        - MiJo API Key: []
+  /user/offers/{id}:
+    x-swagger-router-controller: offers
+    get:
+        summary: Returns the offer with the given id.
+        description: Returns the offer with the given id. The offer must have been created by the given user.
+        operationId: getOffer
+        tags:
+          - offer details
+        parameters:
+          - in: path
+            name: id
+            description: ID of the offer to fetch.
+            required: true
+            type: string
+        responses:
+          '200':
+            description: The requested offer.
+            schema:
+              $ref: '#/definitions/Offer'
+          '400':
+            description: An api error (caused by the client) occurred.
+            schema:
+              $ref: '#/definitions/ApiError'
+          '401':
+            description: An authorization error occurred.
+            schema:
+              $ref: '#/definitions/AuthorizationError'
+          '500':
+            description: An internal server error occurred.
+            schema:
+              $ref: '#/definitions/ServerError'
+        security:
+          - MiJo API Key: []
+    post:
+        summary: Updates the given offer
+        description: Updates the offer with the given id. The offer must have been created by the given user.
+        operationId: updateOffer
+        tags:
+          - offer edit
+        parameters:
+          - in: path
+            name: id
+            description: ID of the offer to update.
+            required: true
+            type: string
+          - name: offer
+            in: body
+            description: The offer data to update.
+            required: true
+            schema:
+              $ref: '#/definitions/OfferData'
+        responses:
+          '200':
+            description: The offer has been updated successful.
+          '400':
+            description: An api error (caused by the client) occurred.
+            schema:
+              $ref: '#/definitions/ApiError'
+          '401':
+            description: An authorization error occurred.
+            schema:
+              $ref: '#/definitions/AuthorizationError'
+          '500':
+            description: An internal server error occurred.
+            schema:
+              $ref: '#/definitions/ServerError'
+        security:
+          - MiJo API Key: []
+  /user/requests/matches:
+    x-swagger-router-controller: requests
+    get:
+        summary: Returns all requests for which the given user has been matched.
+        description: Returns all requests for which the given user has been matched. This path allows pagination.
+        operationId: getMatchedRequests
+        tags:
+          - your requests
+        parameters:
+          - name: page
+            in: query
+            description: The page to get.
+            required: false
+            type: number
+            format: int32
+            default: 1
+          - name: per_page
+            in: query
+            description: The number of offers to return per page
+            required: false
+            type: number
+            format: int32
+            default: 10
+            maximum: 20
+        responses:
+          '200':
+            description: An array of all matched requests within the given pages.
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/OfferRequest'
+            headers:
+              Link:
+                description: Contains pagination information.
+                type: integer
+          '400':
+            description: An api error (caused by the client) occurred.
+            schema:
+              $ref: '#/definitions/ApiError'
+          '401':
+            description: An authorization error occurred.
+            schema:
+              $ref: '#/definitions/AuthorizationError'
+          '500':
+            description: An internal server error occurred.
+            schema:
+              $ref: '#/definitions/ServerError'
+        security:
+          - MiJo API Key: []
+
+definitions:
+    Offer:
+      type: object
+      description: Represents the offer of an mirco job offer.
+      allOf:
+      - $ref: '#/definitions/OfferData'
+      - type: object
+        required:
+        - id
+        properties:
+          id:
+            type: string
+            description: The id of the offer.
+      
+    OfferData:
+      type: object
+      description: Represents the data of an mirco job offer.
+      required:
+        - title
+        - description
+        - deadline
+      properties:
+        title:
+          type: string
+          description: The title of the offer.
+        description:
+          type: string
+          description: The description of the offer.
+        image:
+          type: string
+          format: byte
+          description: The image of the offer as base64 string.
+        location:
+          $ref: '#/definitions/Location'
+        payment:
+          $ref: '#/definitions/Payment'
+        deadline:
+          type: string
+          format: date-time
+          description: The deadline of the offer.
+    Payment:
+      type: object
+      description: Represents the payment of an offer.
+      required:
+        - type
+        - value
+      properties:
+        type:
+          type: string
+          description: The type of the payment.
+          enum:
+            - MONEY
+            - SERVICE
+        value:
+          type: string
+          description: The value of the payment.
+    Location:
+      type: object
+      description: A location on a WGS84 sphere. Represented by longitude and latitude.
+      required:
+        - lon
+        - lat
+      properties:
+        lon:
+          type: number
+          description: The longitude of the location.
+        lat:
+          type: number
+          description: The latitude of the location.
+    OfferInterest:
+      type: object
+      description: Represents an offer interest of a micro job.
+      required:
+        - offerId
+        - offerTitle
+        - users
+      properties:
+        offerId:
+          type: string
+          description: The id of the related offer.
+        offerTitle:
+          type: string
+          description: The title of the related offer.
+        users:
+          type: array
+          description: The user profile of the interested users.
+          items:
+            $ref: '#/definitions/UserProfile'
+    OfferRequest:
+      type: object
+      description: Represents an offer request of a micro job.
+      required:
+        - offerId
+        - offerTitle
+        - offerer
+      properties:
+        offerId:
+          type: string
+          description: The id of the related offer.
+        offerTitle:
+          type: string
+          description: The title of the related offer.
+        offerer:
+          $ref: '#/definitions/UserProfile'
+    UserProfile:
+      type: object
+      description: Represents user information.
+      required:
+        - id
+        - image
+        - prename
+        - surname
+      properties:
+        id:
+          type: string
+          description: The unique id of the user
+        image:
+          type: string
+          description: The profile image of the user encoded as base64 string.
+        prename:
+          type: string
+          description: The prename of the user.
+        surname:
+          type: string
+          description: The surname of the user.
+    ContactInformation:
+      type: object
+      description: Represents contact information of an user.
+      required:
+        - mail
+      properties:
+        mail:
+          type: string
+          description: The e-mail of the user.
+        phone:
+          type: string
+          description: The phone number of the user.
+    ServerError:
+      type: object
+      description: Represents an error which occurred due to an internal server error.
+      required:
+        - error
+        - error_description
+      properties:
+        error:
+          enum:
+            - general
+            - database
+          type: string
+          description: Indicates the type of the ServerError.
+          x-example: database
+        error_description:
+          type: string
+          description: A detailed description of the ServerError.
+          x-example: Error finding client
+    AuthorizationError:
+      type: object
+      description: Represents an authorization error.
+      required:
+        - error
+        - error_description
+      properties:
+        error:
+          enum:
+            - invalid_access_token
+          type: string
+          description: Indicates the type of the AuthorizationError.
+          x-example: authorization
+        error_description:
+          type: string
+          description: A detailed description of the AuthorizationError.
+          x-example: Invalid access token
+    ApiError:
+      type: object
+      description: Represents an API error.
+      required:
+        - error
+        - error_description
+      properties:
+        error:
+          enum:
+            - invalid_data
+          type: string
+          description: Indicates the type of the ApiError.
+          x-example: authorization
+        error_description:
+          type: string
+          description: A detailed description of the ApiError.
+          x-example: Error deleting Workout
+securityDefinitions:
+  MiJo API Key:
+    description: The MiJo access token received from the AuthAPI.
+    type: apiKey
+    name: Authorization
+    in: header
+security: []
