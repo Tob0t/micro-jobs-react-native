@@ -1,7 +1,7 @@
 {
-  "name": "mijo_oauth_api",
+  "name": "micro_service_gateway",
   "version": "1.0.0",
-  "description": "The OAuth 2.0 API for MiJo. This API is conforms the Resource Owner Password Credentials Grant.",
+  "description": "Gateway which enables IPC between different MicroServices via Socket.IO",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,22 +11,21 @@
     "url": "git+https://github.com/ThoWim/MiJo.git"
   },
   "keywords": [
-    "MiJo"
+    "micro",
+    "IPC",
+    "micro",
+    "services"
   ],
   "author": "Thomas Wimmer",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ThoWim/MiJo/issues"
   },
-  "homepage": "https://github.com/ThoWim/MiJo",
+  "homepage": "https://github.com/ThoWim/MiJo#readme",
   "dependencies": {
-    "basic-auth": "^1.0.3",
-    "bcrypt": "^0.8.5",
-    "body-parser": "^1.15.0",
     "express": "^4.13.4",
-    "mongoose": "^4.4.10",
     "nconf": "^0.8.4",
-    "socket.io-client": "^1.4.5",
+    "socket.io": "^1.4.5",
     "winston": "^2.2.0",
     "winston-daily-rotate-file": "^1.0.1"
   }

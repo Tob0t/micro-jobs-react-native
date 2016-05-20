@@ -1,0 +1,292 @@
+swagger: '2.0'
+info:
+  title: MiJo Authorization API
+  description: Authorization API for MiJo. Conform with OAuth 2.0 (RFC 6749)
+  version: 1.0.0
+host: mijo.wimki-apps.at
+basePath: /api/token/v1
+schemes:
+  - http
+paths:
+  /facebook:
+    post:
+      tags:
+        - Facebook
+      summary: Get a token keypair for a facebook access token
+      description: Get a token keypair for a facebook access token. This request revokes the old keypair for the given client instance if there is one.
+      operationId: getKeyPairForFacebookToken
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - name: grant_type
+          in: formData
+          description: The grant type. Should be facebook
+          required: true
+          type: string
+          x-example: facebook
+        - name: fb_access_token
+          in: formData
+          description: The facebook access token of the user.
+          required: true
+          type: string
+          x-example: CAACEdEose0cBADGOZCQFrcU0SOk8YgA3MSmwjyXss6ZC7MhZCbvd1BAd9LDLWrkjn9T5fXHZAS8cS4AnOjKJaZBV17jQTSg2vA7brIA9MQPJgqQNpJXCBDQv94iD7zKepdWSxbyG87BtnOGQcO3NffUrYL5KuSvpZCPLWiOrZBZCHsMyWWVqXK5JZAwZA1YLtqA0SaY86hwu0DulSy08EMdtRE
+        - name: mijo_client_instance_id
+          in: formData
+          description: The client instance id which identifies the client of the user.
+          required: true
+          type: string
+          x-example: someinstanceid
+      responses:
+        '200':
+          description: The keypair for the given username and password.
+          schema:
+            $ref: '#/definitions/KeyPair'
+          examples:
+            application/json:
+              access_token: e4e479a42e2750ce5499b14aa2056c448346672c
+              token_type: Bearer
+              expires_in: 3600000
+              refresh_token: 6cffbb0234e40e0082d1023003b75509fa63513b
+        '400':
+          description: An OAuth error occurred.
+          schema:
+            $ref: '#/definitions/OAuthError'
+          examples:
+            application/json:
+              error: invalid_client
+              error_description: Unknown client
+        '401':
+          description: The given client is invalid.
+          schema:
+            $ref: '#/definitions/OAuthError'
+          examples:
+            application/json:
+              error: invalid_client
+              error_description: Unknown client
+        '500':
+          description: An internal server error occurred.
+          schema:
+            $ref: '#/definitions/ServerError'
+          examples:
+            application/json:
+              error: database
+              error_description: Error finding client
+      security:
+        - Client Authentication: []
+  /refreshtoken:
+    post:
+      tags:
+        - Refreshtoken
+      summary: Get a token keypair for a refresh token.
+      description: Get a token keypair for a refresh token. This request revokes the old keypair for the given client instance if there is one.
+      operationId: getKeyPairForRefreshToken
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - name: grant_type
+          in: formData
+          description: The grant type. Should be facebook
+          required: true
+          type: string
+          x-example: facebook
+        - name: refresh_token
+          in: formData
+          description: The refresh token to refresh the expired access token.
+          required: true
+          type: string
+          x-example: bdbbc0a30e4cc6b7ed8086c776b2a6e9bb06d7f6
+        - name: mijo_client_instance_id
+          in: formData
+          description: The client instance id which identifies the client of the user.
+          required: true
+          type: string
+          x-example: someinstanceid
+      responses:
+        '200':
+          description: The keypair for the given username and password.
+          schema:
+            $ref: '#/definitions/KeyPair'
+          examples:
+            application/json:
+              access_token: e4e479a42e2750ce5499b14aa2056c448346672c
+              token_type: Bearer
+              expires_in: 3600000
+              refresh_token: 6cffbb0234e40e0082d1023003b75509fa63513b
+        '400':
+          description: An OAuth error occurred.
+          schema:
+            $ref: '#/definitions/OAuthError'
+          examples:
+            application/json:
+              error: invalid_client
+              error_description: Unknown client
+        '401':
+          description: The given client is invalid.
+          schema:
+            $ref: '#/definitions/OAuthError'
+          examples:
+            application/json:
+              error: invalid_client
+              error_description: Unknown client
+        '500':
+          description: An internal server error occurred.
+          schema:
+            $ref: '#/definitions/ServerError'
+          examples:
+            application/json:
+              error: database
+              error_description: Error finding client
+      security:
+        - Client Authentication: []
+  /usernamepassword:
+    post:
+      tags:
+        - Usernamepassword
+      summary: Get a token keypair for a username and a password.
+      description: Get a token keypair for a username and a password. This request revokes the old keypair for the given client instance if there is one
+      operationId: getKeyPairForUsernameAndPassword
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - name: grant_type
+          in: formData
+          description: The grant type. Should be password.
+          required: true
+          type: string
+          x-example: password
+        - name: username
+          in: formData
+          description: The email of the user.
+          required: true
+          type: string
+          x-example: tom.wimmer@hotmail.com
+        - name: password
+          in: formData
+          description: "\t The password of the user."
+          required: true
+          type: string
+          x-example: password
+        - name: mijo_client_instance_id
+          in: formData
+          description: The client instance id which identifies the client of the user.
+          required: true
+          type: string
+          x-example: someinstanceid
+      responses:
+        '200':
+          description: The keypair for the given username and password.
+          schema:
+            $ref: '#/definitions/KeyPair'
+          examples:
+            application/json:
+              access_token: e4e479a42e2750ce5499b14aa2056c448346672c
+              token_type: Bearer
+              expires_in: 3600000
+              refresh_token: 6cffbb0234e40e0082d1023003b75509fa63513b
+        '400':
+          description: An OAuth error occurred.
+          schema:
+            $ref: '#/definitions/OAuthError'
+          examples:
+            application/json:
+              error: invalid_client
+              error_description: Unknown client
+        '401':
+          description: The given client is invalid.
+          schema:
+            $ref: '#/definitions/OAuthError'
+          examples:
+            application/json:
+              error: invalid_client
+              error_description: Unknown client
+        '500':
+          description: An internal server error occurred.
+          schema:
+            $ref: '#/definitions/ServerError'
+          examples:
+            application/json:
+              error: database
+              error_description: Error finding client
+      security:
+        - Client Authentication: []
+definitions:
+  ServerError:
+    description: Represents an error which occurred due to an internal server error.
+    required:
+      - error
+      - error_description
+    properties:
+      error:
+        enum:
+          - general
+          - database
+        type: string
+        description: Indicates the type of the ServerError.
+        x-example: database
+      error_description:
+        type: string
+        description: A detailed description of the ServerError.
+        x-example: Error finding client
+  OAuthError:
+    description: Represents a standard OAuth 2.0 error
+    required:
+      - error
+      - error_description
+    properties:
+      error:
+        enum:
+          - invalid_request
+          - invalid_client
+          - invalid_grant
+          - unauthorized_client
+          - unsupported_grant_type
+        type: string
+        description: Indicates the type of the OAuthError.
+        x-example: invalid_client
+      error_description:
+        type: string
+        description: A detailed description of the OAuthError.
+        x-example: Unknown client
+  KeyPair:
+    description: The key pair which contains the access and refresh token for a certain credential.
+    required:
+      - access_token
+      - expires_in
+      - refresh_token
+      - token_type
+    properties:
+      access_token:
+        type: string
+        description: The access token which is valid for the given expiration time.
+        x-example: e4e479a42e2750ce5499b14aa2056c448346672c
+      expires_in:
+        type: integer
+        format: int64
+        description: The expiration time of the access token in seconds.
+        x-example: '3600000'
+      refresh_token:
+        type: string
+        description: The refresh token which is used to refresh an expired access token.
+        x-example: 6cffbb0234e40e0082d1023003b75509fa63513b
+      token_type:
+        type: string
+        description: Indicates the type of the access token.
+        x-example: Bearer
+securityDefinitions:
+  Client Authentication:
+    description: Authenticates the client on the token endpoint.
+    type: basic
+security: []
+tags:
+  - name: Facebook
+    description: Operations about Facebook
+  - name: Refreshtoken
+    description: Operations about Refreshtoken
+  - name: Usernamepassword
+    description: Operations about Usernamepassword
