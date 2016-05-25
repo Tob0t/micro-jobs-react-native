@@ -1,26 +1,33 @@
 'use strict';
 
-import React, {StyleSheet, Text, View, Image} from 'react-native';
-
-import SwipeCards from 'react-native-swipe-cards';
+import React, {StyleSheet, Text, View, Image} from 'react-native'
+import SwipeCards from 'react-native-swipe-cards'
+import ClientApi from 'MiJo/app/ClientApi'
+import Moment from 'moment'
 
 class Card extends React.Component{
+  constructor(props){
+    super(props);
+  }
+
   render() {
+    console.log("New Card", this.props);
+
     return (
       <View style={styles.card}>
         <Image style={styles.thumbnail} source={{uri: this.props.image}} />
-        <Text style={styles.text_title}>Job Title {this.props.name}</Text>
+        <Text style={styles.text_title}> {this.props.title}</Text>
         <View style={styles.submenu}>
           <Text style={styles.text_subtitle}>Job description</Text>
         </View>
-        <Text style={styles.text_description}>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. #Lateinnachhilfe</Text>
+        <Text style={styles.text_description}>{this.props.description}</Text>
         <View style={styles.text_container}>
           <Text style={styles.text_subtitle}>Deadline: </Text>
-          <Text style={styles.text_subtitle_flat}>01.01.1970</Text>
+          <Text style={styles.text_subtitle_flat}>{Moment(this.props.deadline).format('L')}</Text>
         </View>
         <View style={styles.text_container}>
           <Text style={styles.text_subtitle}>Payment: </Text>
-          <Text style={styles.text_subtitle_flat}>20$ per hour</Text>
+          <Text style={styles.text_subtitle_flat}>{this.props.payment ? this.props.payment.value : ""}</Text>
         </View>
       </View>
     )
@@ -61,15 +68,86 @@ class CardScene extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      cards: Cards,
-      outOfCards: false
+      loaded: false,
+      outOfCards: false,
+      cards: []
+    }
+  }
+
+  componentDidMount() {
+    this._getOffers(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this._getOffers(nextProps);
+  }
+
+  _getOffers(){
+    console.log('Get Offers');
+
+    // Request fo the offer feed
+    var lat = 48.346371;
+    var lon = 14.510034;
+    var max_distance = 20000;
+    //This parameters are optional and needed for pagination! --> see swagger spec
+    var opts = {
+        page: 1,
+        perPage: 5,
     };
+
+    var Cards = [];
+    const that = this;
+    ClientApi().getOffers(lat, lon, max_distance, opts).then(
+      (offers) => {
+        console.log('Successfully got the offers');
+        offers.forEach(function(offer){
+          var newCard ={
+            id: offer.id,
+            title: offer.title,
+            deadline : offer.deadline,
+            description: offer.description,
+            image: offer.image,
+            payment: offer.payment
+          };
+          Cards.push(newCard);
+        });
+        // Initiate new rendering
+        that.setState({
+          loaded: true,
+          cards: this.state.cards.concat(Cards)
+        });
+      },(error) => {
+        console.error("Error:", error.error_description);
+        Alert.alert(
+          'Error',
+          error.error_description);
+      });
   }
+
   _handleYup (card) {
-    console.log("yup")
+    console.log("yup");
+    ClientApi().createUpVote(card.id).then(
+      ()=> {
+        console.log("Successfully voted up at Card ID ", card.id);
+      },(error) => {
+        console.error("Error:", error.error_description);
+        Alert.alert(
+          'Error',
+          error.error_description);
+      });
   }
+
   _handleNope (card) {
-    console.log("nope")
+    console.log("nope");
+    ClientApi().createDownVote(card.id).then(
+      ()=> {
+        console.log("Successfully voted down at Card ID ", card.id);
+      },(error) => {
+        console.error("Error:", error.error_description);
+        Alert.alert(
+          'Error',
+          error.error_description);
+      });
   }
   _cardRemoved (index) {
     console.log(`The index is ${index}`);
@@ -80,20 +158,21 @@ class CardScene extends React.Component{
       console.log(`There are only ${this.state.cards.length - index - 1} cards left.`);
 
       if (!this.state.outOfCards) {
-        console.log(`Adding ${Cards2.length} more cards`)
+        console.log(`Adding more cards`);
 
-        this.setState({
+         this._getOffers();
+
+        /*this.setState({
           cards: this.state.cards.concat(Cards2),
           outOfCards: true
-        })
+        })*/
       }
 
     }
 
   }
   render() {
-    return (
-      <SwipeCards
+    return (this.state.loaded ? <SwipeCards
         cards={this.state.cards}
         loop={false}
 
@@ -105,7 +184,7 @@ class CardScene extends React.Component{
         handleYup={(card) => this._handleYup(card)}
         handleNope={(card) => this._handleNope(card)}
         cardRemoved={(index) => this._cardRemoved(index)}
-      />
+      /> : <View></View>
     )
   }
 }

@@ -26,7 +26,7 @@ class Api {
     var p = new Promise(function (resolve, reject) {
       that.tokenApi.getKeyPairForUsernameAndPassword(that.grantType, username, password, that.mijoClientInstanceId, (error, data, response) => {
         if (error) {
-          reject(error);
+          reject(response.body);
         } else {
           resolve();
           that.token = data.access_token;
@@ -43,7 +43,12 @@ class Api {
     return !!this.token; // only returns true or false
   }
 
+  getKey(){
+    return this.token;
+  }
 }
+
+
 
 // Hack to get everytime the same api (Singleton)
 let api;

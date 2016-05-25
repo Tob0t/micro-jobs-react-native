@@ -4,7 +4,7 @@
 import React from 'react-native'
 import GlobalStyle from './GlobalStyle'
 import ControlPanel from './ControlPanel'
-import Card from './Card'
+import CardScene from './CardScene'
 import Api from 'MiJo/app/Api'
 import Drawer from 'react-native-drawer'
 import NavBarNavigationDrawer from 'MiJo/app/components/navbar/NavBarNavigationDrawer'
@@ -55,7 +55,7 @@ class HomeScene extends React.Component {
         })}
         >
         <NavBarNavigationDrawer title="MiJo" onPress={this.openDrawer}/>
-        <Card/>
+        <CardScene/>
       </Drawer>
     );
 

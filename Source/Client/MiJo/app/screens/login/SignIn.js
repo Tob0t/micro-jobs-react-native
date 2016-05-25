@@ -9,6 +9,7 @@ import LoginTextInput from 'MiJo/app/components/textInputs/LoginTextInput'
 
 // global vars
 var {
+  Alert,
   AppRegistry,
   StyleSheet,
   View,
@@ -76,7 +77,7 @@ class SignIn extends React.Component {
     console.log("Captured Password: " + this.state.password);
 
     // MOCK DATA
-    let username = "tom.wimmer@hotmail.com";
+    let username = "tobias.madner@gmx.at";
     let password = "password";
 
     console.log("Mock Username: " + username);
@@ -88,7 +89,10 @@ class SignIn extends React.Component {
           id: 'HomeScene',
         })
       }, (error) => {
-        console.log("Error", error);
+        console.error("Error:", error.error_description);
+        Alert.alert(
+          'Error',
+          error.error_description);
       });
   }
 
