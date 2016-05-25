@@ -1,0 +1,16 @@
+{
+  "name": "miji_init_script",
+  "version": "1.0.0",
+  "description": "Init script for adding clients and user to the databases",
+  "main": "init.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^0.8.6",
+    "mongoose": "^4.4.17",
+    "winston": "^2.2.0"
+  }
+}
