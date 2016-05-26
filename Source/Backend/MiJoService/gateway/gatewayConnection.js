@@ -5,6 +5,7 @@ function init(next){
     //Fill the required senders
     var gatewaySenders = [];
     gatewaySenders.push(require("./sender/tokenValidator"));
+    gatewaySenders.push(require("./sender/user"));
 
     //Connect to message gateway
     var messageGatewayUrl = config.getMicroServiceGatewayUrl();
