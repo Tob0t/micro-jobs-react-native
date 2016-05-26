@@ -6,6 +6,7 @@ import GlobalStyle from './GlobalStyle'
 import MK, {MKColor} from 'react-native-material-kit'
 import IconOct from 'react-native-vector-icons/Octicons'
 import IconFont from 'react-native-vector-icons/FontAwesome'
+import Api from 'MiJo/app/Api'
 
 
 
@@ -68,7 +69,11 @@ class ControlPanel extends React.Component {
             </View>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.props.navigator.push({id:'Logout'})}>
+        <TouchableOpacity onPress={() => {
+          this.props.navigator.resetTo({id:'Logout'});
+          Api().logout();
+          }
+        }>
           <View style={styles.row}>
             <View style={styles.colIcon}>
               <IconFont name="sign-out" size={24}/>

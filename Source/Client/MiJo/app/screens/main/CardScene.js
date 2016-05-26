@@ -1,6 +1,6 @@
 'use strict';
 
-import React, {StyleSheet, Text, View, Image} from 'react-native'
+import React, {Alert, StyleSheet, Text, View, Image} from 'react-native'
 import SwipeCards from 'react-native-swipe-cards'
 import ClientApi from 'MiJo/app/ClientApi'
 import Moment from 'moment'

@@ -46,6 +46,12 @@ class Api {
   getKey(){
     return this.token;
   }
+
+  logout(){
+    console.log("Current token: ",this.token);
+    this.token = null;
+    console.error("Deleted token: ",this.token);
+  }
 }
 
 
@@ -54,7 +60,13 @@ class Api {
 let api;
 
 export default () => {
-  api = api || new Api();
+  if(api && api.isLoggedIn()){
+    //console.log("key existing: ", api.getKey());
+    api = api;
+  } else{
+    //console.log("creating new Api");
+    api = new Api();
+  }
   return api;
 }
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        

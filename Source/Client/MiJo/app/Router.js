@@ -10,7 +10,7 @@ import CreateOffer from 'MiJo/app/screens/offer/CreateOffer'
 import UserOffersScene from 'MiJo/app/screens/user/UserOffersScene'
 import UserRequestsScene from 'MiJo/app/screens/user/UserRequestsScene'
 import UserSettingsScene from 'MiJo/app/screens/user/UserSettingsScene'
-import Api from './Api';
+import Api from './Api'
 
 // global vars
 const {
@@ -39,7 +39,8 @@ export default class Router extends React.Component{
       return <SignIn navigator={navigator}/>
     }
     switch(id){
-        case 'SignIn':
+        case 'SignIn': 
+          return <SignIn navigator={navigator}/>
         case 'Logout':
           return <SignIn navigator={navigator}/>
         case 'SignUp':

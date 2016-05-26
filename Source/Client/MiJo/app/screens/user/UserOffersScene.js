@@ -5,13 +5,14 @@ import React from 'react-native'
 import MK, {MKColor,MKProgress, MKSwitch} from 'react-native-material-kit'
 import NavBarStandard from 'MiJo/app/components/navbar/NavBarStandard'
 import MaterialFab from 'MiJo/app/components/buttons/MaterialFab'
-import Database from 'MiJo/app/Database'
 import Accordion from'react-native-collapsible/Accordion'
+import ClientApi from 'MiJo/app/ClientApi'
 
 
 
 // global vars
 var {
+  Alert,
   AppRegistry,
   Image,
   ListView,
@@ -31,24 +32,49 @@ class UserOffersScene extends React.Component {
     var ds = new ListView.DataSource(
       {rowHasChanged: (r1, r2) => r1.guid !== r2.guid});
     this.state = {
-      ds:Database.getUserOffers(1),
+      //ds:Database.getUserOffers(1),
       dataSource:ds,
+      loaded: false,
       }
   }
 
   componentDidMount(){
-    this.setState({
+    this._getOfferInterests();
+    /*this.setState({
       dataSource: this.state.dataSource.cloneWithRows(this.state.ds),
-    })
+    })*/
+  }
 
+  _getOfferInterests(){
+    //This parameters are optional and needed for pagination! --> see swagger spec
+    var opts = {
+        page: 1,
+        perPage: 5,
+    };
+
+    ClientApi().getOfferInterests(opts).then(
+      (offers) => {
+        console.log('Successfully got the offers: ', offers);
+        // Initiate new rendering
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(offers),
+          loaded: true,
+        });
+      },(error) => {
+        //debugger
+        console.error("Error:", error.error_description);
+        Alert.alert(
+          'Error',
+          error.error_description);
+      });
   }
    _renderHeader(rowData) {
     return (
        <View style={styles.rowContainer}>
          <Image style={styles.thumb} source={{ uri: rowData.img_url }} />
          <View  style={styles.textContainer}>
-           <Text style={styles.price}>{rowData.title}</Text>
-           <Text style={styles.title}>{rowData.interestedPeople.length} people interested</Text>
+           <Text style={styles.price}>{rowData.offerTitle}</Text>
+           <Text style={styles.title}>{rowData.users.length} people interested</Text>
          </View>
       </View>
     );
@@ -56,18 +82,19 @@ class UserOffersScene extends React.Component {
 
   _renderContent(rowData) {
     var that = this;
-    var interestedPeople = rowData.interestedPeople;
+    var interestedPeople = rowData.users;
     var rows = interestedPeople.map(function(interestedPeople,i){
       return (
         <View style={styles.detailRowContainer} key={interestedPeople.id}>
           <View style={styles.personContainer}>
-            <Text style={styles.textPerson} >{interestedPeople.name}</Text>
-            <Text style={styles.agePerson} >{interestedPeople.age} years</Text>
+            <Text style={styles.textPerson} >{interestedPeople.prename}</Text>
+            <Text style={styles.agePerson} >{interestedPeople.surname} years</Text>
           </View>
             <MKSwitch style={styles.switch}
-              checked={interestedPeople.connected}
+              //checked={interestedPeople.connected}
+              checked={false}
               onPress={() => console.log('orange switch pressed')}
-              onCheckedChange={(e) => that._changeConnection(interestedPeople.id,e)}
+              onCheckedChange={(e) => that._changeConnection(rowData.offerId, interestedPeople.id,e)}
               />
         </View>
         );
@@ -106,12 +133,26 @@ class UserOffersScene extends React.Component {
     );
   }
 
-  _changeConnection(id,e){
+  _changeConnection(offerId, userId,e){
     if(e.checked){
-      console.log("Attemp to create connection to: ", id);
-      // Database.createConnection(id);
-      // Database.getContactInformation(id);
-      alert("Contact Data of "+id+": \nTel.: 01/12312323 \nE-Mail: max.mustermann@example.com");
+      console.log("Attemp to create connection to user: ", userId);
+      console.log("Attemp to create connection with offerId: ", offerId);
+      ClientApi().createMatch(offerId, userId).then(
+      (contactInfo) => {
+        console.log('Successfully created match: ', contactInfo);
+        Alert.alert(
+          'Contact Data of userId '+userId,
+          'Tel.:'+contactInfo.phone+'\n'+
+          'E-Mail:'+contactInfo.mail);
+        //alert("Contact Data of "+userId+": \nTel.: 01/12312323 \nE-Mail: max.mustermann@example.com");
+      },(error) => {
+        debugger
+        console.error("Error:", error.error_description);
+        Alert.alert(
+          'Error',
+          error.error_description);
+      });
+      
     } else{
       console.log("Attemp to delete connection to: ", id);
       // Database.removeConnection(id);
