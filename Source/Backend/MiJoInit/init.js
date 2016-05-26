@@ -72,12 +72,12 @@ function createUser(userData, testDataCount, callback) {
     var user = new MiJoUser({
         email: userData.email,
         password: bcrypt.hashSync(userData.password, bcrypt.genSaltSync()),
+        age: userData.age,
         profile: {
             prename: userData.prename,
             surname: userData.surname,
             isMale: userData.isMale,
             image: userData.image,
-            age: userData.age
         }
     });
     user.save(function (err) {

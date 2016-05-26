@@ -1,22 +1,22 @@
-var mongoose = require("mongoose");
-var User = require("./User");
+module.exports = function (connection) {
+    var User = require("./User")(connection);
 
-var MiJoUserSchema = new mongoose.Schema({
-    email: {
-        type: String,
-        unique: true,
-        required: true
-    },
-    age: {
-        type: Number,
-        min: 0,
-        max: 120
-    },
-    password: {
-        type: String,
-        required: true
-    }
-}, {discriminatorKey: "_type"});
+    var MiJoUserSchema = new connection.base.Schema({
+        email: {
+            type: String,
+            unique: true,
+            required: true
+        },
+        age: {
+            type: Number,
+            min: 0,
+            max: 120
+        },
+        password: {
+            type: String,
+            required: true
+        }
+    }, {discriminatorKey: "_type"});
 
-var MiJoUserSchema = User.discriminator("MiJoUser", MiJoUserSchema);
-module.exports = MiJoUserSchema;
+    return User.discriminator("MiJoUser", MiJoUserSchema);
+};
