@@ -382,7 +382,63 @@ paths:
               $ref: '#/definitions/ServerError'
         security:
           - MiJo API Key: []
-
+  /user:
+    x-swagger-router-controller: user
+    get:
+        summary: Return the user profile of the user.
+        description: Return the user profile of the user which belongs to the given access token.
+        operationId: getUserProfile
+        tags:
+          - user
+        responses:
+          '200':
+            description: The requested user profile.
+            schema:
+              $ref: '#/definitions/UserProfileData'
+          '400':
+            description: An api error (caused by the client) occurred.
+            schema:
+              $ref: '#/definitions/ApiError'
+          '401':
+            description: An authorization error occurred.
+            schema:
+              $ref: '#/definitions/AuthorizationError'
+          '500':
+            description: An internal server error occurred.
+            schema:
+              $ref: '#/definitions/ServerError'
+        security:
+          - MiJo API Key: []
+    post:
+        summary: Updates the user profile of the user.
+        description: Updates the user profile of the user which belongs to the given access token.
+        operationId: updateUserProfile
+        tags:
+          - user
+        parameters:
+          - name: userProfile
+            in: body
+            description: The new user profile.
+            required: true
+            schema:
+              $ref: '#/definitions/UserProfileData'
+        responses:
+          '200':
+            description: The user profile as been updated.
+          '400':
+            description: An api error (caused by the client) occurred.
+            schema:
+              $ref: '#/definitions/ApiError'
+          '401':
+            description: An authorization error occurred.
+            schema:
+              $ref: '#/definitions/AuthorizationError'
+          '500':
+            description: An internal server error occurred.
+            schema:
+              $ref: '#/definitions/ServerError'
+        security:
+          - MiJo API Key: []
 definitions:
     Offer:
       type: object
@@ -489,16 +545,26 @@ definitions:
           $ref: '#/definitions/UserProfile'
     UserProfile:
       type: object
+      description: Represents the data of a user profile.
+      allOf:
+      - $ref: '#/definitions/UserProfileData'
+      - type: object
+        required:
+        - id
+        properties:
+          id:
+            type: string
+            description: The unique id of the user
+    UserProfileData:
+      type: object
       description: Represents user information.
       required:
-        - id
         - image
         - prename
         - surname
+        - age
+        - contactInformation
       properties:
-        id:
-          type: string
-          description: The unique id of the user
         image:
           type: string
           description: The profile image of the user encoded as base64 string.
@@ -508,6 +574,12 @@ definitions:
         surname:
           type: string
           description: The surname of the user.
+        age:
+          type: number
+          description: The age of the user in years.
+        contactInformation:
+          description: The contact information of the user.
+          $ref: '#/definitions/ContactInformation'
     ContactInformation:
       type: object
       description: Represents contact information of an user.
