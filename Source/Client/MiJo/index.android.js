@@ -13,10 +13,14 @@ import React, {
 
 import App from './app/App'
 
+// import { LocationManager } from 'MiJo/app/util/location/locationManager';
+
 class MiJo extends Component {
   render() {
     console.log("Starting App");
+    // LocationManager.getLastKnownLocation();
     return (
+
       <App />
     );
   }

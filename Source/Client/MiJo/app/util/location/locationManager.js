@@ -8,83 +8,42 @@ var {
   View,
 } = React;
 
-exports.framework = 'React';
-exports.title = 'Geolocation';
-exports.description = 'Examples of using the Geolocation API.';
+class LocationManager {
 
-exports.examples = [
-  {
-    title: 'navigator.geolocation',
-    render: function(): ReactElement {
-      return <GeolocationExample />;
-    },
-  }
-];
+  static getLastKnownLocation() {
 
-var LocationManager = React.createClass({
-  watchID: (null: ?number),
+    console.log("getLastKnownLocation entered");
 
-  getInitialState: function() {
-    return {
-      initialPosition: 'unknown',
-      lastPosition: 'unknown',
-    };
-  },
-
-  componentDidMount: function() {
     navigator.geolocation.getCurrentPosition(
-      (position) => {
-        var initialPosition = JSON.stringify(position);
-        this.setState({initialPosition});
-      },
-      (error) => alert(error.message),
+    (position) => {
+        this.longitude = position.coords.longitude;
+        this.latitude = position.coords.latitude;
+
+        this.lastPosition = position;
+
+    },
+    (error) => alert(error.message),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
     );
+
     this.watchID = navigator.geolocation.watchPosition((position) => {
-      var lastPosition = JSON.stringify(position);
-      this.setState({lastPosition});
+      //var lastPosition = JSON.stringify(position);
+      this.longitude = position.coords.longitude;
+      this.latitude = position.coords.latitude;
+
+      this.lastPosition = position;
+
+      var curLoc = JSON.stringify({ lat: this.latitude, lng: this.longitude }, null, '\t');
+      console.log("curLoc: " + curLoc);
     });
-  },
 
-  componentWillUnmount: function() {
-    navigator.geolocation.clearWatch(this.watchID);
-  },
+    console.log("hellow world - " + this.lastPosition);
 
+    var curLoc = JSON.stringify({ lat: this.latitude, lng: this.longitude }, null, '\t');
+    console.log("curLoc: " + curLoc);
 
-
-  render: function() {
-    return (<View />);
+    return curLoc;
   }
+}
 
-  return {
-    getLastKnownLocation: function() {
-      console.log(this.state.lastPosition)
-    }
-  }
-
-  /*
-  render: function() {
-    return (
-      <View>
-        <Text>
-          <Text style={styles.title}>Initial position: </Text>
-          {this.state.initialPosition}
-        </Text>
-        <Text>
-          <Text style={styles.title}>Current position: </Text>
-          {this.state.lastPosition}
-        </Text>
-      </View>
-    );
-  }
-  */
-
-});
-
-var styles = StyleSheet.create({
-  title: {
-    fontWeight: '500',
-  },
-});
-
-module.exports = LocationManager;
+export { LocationManager };
