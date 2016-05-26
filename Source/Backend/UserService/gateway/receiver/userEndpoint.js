@@ -52,11 +52,29 @@ function initializeEndpoint(socket) {
             }
         })
     });
+    socket.on("updateMiJoUser", function (user, callback) {
+        var userProfile = user.profile;
+        User.update({_id: user.id}, {
+            profile: {
+                prename: userProfile.prename,
+                surname: userProfile.surname,
+                image: userProfile.image
+            },
+            email: userProfile.email, age: userProfile.age
+        }, function (err) {
+            if (err) {
+                log.error("Error updating MiJo user " + user.id);
+                callback(new UserEndpointError(USER_ENDPOINT_ERROR.GENERAL, "Error updating MiJo user"))
+                return;
+            }
+            callback();
+        });
+    });
 }
 
 function getMiJoUser(mijoUser, callback) {
     var userProfile = mijoUser.profile;
-    sendUserData(userProfile.prename, userProfile.surname, userProfile.isMale, userProfile.image, callback);
+    sendUserData(userProfile.prename, userProfile.surname, userProfile.isMale, userProfile.image, mijoUser.email, mijoUser.age, callback);
 }
 
 function getFacebookUser(facebookUser, callback) {
@@ -113,12 +131,14 @@ function getFacebookUser(facebookUser, callback) {
     facebookRequest.end();
 }
 
-function sendUserData(prename, surname, isMale, image, callback) {
+function sendUserData(prename, surname, isMale, image, email, age, callback) {
     callback(null, {
         prename: prename,
         surname: surname,
         isMale: isMale,
-        image: image
+        image: image,
+        email: email,
+        age: age
     });
 }
 
