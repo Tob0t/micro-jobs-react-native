@@ -80,6 +80,7 @@ function getOffers(req, res) {
                         lon: location[0],
                         lat: location[1]
                     },
+                    payment: offer.payment,
                     deadline: offer.deadline
                 });
                 next();
