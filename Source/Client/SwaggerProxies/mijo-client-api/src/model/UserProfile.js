@@ -1,18 +1,18 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient'], factory);
+    define(['../ApiClient', './ContactInformation', './UserProfileData'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'));
+    module.exports = factory(require('../ApiClient'), require('./ContactInformation'), require('./UserProfileData'));
   } else {
     // Browser globals (root is window)
     if (!root.MiJoClientApi) {
       root.MiJoClientApi = {};
     }
-    root.MiJoClientApi.UserProfile = factory(root.MiJoClientApi.ApiClient);
+    root.MiJoClientApi.UserProfile = factory(root.MiJoClientApi.ApiClient, root.MiJoClientApi.ContactInformation, root.MiJoClientApi.UserProfileData);
   }
-}(this, function(ApiClient) {
+}(this, function(ApiClient, ContactInformation, UserProfileData) {
   'use strict';
 
   /**
@@ -23,20 +23,20 @@
 
   /**
    * Constructs a new <code>UserProfile</code>.
-   * Represents user information.
+   * Represents the data of a user profile.
    * @alias module:model/UserProfile
    * @class
-   * @param id
+   * @extends module:model/UserProfileData
    * @param image
    * @param prename
    * @param surname
+   * @param age
+   * @param contactInformation
+   * @param id
    */
-  var exports = function(id, image, prename, surname) {
-
+  var exports = function(image, prename, surname, age, contactInformation, id) {
+    UserProfileData.call(this, image, prename, surname, age, contactInformation);
     this['id'] = id;
-    this['image'] = image;
-    this['prename'] = prename;
-    this['surname'] = surname;
   };
 
   /**
@@ -49,22 +49,16 @@
   exports.constructFromObject = function(data, obj) {
     if (data) { 
       obj = obj || new exports();
-
+      UserProfileData.constructFromObject(data, obj);
       if (data.hasOwnProperty('id')) {
         obj['id'] = ApiClient.convertToType(data['id'], 'String');
-      }
-      if (data.hasOwnProperty('image')) {
-        obj['image'] = ApiClient.convertToType(data['image'], 'String');
-      }
-      if (data.hasOwnProperty('prename')) {
-        obj['prename'] = ApiClient.convertToType(data['prename'], 'String');
-      }
-      if (data.hasOwnProperty('surname')) {
-        obj['surname'] = ApiClient.convertToType(data['surname'], 'String');
       }
     }
     return obj;
   }
+
+  exports.prototype = Object.create(UserProfileData.prototype);
+  exports.prototype.constructor = exports;
 
 
   /**
@@ -72,24 +66,6 @@
    * @member {String} id
    */
   exports.prototype['id'] = undefined;
-
-  /**
-   * The profile image of the user encoded as base64 string.
-   * @member {String} image
-   */
-  exports.prototype['image'] = undefined;
-
-  /**
-   * The prename of the user.
-   * @member {String} prename
-   */
-  exports.prototype['prename'] = undefined;
-
-  /**
-   * The surname of the user.
-   * @member {String} surname
-   */
-  exports.prototype['surname'] = undefined;
 
 
 

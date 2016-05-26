@@ -1,12 +1,12 @@
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['./ApiClient', './model/ApiError', './model/AuthorizationError', './model/ContactInformation', './model/Location', './model/Offer', './model/OfferData', './model/OfferInterest', './model/OfferRequest', './model/Payment', './model/ServerError', './model/UserProfile', './api/OfferCreateApi', './api/OfferDetailsApi', './api/OfferEditApi', './api/OfferFeedApi', './api/YourOffersApi', './api/YourRequestsApi'], factory);
+    define(['./ApiClient', './model/ApiError', './model/AuthorizationError', './model/ContactInformation', './model/Location', './model/Offer', './model/OfferData', './model/OfferInterest', './model/OfferRequest', './model/Payment', './model/ServerError', './model/UserProfile', './model/UserProfileData', './api/OfferCreateApi', './api/OfferDetailsApi', './api/OfferEditApi', './api/OfferFeedApi', './api/UserApi', './api/YourOffersApi', './api/YourRequestsApi'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('./ApiClient'), require('./model/ApiError'), require('./model/AuthorizationError'), require('./model/ContactInformation'), require('./model/Location'), require('./model/Offer'), require('./model/OfferData'), require('./model/OfferInterest'), require('./model/OfferRequest'), require('./model/Payment'), require('./model/ServerError'), require('./model/UserProfile'), require('./api/OfferCreateApi'), require('./api/OfferDetailsApi'), require('./api/OfferEditApi'), require('./api/OfferFeedApi'), require('./api/YourOffersApi'), require('./api/YourRequestsApi'));
+    module.exports = factory(require('./ApiClient'), require('./model/ApiError'), require('./model/AuthorizationError'), require('./model/ContactInformation'), require('./model/Location'), require('./model/Offer'), require('./model/OfferData'), require('./model/OfferInterest'), require('./model/OfferRequest'), require('./model/Payment'), require('./model/ServerError'), require('./model/UserProfile'), require('./model/UserProfileData'), require('./api/OfferCreateApi'), require('./api/OfferDetailsApi'), require('./api/OfferEditApi'), require('./api/OfferFeedApi'), require('./api/UserApi'), require('./api/YourOffersApi'), require('./api/YourRequestsApi'));
   }
-}(function(ApiClient, ApiError, AuthorizationError, ContactInformation, Location, Offer, OfferData, OfferInterest, OfferRequest, Payment, ServerError, UserProfile, OfferCreateApi, OfferDetailsApi, OfferEditApi, OfferFeedApi, YourOffersApi, YourRequestsApi) {
+}(function(ApiClient, ApiError, AuthorizationError, ContactInformation, Location, Offer, OfferData, OfferInterest, OfferRequest, Payment, ServerError, UserProfile, UserProfileData, OfferCreateApi, OfferDetailsApi, OfferEditApi, OfferFeedApi, UserApi, YourOffersApi, YourRequestsApi) {
   'use strict';
 
   /**
@@ -102,6 +102,11 @@
      */
     UserProfile: UserProfile,
     /**
+     * The UserProfileData model constructor.
+     * @property {module:model/UserProfileData}
+     */
+    UserProfileData: UserProfileData,
+    /**
      * The OfferCreateApi service constructor.
      * @property {module:api/OfferCreateApi}
      */
@@ -121,6 +126,11 @@
      * @property {module:api/OfferFeedApi}
      */
     OfferFeedApi: OfferFeedApi,
+    /**
+     * The UserApi service constructor.
+     * @property {module:api/UserApi}
+     */
+    UserApi: UserApi,
     /**
      * The YourOffersApi service constructor.
      * @property {module:api/YourOffersApi}
