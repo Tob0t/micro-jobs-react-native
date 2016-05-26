@@ -11,6 +11,7 @@ class ClientApi {
 
     // get key from AuthorizationApi
     var keyFromAuth = Api().getKey();
+    console.log("api-key:", keyFromAuth);
 
     // Set the access token --> must only be done once
     this.apiClient = MiJoClientApi.ApiClient.instance;
@@ -18,18 +19,43 @@ class ClientApi {
     this.clientAuthentication.apiKeyPrefix = "Bearer";
     this.clientAuthentication.apiKey = keyFromAuth;
 
-    this.feedApi = new MiJoClientApi.OfferFeedApi();
+    this.OfferFeedApi = new MiJoClientApi.OfferFeedApi();
+    this.OfferCreateApi = new MiJoClientApi.OfferCreateApi();
+    this.YourOffersApi = new MiJoClientApi.YourOffersApi();
+    this.YourRequestsApi = new MiJoClientApi.YourRequestsApi();
 
   }
+
+  createOffer(offer) {
+    var that = this;
+
+    // create promise
+    var p = new Promise(function (resolve, reject) {
+      that.OfferCreateApi.createOffer(offer, (error, data, response) => {
+        if (error) {
+          //debugger
+          reject(error);
+        } else {
+          console.log("Response code", response.status);
+          resolve();
+        }
+      });
+    });
+    // return promise
+    return p;
+  }
+
 
   getOffers(lat,lon, max_distance, opts) {
     var that = this;
     console.log(opts);
+    console.log("current api-key", Api().getKey());
 
     // create promise
     var p = new Promise(function (resolve, reject) {
-      that.feedApi.getOffers(lat, lon, max_distance, opts, (error, data, response) => {
+      that.OfferFeedApi.getOffers(lat, lon, max_distance, opts, (error, data, response) => {
         if (error) {
+          //debugger
           reject(error);
         } else {
           //This is the linking header with the pagination information
@@ -51,7 +77,7 @@ class ClientApi {
 
      // create promise
     var p = new Promise(function (resolve, reject) {
-      that.feedApi.createUpVote(offerId, (error, data, response) => {
+      that.OfferFeedApi.createUpVote(offerId, (error, data, response) => {
         if (error) {
           reject(error);
         } else {
@@ -69,12 +95,67 @@ class ClientApi {
 
      // create promise
     var p = new Promise(function (resolve, reject) {
-      that.feedApi.createDownVote(offerId, (error, data, response) => {
+      that.OfferFeedApi.createDownVote(offerId, (error, data, response) => {
         if (error) {
           reject(error);
         } else {
           console.log("Response code", response.status);
           resolve();
+        }
+      });
+    });
+    // return promise
+    return p;
+  }
+
+  getOfferInterests(opts){
+    var that = this;
+
+    // create promise
+    var p = new Promise(function (resolve, reject) {
+      that.YourOffersApi.getOfferInterests(opts, (error, data, response) => {
+        if (error) {
+          //debugger
+          reject(error);
+        } else {
+          console.log(data);
+          resolve(data);
+        }
+      });
+    });
+    // return promise
+    return p;
+  }
+  createMatch(offerId, userId){
+    var that = this;
+
+    // create promise
+    var p = new Promise(function (resolve, reject) {
+      that.YourOffersApi.createMatch(offerId, userId, (error, data, response) => {
+        if (error) {
+          //debugger
+          reject(error);
+        } else {
+          resolve(data);
+        }
+      });
+    });
+    // return promise
+    return p;
+  }
+
+  getMatchedRequests(opts){
+    var that = this;
+
+    // create promise
+    var p = new Promise(function (resolve, reject) {
+      that.YourOffersApi.getMatchedRequests(opts, (error, data, response) => {
+        if (error) {
+          //debugger
+          reject(error);
+        } else {
+          console.log(data);
+          resolve(data);
         }
       });
     });
