@@ -1,18 +1,18 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient', './UserProfile'], factory);
+    define(['../ApiClient', './TakerInformation'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'), require('./UserProfile'));
+    module.exports = factory(require('../ApiClient'), require('./TakerInformation'));
   } else {
     // Browser globals (root is window)
     if (!root.MiJoClientApi) {
       root.MiJoClientApi = {};
     }
-    root.MiJoClientApi.OfferInterest = factory(root.MiJoClientApi.ApiClient, root.MiJoClientApi.UserProfile);
+    root.MiJoClientApi.OfferInterest = factory(root.MiJoClientApi.ApiClient, root.MiJoClientApi.TakerInformation);
   }
-}(this, function(ApiClient, UserProfile) {
+}(this, function(ApiClient, TakerInformation) {
   'use strict';
 
   /**
@@ -28,13 +28,13 @@
    * @class
    * @param offerId
    * @param offerTitle
-   * @param users
+   * @param takers
    */
-  var exports = function(offerId, offerTitle, users) {
+  var exports = function(offerId, offerTitle, takers) {
 
     this['offerId'] = offerId;
     this['offerTitle'] = offerTitle;
-    this['users'] = users;
+    this['takers'] = takers;
   };
 
   /**
@@ -54,8 +54,8 @@
       if (data.hasOwnProperty('offerTitle')) {
         obj['offerTitle'] = ApiClient.convertToType(data['offerTitle'], 'String');
       }
-      if (data.hasOwnProperty('users')) {
-        obj['users'] = ApiClient.convertToType(data['users'], [UserProfile]);
+      if (data.hasOwnProperty('takers')) {
+        obj['takers'] = ApiClient.convertToType(data['takers'], [TakerInformation]);
       }
     }
     return obj;
@@ -75,10 +75,10 @@
   exports.prototype['offerTitle'] = undefined;
 
   /**
-   * The user profile of the interested users.
-   * @member {Array.<module:model/UserProfile>} users
+   * Information of the interested users aka taker.
+   * @member {Array.<module:model/TakerInformation>} takers
    */
-  exports.prototype['users'] = undefined;
+  exports.prototype['takers'] = undefined;
 
 
 
