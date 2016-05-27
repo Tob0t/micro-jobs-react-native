@@ -67,16 +67,17 @@ function createClient(clientId, clientSecret, callback) {
     });
 }
 function createUser(userData, testDataCount, callback) {
-    var ProwoUser = require("./models/Authorization/ProwoUser")(authorizationDatabase);
+    var MiJoUser = require("./models/Authorization/MiJoUser")(authorizationDatabase);
     var bcrypt = require("bcrypt");
-    var user = new ProwoUser({
+    var user = new MiJoUser({
         email: userData.email,
         password: bcrypt.hashSync(userData.password, bcrypt.genSaltSync()),
+        age: userData.age,
         profile: {
             prename: userData.prename,
             surname: userData.surname,
             isMale: userData.isMale,
-            image: userData.image
+            image: userData.image,
         }
     });
     user.save(function (err) {

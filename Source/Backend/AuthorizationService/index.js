@@ -40,7 +40,7 @@ database.on("error", function (err) {
 mongoose.connect(config.getDatabaseUrl());
 
 function createTestData() {
-    var ProwoUser = require("./authorization/models/ProwoUser");
+    var ProwoUser = require("./authorization/models/MiJoUser");
     var bcrypt = require("bcrypt");
     var thomas = new ProwoUser({
         email: "tom.wimmer@hotmail.com",
