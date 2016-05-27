@@ -231,6 +231,42 @@ paths:
               $ref: '#/definitions/ServerError'
         security:
           - MiJo API Key: []
+  /user/offers/{offerId}/interest/decline/{userId}:
+    x-swagger-router-controller: offers
+    put:
+        summary: Declines an interessted user for an offer.
+        description: Declines an interessted user for an offer.
+        operationId: declineUserForOffer
+        tags:
+          - your offers
+        parameters:
+          - in: path
+            name: offerId
+            description: ID of the offer for which to decline the given user.
+            required: true
+            type: string
+          - in: path
+            name: userId
+            description: ID of the user to decline.
+            required: true
+            type: string
+        responses:
+          '200':
+            description: If user have been declined successfully.
+          '400':
+            description: An api error (caused by the client) occurred.
+            schema:
+              $ref: '#/definitions/ApiError'
+          '401':
+            description: An authorization error occurred.
+            schema:
+              $ref: '#/definitions/AuthorizationError'
+          '500':
+            description: An internal server error occurred.
+            schema:
+              $ref: '#/definitions/ServerError'
+        security:
+          - MiJo API Key: []
   /user/offers:
     x-swagger-router-controller: offers
     put:
@@ -382,7 +418,63 @@ paths:
               $ref: '#/definitions/ServerError'
         security:
           - MiJo API Key: []
-
+  /user:
+    x-swagger-router-controller: user
+    get:
+        summary: Return the user profile of the user.
+        description: Return the user profile of the user which belongs to the given access token.
+        operationId: getUserProfile
+        tags:
+          - user
+        responses:
+          '200':
+            description: The requested user profile.
+            schema:
+              $ref: '#/definitions/UserProfileData'
+          '400':
+            description: An api error (caused by the client) occurred.
+            schema:
+              $ref: '#/definitions/ApiError'
+          '401':
+            description: An authorization error occurred.
+            schema:
+              $ref: '#/definitions/AuthorizationError'
+          '500':
+            description: An internal server error occurred.
+            schema:
+              $ref: '#/definitions/ServerError'
+        security:
+          - MiJo API Key: []
+    post:
+        summary: Updates the user profile of the user.
+        description: Updates the user profile of the user which belongs to the given access token.
+        operationId: updateUserProfile
+        tags:
+          - user
+        parameters:
+          - name: userProfile
+            in: body
+            description: The new user profile.
+            required: true
+            schema:
+              $ref: '#/definitions/UserProfileData'
+        responses:
+          '200':
+            description: The user profile as been updated.
+          '400':
+            description: An api error (caused by the client) occurred.
+            schema:
+              $ref: '#/definitions/ApiError'
+          '401':
+            description: An authorization error occurred.
+            schema:
+              $ref: '#/definitions/AuthorizationError'
+          '500':
+            description: An internal server error occurred.
+            schema:
+              $ref: '#/definitions/ServerError'
+        security:
+          - MiJo API Key: []
 definitions:
     Offer:
       type: object
@@ -458,7 +550,7 @@ definitions:
       required:
         - offerId
         - offerTitle
-        - users
+        - takers
       properties:
         offerId:
           type: string
@@ -466,11 +558,11 @@ definitions:
         offerTitle:
           type: string
           description: The title of the related offer.
-        users:
+        takers:
           type: array
-          description: The user profile of the interested users.
+          description: Information of the interested users aka taker.
           items:
-            $ref: '#/definitions/UserProfile'
+            $ref: '#/definitions/TakerInformation'
     OfferRequest:
       type: object
       description: Represents an offer request of a micro job.
@@ -486,10 +578,10 @@ definitions:
           type: string
           description: The title of the related offer.
         offerer:
-          $ref: '#/definitions/UserProfile'
-    UserProfile:
+          $ref: '#/definitions/OffererInformation'
+    OffererInformation:
       type: object
-      description: Represents user information.
+      description: Represents the information of an offer offerer.
       required:
         - id
         - image
@@ -498,7 +590,55 @@ definitions:
       properties:
         id:
           type: string
-          description: The unique id of the user
+          description: The unique user id of the offerer
+        image:
+          type: string
+          description: The profile image of the offerer encoded as base64 string.
+        prename:
+          type: string
+          description: The prename of the offerer.
+        surname:
+          type: string
+          description: The surname of the offerer.
+    TakerInformation:
+      type: object
+      description: Represents the information of an offer taker.
+      required:
+        - id
+        - status
+        - image
+        - prename
+        - surname
+      properties:
+        id:
+          type: string
+          description: The unique user id of the taker
+        image:
+          type: string
+          description: The profile image of the taker encoded as base64 string.
+        prename:
+          type: string
+          description: The prename of the taker.
+        surname:
+          type: string
+          description: The surname of the taker.
+        status:
+          type: string
+          description: The status of the taker.
+          enum:
+            - ACCEPTED
+            - DECLINED
+            - NONE
+    UserProfileData:
+      type: object
+      description: Represents user information.
+      required:
+        - image
+        - prename
+        - surname
+        - age
+        - contactInformation
+      properties:
         image:
           type: string
           description: The profile image of the user encoded as base64 string.
@@ -508,6 +648,12 @@ definitions:
         surname:
           type: string
           description: The surname of the user.
+        age:
+          type: number
+          description: The age of the user in years.
+        contactInformation:
+          description: The contact information of the user.
+          $ref: '#/definitions/ContactInformation'
     ContactInformation:
       type: object
       description: Represents contact information of an user.

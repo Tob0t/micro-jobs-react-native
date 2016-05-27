@@ -6,7 +6,7 @@ var errorHandler            = require("../errorHandler");
 var log                     = require("../../../util/log");
 
 //Required models
-var ProwoUser = require("../../models/ProwoUser");
+var ProwoUser = require("../../models/MiJoUser");
 
 //Required error types
 var OAUTH_ERROR = errorHandler.ERROR_TYPES.OAUTH;

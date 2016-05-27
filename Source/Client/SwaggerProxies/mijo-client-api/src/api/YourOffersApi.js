@@ -86,6 +86,58 @@
     }
 
     /**
+     * Callback function to receive the result of the declineUserForOffer operation.
+     * @callback module:api/YourOffersApi~declineUserForOfferCallback
+     * @param {String} error Error message, if any.
+     * @param data This operation does not return a value.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Declines an interessted user for an offer.
+     * Declines an interessted user for an offer.
+     * @param {String} offerId ID of the offer for which to decline the given user.
+     * @param {String} userId ID of the user to decline.
+     * @param {module:api/YourOffersApi~declineUserForOfferCallback} callback The callback function, accepting three arguments: error, data, response
+     */
+    this.declineUserForOffer = function(offerId, userId, callback) {
+      var postBody = null;
+
+      // verify the required parameter 'offerId' is set
+      if (offerId == undefined || offerId == null) {
+        throw "Missing the required parameter 'offerId' when calling declineUserForOffer";
+      }
+
+      // verify the required parameter 'userId' is set
+      if (userId == undefined || userId == null) {
+        throw "Missing the required parameter 'userId' when calling declineUserForOffer";
+      }
+
+
+      var pathParams = {
+        'offerId': offerId,
+        'userId': userId
+      };
+      var queryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = ['MiJo API Key'];
+      var contentTypes = ['application/json'];
+      var accepts = ['application/json'];
+      var returnType = null;
+
+      return this.apiClient.callApi(
+        '/user/offers/{offerId}/interest/decline/{userId}', 'PUT',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+
+    /**
      * Callback function to receive the result of the getOfferInterests operation.
      * @callback module:api/YourOffersApi~getOfferInterestsCallback
      * @param {String} error Error message, if any.

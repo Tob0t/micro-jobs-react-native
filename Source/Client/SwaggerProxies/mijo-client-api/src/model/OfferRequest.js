@@ -1,18 +1,18 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient', './UserProfile'], factory);
+    define(['../ApiClient', './OffererInformation'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'), require('./UserProfile'));
+    module.exports = factory(require('../ApiClient'), require('./OffererInformation'));
   } else {
     // Browser globals (root is window)
     if (!root.MiJoClientApi) {
       root.MiJoClientApi = {};
     }
-    root.MiJoClientApi.OfferRequest = factory(root.MiJoClientApi.ApiClient, root.MiJoClientApi.UserProfile);
+    root.MiJoClientApi.OfferRequest = factory(root.MiJoClientApi.ApiClient, root.MiJoClientApi.OffererInformation);
   }
-}(this, function(ApiClient, UserProfile) {
+}(this, function(ApiClient, OffererInformation) {
   'use strict';
 
   /**
@@ -55,7 +55,7 @@
         obj['offerTitle'] = ApiClient.convertToType(data['offerTitle'], 'String');
       }
       if (data.hasOwnProperty('offerer')) {
-        obj['offerer'] = UserProfile.constructFromObject(data['offerer']);
+        obj['offerer'] = OffererInformation.constructFromObject(data['offerer']);
       }
     }
     return obj;
@@ -75,7 +75,7 @@
   exports.prototype['offerTitle'] = undefined;
 
   /**
-   * @member {module:model/UserProfile} offerer
+   * @member {module:model/OffererInformation} offerer
    */
   exports.prototype['offerer'] = undefined;
 
