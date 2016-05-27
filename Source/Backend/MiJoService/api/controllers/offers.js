@@ -12,6 +12,7 @@ var userGateway = require("../../gateway/sender/user");
 module.exports = {
     getOfferInterests: getOfferInterests,
     createMatch: createMatch,
+    declineUserForOffer: declineUserForOffer,
     createOffer: createOffer,
     getOffer: getOffer,
     updateOffer: updateOffer
@@ -44,14 +45,15 @@ function getOfferInterests(req, res) {
         }, function (count, interests, callback) {
             var body = {};
 
-            function addUser(offerId, userId, callback) {
+            function addUser(offerId, userId, status, callback) {
                 userGateway.getUserProfile(userId, function (err, result) {
                     if (err) {
                         log.error("Getting user with id " + userId);
                         callback(err, null);
                     }
-                    body[offerId].users.push({
+                    body[offerId].takers.push({
                         id: userId,
+                        status: status,
                         image: result.image,
                         prename: result.prename,
                         surname: result.surname
@@ -62,8 +64,9 @@ function getOfferInterests(req, res) {
 
             async.each(interests, function (interest, callback) {
                 var offerId = interest.offer;
+                var status = interest.status;
                 if (body[offerId]) {
-                    addUser(offerId, interest.taker, callback);
+                    addUser(offerId, interest.taker, status, callback);
                 } else {
                     Offer.findById(offerId, function (err, offer) {
                         if (err) {
@@ -73,9 +76,9 @@ function getOfferInterests(req, res) {
                         body[offerId] = {
                             offerId: offerId,
                             offerTitle: offer.title,
-                            offerer: [],
+                            takers: [],
                         }
-                        addUser(offerId, interest.taker, callback);
+                        addUser(offerId, interest.taker, status, callback);
                     });
                 }
 
@@ -155,6 +158,46 @@ function createMatch(req, res) {
         res.json(contactInformation);
     });
 }
+function declineUserForOffer(req, res) {
+    var params = req.swagger.params;
+    var userId = req.userId;
+
+    var offerId = params.offerId.value;
+    var userToDecline = params.userId.value;
+
+    async.waterfall([
+        function (callback) {
+            Interest.findOne({offer: offerId, offerer: userId, taker: userToDecline}, function (err, interest) {
+                if (err) {
+                    log.error("Error finding interest with id " + offerId);
+                    callback(err);
+                }
+                callback(null, interest);
+            });
+        },
+        function (interest, callback) {
+            interest.status = 'DECLINED';
+            interest.modified = new Date();
+            interest.save(function (err) {
+                if (err) {
+                    log.error("Error updating interest with id " + offerId);
+                    callback(err);
+                }
+                callback(null);
+            });
+        }
+    ], function (err) {
+        if (err) {
+            log.error("Error declining user " + userToDecline + " for offer " + offerId);
+            //TODO send error
+            res.statusCode = 400;
+            res.send("Error");
+            return;
+        }
+        res.send();
+    });
+}
+
 function createOffer(req, res) {
     var params = req.swagger.params;
     var userId = req.userId;

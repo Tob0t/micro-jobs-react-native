@@ -301,6 +301,40 @@ paths:
             $ref: '#/definitions/ServerError'
       security:
         - MiJo API Key: []
+  /user/offers:
+    x-swagger-router-controller: offers
+    put:
+      summary: Creates a new offer for the given user.
+      description: Creates a new offer for the given user. The created offer will be available in the public offer feed.
+      operationId: createOffer
+      tags:
+        - offer create
+      parameters:
+        - name: offer
+          in: body
+          description: The offer created on the client.
+          required: true
+          schema:
+            $ref: '#/definitions/OfferData'
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: The offer has been created successful.
+        '400':
+          description: An api error (caused by the client) occurred.
+          schema:
+            $ref: '#/definitions/ApiError'
+        '401':
+          description: An authorization error occurred.
+          schema:
+            $ref: '#/definitions/AuthorizationError'
+        '500':
+          description: An internal server error occurred.
+          schema:
+            $ref: '#/definitions/ServerError'
+      security:
+        - MiJo API Key: []
   /user/offers/{id}:
     x-swagger-router-controller: offers
     get:
