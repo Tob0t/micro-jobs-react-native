@@ -5,6 +5,8 @@ import SwipeCards from 'react-native-swipe-cards'
 import ClientApi from 'MiJo/app/ClientApi'
 import Moment from 'moment'
 
+import { LocationManager } from 'MiJo/app/util/location/locationManager';
+
 class Card extends React.Component{
   constructor(props){
     super(props);
@@ -86,9 +88,22 @@ class CardScene extends React.Component{
     console.log('Get Offers');
 
     // Request fo the offer feed
-    var lat = 48.346371;
-    var lon = 14.510034;
-    var max_distance = 20000;
+    var loc = LocationManager.getLastKnownLocation();
+    console.log(loc);
+    console.log("lat: " + loc.coords.latitude+ ", lng: " + loc.coords.longitude);
+
+    var location2 = {
+      'lat': loc.coords.latitude,
+      'lon': loc.coords.longitude
+    };
+
+    //var lat = 48.346371;
+    //var lon = 14.510034;
+
+    var lat = loc.coords.latitude;
+    var lon = loc.coords.longitude;
+
+    var max_distance = 200000;
     //This parameters are optional and needed for pagination! --> see swagger spec
     var opts = {
         page: 1,

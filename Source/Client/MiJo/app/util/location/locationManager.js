@@ -33,16 +33,14 @@ class LocationManager {
 
       this.lastPosition = position;
 
-      var curLoc = JSON.stringify({ lat: this.latitude, lng: this.longitude }, null, '\t');
-      console.log("curLoc: " + curLoc);
+      //var curLoc = JSON.stringify({ lat: this.latitude, lng: this.longitude }, null, '\t');
+      //console.log("curLoc: " + curLoc);
     });
 
-    console.log("hellow world - " + this.lastPosition);
-
     var curLoc = JSON.stringify({ lat: this.latitude, lng: this.longitude }, null, '\t');
-    console.log("curLoc: " + curLoc);
+    //console.log("curLoc: " + curLoc);
 
-    return curLoc;
+    return this.lastPosition;
   }
 }
 
