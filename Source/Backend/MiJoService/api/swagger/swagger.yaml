@@ -573,6 +573,7 @@ definitions:
       required:
         - offerId
         - offerTitle
+        - offerImage
         - offerer
       properties:
         offerId:
@@ -581,6 +582,9 @@ definitions:
         offerTitle:
           type: string
           description: The title of the related offer.
+        offerImage:
+          type: string
+          description: The image of the related offer as base64.
         offerer:
           $ref: '#/definitions/OffererInformation'
     OffererInformation:
