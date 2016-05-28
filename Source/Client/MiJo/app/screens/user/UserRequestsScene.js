@@ -28,7 +28,7 @@ class UserRequestsScene extends React.Component {
   constructor(props) {
     super(props);
     var ds = new ListView.DataSource(
-      {rowHasChanged: (r1, r2) => r1.guid !== r2.guid});
+      {rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
       //ds: Database.getUserRequests(1),
       dataSource:ds,
@@ -38,16 +38,16 @@ class UserRequestsScene extends React.Component {
 
   componentDidMount(){
     this._getMatchedRequests();
-    /*this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(this.state.ds),
-    })*/
+  }
+  componentWillReceiveProps() {
+    this._getMatchedRequests();
   }
 
   _getMatchedRequests(){
     //This parameters are optional and needed for pagination! --> see swagger spec
     var opts = {
         page: 1,
-        perPage: 5,
+        perPage: 10,
     };
 
     ClientApi().getMatchedRequests(opts).then(
@@ -68,7 +68,7 @@ class UserRequestsScene extends React.Component {
 
   renderRow(rowData, sectionID, rowID) {
     return (
-      <TouchableHighlight onPress={() => this.rowPressed(rowData.offerId)}
+      <TouchableHighlight onPress={() => this._rowPressed(rowData.offerId)}
        underlayColor='#dddddd'>
      <View>
        <View style={styles.rowContainer}>
@@ -83,6 +83,15 @@ class UserRequestsScene extends React.Component {
      </View>
    </TouchableHighlight>
     );
+  }
+  _rowPressed(offerId){
+    console.log('Offer pressed');
+    this.props.navigator.push({
+      id: 'DetailOffer',
+      passProps: {
+        offerId: offerId
+      }
+    });
   }
 
   render() {
