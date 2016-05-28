@@ -18,7 +18,7 @@ class App extends React.Component{
       <Navigator
         initialRoute={{id:'SignIn'}}
         renderScene={(route,navigator) =>
-          <Router id={route.id} navigator={navigator}/>
+          <Router id={route.id} navigator={navigator} {...route.passProps}/>
         }
       />
       );

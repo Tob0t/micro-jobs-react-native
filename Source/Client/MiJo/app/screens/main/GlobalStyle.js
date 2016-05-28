@@ -16,7 +16,7 @@ var GlobalStyle = StyleSheet.create({
     container: {
       flexDirection: 'column',
       flex: 1,
-      backgroundColor: 'transparent'
+      backgroundColor: 'white'
     },
     bg: {
         position: 'absolute',
@@ -29,7 +29,7 @@ var GlobalStyle = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flex: .5,
-        backgroundColor: 'transparent'
+        backgroundColor: 'white'
     },
     mark: {
         width: 150,

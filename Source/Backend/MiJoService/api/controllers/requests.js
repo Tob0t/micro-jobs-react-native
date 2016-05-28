@@ -56,6 +56,7 @@ function getMatchedRequests(req, res) {
                         body.push({
                             offerId: offerId,
                             offerTitle: offer.title,
+                            offerImage: offer.image,
                             offerer: {
                                 id: interest.offerer,
                                 image: result.image,

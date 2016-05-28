@@ -1,47 +1,48 @@
 'use strict';
 
 // imports
-import React from 'react-native';
-import MK from 'react-native-material-kit';
+import React from 'react-native'
+import MK, {MKButton, MKColor} from 'react-native-material-kit'
 
 // global vars
 var {
-  Navigator,
-  Platform,
   PropTypes,
   StyleSheet,
   Text,
-  TouchableHighlight,
-  TouchableNativeFeedback,
   View,
 } = React;
 
-const {
-  MKButton,
-  MKColor,
-} = MK;
+const MaterialButton = ({
+  text,
+  onPress,
+  backgroundColor,
+}) => {
+  const ColoredRaisedButton = new MKButton.coloredButton()
+      .build();
+  return(
+    <ColoredRaisedButton
+      onPress={onPress}
+      backgroundColor={backgroundColor}>
+      <View>
+        <Text>{text}</Text>
+      </View>
+    </ColoredRaisedButton>
+  )
+};
 
-var TouchableElement = TouchableHighlight;
-if(Platform.OS === 'android'){
-  TouchableElement = TouchableNativeFeedback;
+MaterialButton.PropTypes = {
+  text: PropTypes.string,
+  onPress: PropTypes.func,
+  backgroundColor: PropTypes.text,
 }
 
-const MaterialButton = MKButton.coloredButton()
-  .withText('BUTTON')
-  .withOnPress(() => {
-    console.log("Hi, it's a colored button!");
-  })
-  .build();
+MaterialButton.defaultProps = {
+  text: 'Button',
+  backgroundColor: MKColor.Green,
+}
+
 
 var styles = StyleSheet.create({
-    submit: {
-        backgroundColor: '#FCA600',
-        padding: 20,
-        alignItems: 'center'
-    },
-    whiteFont: {
-      color: '#FFF'
-    }
 });
 
 export default MaterialButton;

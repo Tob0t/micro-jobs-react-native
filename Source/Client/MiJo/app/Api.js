@@ -26,7 +26,7 @@ class Api {
     var p = new Promise(function (resolve, reject) {
       that.tokenApi.getKeyPairForUsernameAndPassword(that.grantType, username, password, that.mijoClientInstanceId, (error, data, response) => {
         if (error) {
-          reject(error);
+          reject(response.body);
         } else {
           resolve();
           that.token = data.access_token;
@@ -43,13 +43,29 @@ class Api {
     return !!this.token; // only returns true or false
   }
 
+  getKey(){
+    return this.token;
+  }
+
+  logout(){
+    console.log("Current token: ",this.token);
+    this.token = null;
+    console.log("Deleted token: ",this.token);
+  }
 }
+
+
 
 // Hack to get everytime the same api (Singleton)
 let api;
 
 export default () => {
-  api = api || new Api();
+  if(api && api.isLoggedIn()){
+    //console.log("key existing: ", api.getKey());
+    api = api;
+  } else{
+    //console.log("creating new Api");
+    api = new Api();
+  }
   return api;
 }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
