@@ -50,7 +50,7 @@ class Api {
   logout(){
     console.log("Current token: ",this.token);
     this.token = null;
-    console.error("Deleted token: ",this.token);
+    console.log("Deleted token: ",this.token);
   }
 }
 
@@ -69,4 +69,3 @@ export default () => {
   }
   return api;
 }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       

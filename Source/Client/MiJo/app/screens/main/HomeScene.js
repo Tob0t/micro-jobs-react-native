@@ -64,16 +64,9 @@ class HomeScene extends React.Component {
 }
 
 var styles = StyleSheet.create({
-  header: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: .5,
-    backgroundColor: 'transparent'
-  },
   innerContainer: {
     flexDirection: 'column',
     flex: 0.05,
-    backgroundColor: 'transparent',
     marginTop: 5
   },
 })

@@ -77,7 +77,7 @@ class SignIn extends React.Component {
     console.log("Captured Password: " + this.state.password);
 
     // MOCK DATA
-    let username = this.state.username || "fabian.bouchal@gmx.at";
+    let username = this.state.username || "tobias.madner@gmx.at";
     let password = this.state.password || "password";
 
     console.log("Mock Username: " + username);
@@ -117,7 +117,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: .5,
-    backgroundColor: 'transparent'
+    //backgroundColor: 'transparent'
   },
   mark: {
     width: 150,

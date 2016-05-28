@@ -132,7 +132,7 @@ class CardScene extends React.Component{
           cards: this.state.cards.concat(Cards)
         });
       },(error) => {
-        console.error("Error:", error.error_description);
+        console.error("Error:", error);
         Alert.alert(
           'Error',
           error.error_description);
@@ -253,6 +253,7 @@ const styles = StyleSheet.create({
   text_container: {
     width: 300,
     flexDirection: 'row',
+    backgroundColor: 'white'
   }
 });
 

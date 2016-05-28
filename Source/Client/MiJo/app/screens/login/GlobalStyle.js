@@ -15,8 +15,7 @@ var windowSize = Dimensions.get('window');
 var GlobalStyle = StyleSheet.create({
     container: {
       flexDirection: 'column',
-      flex: 1,
-      backgroundColor: 'transparent'
+      flex: 1
     },
     bg: {
         position: 'absolute',
@@ -28,8 +27,7 @@ var GlobalStyle = StyleSheet.create({
     header: {
         justifyContent: 'center',
         alignItems: 'center',
-        flex: .5,
-        backgroundColor: 'transparent'
+        flex: .5
     },
     mark: {
         width: 150,
