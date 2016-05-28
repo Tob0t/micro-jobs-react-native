@@ -54,13 +54,14 @@ function initializeEndpoint(socket) {
     });
     socket.on("updateMiJoUser", function (user, callback) {
         var userProfile = user.profile;
-        User.update({_id: user.id}, {
+        MiJoUser.update({_id: user.id}, {
             profile: {
                 prename: userProfile.prename,
                 surname: userProfile.surname,
                 image: userProfile.image
             },
-            email: userProfile.email, age: userProfile.age
+            email: userProfile.email,
+            age: userProfile.age
         }, function (err) {
             if (err) {
                 log.error("Error updating MiJo user " + user.id);

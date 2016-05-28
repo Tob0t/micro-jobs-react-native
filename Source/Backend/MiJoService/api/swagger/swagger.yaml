@@ -550,6 +550,7 @@ definitions:
       required:
         - offerId
         - offerTitle
+        - offerImage
         - takers
       properties:
         offerId:
@@ -558,6 +559,9 @@ definitions:
         offerTitle:
           type: string
           description: The title of the related offer.
+        offerImage:
+          type: string
+          description: The image of the offer as base64.
         takers:
           type: array
           description: Information of the interested users aka taker.
@@ -569,6 +573,7 @@ definitions:
       required:
         - offerId
         - offerTitle
+        - offerImage
         - offerer
       properties:
         offerId:
@@ -577,6 +582,9 @@ definitions:
         offerTitle:
           type: string
           description: The title of the related offer.
+        offerImage:
+          type: string
+          description: The image of the related offer as base64.
         offerer:
           $ref: '#/definitions/OffererInformation'
     OffererInformation:
@@ -606,22 +614,13 @@ definitions:
       required:
         - id
         - status
-        - image
         - prename
         - surname
+        - age
       properties:
         id:
           type: string
           description: The unique user id of the taker
-        image:
-          type: string
-          description: The profile image of the taker encoded as base64 string.
-        prename:
-          type: string
-          description: The prename of the taker.
-        surname:
-          type: string
-          description: The surname of the taker.
         status:
           type: string
           description: The status of the taker.
@@ -629,6 +628,15 @@ definitions:
             - ACCEPTED
             - DECLINED
             - NONE
+        prename:
+          type: string
+          description: The prename of the taker.
+        surname:
+          type: string
+          description: The surname of the taker.
+        age:
+          type: number
+          description: The age of the taker.
     UserProfileData:
       type: object
       description: Represents user information.

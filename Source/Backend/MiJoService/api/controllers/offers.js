@@ -27,68 +27,65 @@ function getOfferInterests(req, res) {
 
     async.waterfall([
         function (callback) {
-            Interest.count({offerer: userId}, function (err, count) {
+            Offer.count({user: userId}, function (err, count) {
                 if (err) {
-                    log.error("Error counting interests of user " + userId);
+                    log.error("Error counting offers of user " + userId);
                     callback(err, null);
                 }
                 callback(null, count);
             });
         }, function (count, callback) {
-            Interest.find({offerer: userId}).sort({'offer': -1}).limit(per_page).skip((page - 1) * per_page).exec(function (err, interests) {
+            Offer.find({user: userId}).limit(per_page).skip((page - 1) * per_page).exec(function (err, offers) {
                 if (err) {
-                    log.error("Error finding interests of user " + userId);
+                    log.error("Error finding offers of user " + userId);
                     callback(err, null);
                 }
-                callback(null, count, interests);
+                callback(null, count, offers);
             });
-        }, function (count, interests, callback) {
+        }, function (count, offers, callback) {
             var body = {};
 
-            function addUser(offerId, userId, status, callback) {
-                userGateway.getUserProfile(userId, function (err, result) {
+            async.each(offers, function (offer, callback) {
+                body[offer._id] = {
+                    offerId: offer._id,
+                    offerTitle: offer.title,
+                    offerImage: offer.image,
+                    takers: [],
+                };
+
+                Interest.find({offer: offer._id}).exec(function (err, interests) {
                     if (err) {
-                        log.error("Getting user with id " + userId);
+                        log.error("Error finding interests for offer " + offer._id);
                         callback(err, null);
                     }
-                    body[offerId].takers.push({
-                        id: userId,
-                        status: status,
-                        image: result.image,
-                        prename: result.prename,
-                        surname: result.surname
-                    });
-                    callback();
-                });
-            }
-
-            async.each(interests, function (interest, callback) {
-                var offerId = interest.offer;
-                var status = interest.status;
-                if (body[offerId]) {
-                    addUser(offerId, interest.taker, status, callback);
-                } else {
-                    Offer.findById(offerId, function (err, offer) {
+                    async.each(interests, function (interest, callback) {
+                        userGateway.getUserProfile(interest.taker, function (err, result) {
+                            if (err) {
+                                log.error("Getting user with id " + interest.taker);
+                                callback(err, null);
+                            }
+                            body[offer._id].takers.push({
+                                id: interest.taker,
+                                status: interest.status,
+                                prename: result.prename,
+                                surname: result.surname,
+                                age: result.age
+                            });
+                            callback();
+                        });
+                    }, function (err) {
                         if (err) {
-                            log.error("Error finding offer with id" + offerId);
-                            callback(err);
+                            callback(err)
                         }
-                        body[offerId] = {
-                            offerId: offerId,
-                            offerTitle: offer.title,
-                            takers: [],
-                        }
-                        addUser(offerId, interest.taker, status, callback);
+                        callback();
                     });
-                }
-
+                });
             }, function (err) {
                 if (err) {
                     callback(err)
                 }
                 callback(null, count, object.values(body));
             });
-
         }
     ], function (err, count, body) {
         if (err) {
@@ -105,8 +102,8 @@ function getOfferInterests(req, res) {
             res.json(body);
         });
     });
-
 }
+
 function createMatch(req, res) {
     var params = req.swagger.params;
     var userId = req.userId;

@@ -28,12 +28,14 @@
    * @class
    * @param offerId
    * @param offerTitle
+   * @param offerImage
    * @param takers
    */
-  var exports = function(offerId, offerTitle, takers) {
+  var exports = function(offerId, offerTitle, offerImage, takers) {
 
     this['offerId'] = offerId;
     this['offerTitle'] = offerTitle;
+    this['offerImage'] = offerImage;
     this['takers'] = takers;
   };
 
@@ -54,6 +56,9 @@
       if (data.hasOwnProperty('offerTitle')) {
         obj['offerTitle'] = ApiClient.convertToType(data['offerTitle'], 'String');
       }
+      if (data.hasOwnProperty('offerImage')) {
+        obj['offerImage'] = ApiClient.convertToType(data['offerImage'], 'String');
+      }
       if (data.hasOwnProperty('takers')) {
         obj['takers'] = ApiClient.convertToType(data['takers'], [TakerInformation]);
       }
@@ -73,6 +78,12 @@
    * @member {String} offerTitle
    */
   exports.prototype['offerTitle'] = undefined;
+
+  /**
+   * The image of the offer as base64.
+   * @member {String} offerImage
+   */
+  exports.prototype['offerImage'] = undefined;
 
   /**
    * Information of the interested users aka taker.

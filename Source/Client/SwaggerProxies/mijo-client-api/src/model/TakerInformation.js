@@ -27,18 +27,18 @@
    * @alias module:model/TakerInformation
    * @class
    * @param id
-   * @param image
+   * @param status
    * @param prename
    * @param surname
-   * @param status
+   * @param age
    */
-  var exports = function(id, image, prename, surname, status) {
+  var exports = function(id, status, prename, surname, age) {
 
     this['id'] = id;
-    this['image'] = image;
+    this['status'] = status;
     this['prename'] = prename;
     this['surname'] = surname;
-    this['status'] = status;
+    this['age'] = age;
   };
 
   /**
@@ -55,8 +55,8 @@
       if (data.hasOwnProperty('id')) {
         obj['id'] = ApiClient.convertToType(data['id'], 'String');
       }
-      if (data.hasOwnProperty('image')) {
-        obj['image'] = ApiClient.convertToType(data['image'], 'String');
+      if (data.hasOwnProperty('status')) {
+        obj['status'] = ApiClient.convertToType(data['status'], 'String');
       }
       if (data.hasOwnProperty('prename')) {
         obj['prename'] = ApiClient.convertToType(data['prename'], 'String');
@@ -64,8 +64,8 @@
       if (data.hasOwnProperty('surname')) {
         obj['surname'] = ApiClient.convertToType(data['surname'], 'String');
       }
-      if (data.hasOwnProperty('status')) {
-        obj['status'] = ApiClient.convertToType(data['status'], 'String');
+      if (data.hasOwnProperty('age')) {
+        obj['age'] = ApiClient.convertToType(data['age'], 'Number');
       }
     }
     return obj;
@@ -79,10 +79,10 @@
   exports.prototype['id'] = undefined;
 
   /**
-   * The profile image of the taker encoded as base64 string.
-   * @member {String} image
+   * The status of the taker.
+   * @member {module:model/TakerInformation.StatusEnum} status
    */
-  exports.prototype['image'] = undefined;
+  exports.prototype['status'] = undefined;
 
   /**
    * The prename of the taker.
@@ -97,10 +97,10 @@
   exports.prototype['surname'] = undefined;
 
   /**
-   * The status of the taker.
-   * @member {module:model/TakerInformation.StatusEnum} status
+   * The age of the taker.
+   * @member {Number} age
    */
-  exports.prototype['status'] = undefined;
+  exports.prototype['age'] = undefined;
 
 
   /**
