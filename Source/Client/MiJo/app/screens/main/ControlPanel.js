@@ -7,6 +7,7 @@ import MK, {MKColor} from 'react-native-material-kit'
 import IconOct from 'react-native-vector-icons/Octicons'
 import IconFont from 'react-native-vector-icons/FontAwesome'
 import Api from 'MiJo/app/Api'
+import ClientApi from 'MiJo/app/ClientApi'
 
 
 
@@ -26,6 +27,42 @@ var {
 class ControlPanel extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      prename: '',
+      surname: '',
+      mail: '',
+      image: '',
+      loaded: false,
+      }
+  }
+
+  componentDidMount(){
+    this._getUserProfile();
+  }
+
+  componentWillReceiveProps() {
+    this._getUserProfile();
+  }
+
+  _getUserProfile(){
+    ClientApi().getUserProfile().then(
+      (user) => {
+        console.log('Successfully got the user: ', user);
+        // Initiate new rendering
+        this.setState({
+          prename: user.prename,
+          surname: user.surname,
+          mail: user.contactInformation.mail,
+          image: user.image,
+          loaded: true,
+        });
+      },(error) => {
+        debugger
+        console.error("Error:", error.error_description);
+        Alert.alert(
+          'Error',
+          error.error_description);
+      });
   }
 
   render() {
@@ -33,10 +70,10 @@ class ControlPanel extends React.Component {
       <ScrollView style={styles.scrollView}
           contentContainerStyle={styles.container}>
         <View style={styles.profileContainer}>
-          <Image style={styles.profilePicture} source={require('./img/example_user.png')}/>
+          <Image style={styles.profilePicture} source={{uri: this.state.image}}/>
           <View style={styles.profileDataContainer}>
-            <Text style={styles.profileName}>Max Mustermann</Text>
-            <Text style={styles.profileEmail}>max.muster@example.com</Text>
+            <Text style={styles.profileName}>{this.state.prename} {this.state.surname}</Text>
+            <Text style={styles.profileEmail}>{this.state.mail}</Text>
             </View>
         </View>
         <TouchableOpacity onPress={() => this.props.navigator.push({id:'UserOffers'})}>
@@ -104,13 +141,14 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     height: 120,
     paddingTop : 20,
+    paddingLeft: 10
   },
   profilePicture:{
-    resizeMode: 'contain',
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    flex: 1,
+    //resizeMode: 'contain',
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    //flex: 1,
     justifyContent: 'center',
   },
   profileDataContainer: {
@@ -145,7 +183,7 @@ var styles = StyleSheet.create({
   linkText: {
     fontSize: 18,
   },
-  
+
 })
 
 export default ControlPanel;
