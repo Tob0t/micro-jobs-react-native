@@ -155,51 +155,47 @@
         var description = this.state.jobDescription || "Example Job description";
         var image = this.state.image || imageTemplate;
 
-        //var location = {
-        //  'lat': this.state.lat || 48.346371,
-        //  'lon': this.state.lon || 14.510034
-        //};
+        LocationManager.getLastKnownLocationPromise().then(
+          (loc) => {
+            var location = {
+              'lat': loc.coords.latitude || 48.346371,
+              'lon': loc.coords.longitude || 14.510034
+            };
 
-        var loc = LocationManager.getLastKnownLocation();
-        console.log("lat: " + loc.coords.latitude+ ", lng: " + loc.coords.longitude);
+            var payment = {
+              'type': this.state.paymentType || "MONEY",
+              'value': this.state.payment || "20$ per Hour"
+            };
+            console.log("deadline", this.state.deadline);
+            // TODO convert inserted date
+            // See Moment.js docs beware of the location settings
+            var deadline = Moment().toDate();
 
-        var location = {
-          'lat': loc.coords.latitude,
-          'lon': loc.coords.longitude
-        };
+            var offer ={
+              'title': title,
+              'description': description,
+              'image': image,
+              'location': location,
+              'payment': payment,
+              'deadline': deadline,
+            }
+            console.log("Send offer to Api: ", offer);
 
-        var payment = {
-          'type': this.state.paymentType || "MONEY",
-          'value': this.state.payment || "20$ per Hour"
-        };
-        console.log("dedline", this.state.deadline);
-        // TODO convert inserted date
-        // See Moment.js docs beware of the location settings
-        var deadline = Moment().toDate();
-
-        var offer ={
-          'title': title,
-          'description': description,
-          'image': image,
-          'location': location,
-          'payment': payment,
-          'deadline': deadline,
-        }
-        console.log("Send offer to Api: ", offer);
-
-        ClientApi().createOffer(offer).then(
-          ()=> {
-            console.log("Offer created succesfully!");
-            this.props.navigator.pop();
-          },(error) => {
+            ClientApi().createOffer(offer).then(
+              ()=> {
+                console.log("Offer created succesfully!");
+                this.props.navigator.pop();
+              },(error) => {
+                console.error("Error:", error);
+                Alert.alert(
+                  'Error',
+                  error.message);
+            });
+          }, (error) => {
+            debugger
             console.error("Error:", error);
-            Alert.alert(
-              'Error',
-              error.message);
-        });
-
-
-
+          }
+        );
       }
 
   }

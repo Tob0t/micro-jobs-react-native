@@ -42,6 +42,36 @@ class LocationManager {
 
     return this.lastPosition;
   }
+
+  static getLastKnownLocationPromise() {
+    var that = this;
+
+    console.log("getLastKnownLocationPromise entered");
+
+    //create Promise
+    var p = new Promise(function(resolve,reject){
+      navigator.geolocation.getCurrentPosition(
+      (position) => {
+          /*that.watchID = navigator.geolocation.watchPosition((position) => {
+            //var lastPosition = JSON.stringify(position);
+            that.longitude = position.coords.longitude;
+            that.latitude = position.coords.latitude;
+
+            that.lastPosition = position;
+
+            //var curLoc = JSON.stringify({ lat: this.latitude, lng: this.longitude }, null, '\t');
+            //console.log("curLoc: " + curLoc);
+          });*/
+          resolve(position);
+
+      }, (error) => {
+        reject(error);
+      },
+        {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+      );
+    });
+    return p;
+  }
 }
 
 export { LocationManager };

@@ -69,55 +69,53 @@ class CardScene extends React.Component{
     console.log('Get Offers');
 
     // Request fo the offer feed
-    var loc = LocationManager.getLastKnownLocation();
-    console.log(loc);
-    console.log("lat: " + loc.coords.latitude+ ", lng: " + loc.coords.longitude);
+    //var loc = LocationManager.getLastKnownLocation();
+    LocationManager.getLastKnownLocationPromise().then(
+      (location) => {
+        console.log('Successfully got location ', location);
 
-    var location2 = {
-      'lat': loc.coords.latitude,
-      'lon': loc.coords.longitude
-    };
+        var lat = location.coords.latitude || 48.346371;
+        var lon = location.coords.longitude || 14.510034;
 
-    //var lat = 48.346371;
-    //var lon = 14.510034;
+        var max_distance = 200000;
+        //This parameters are optional and needed for pagination! --> see swagger spec
+        var opts = {
+            page: 1,
+            perPage: 5,
+        };
 
-    var lat = loc.coords.latitude;
-    var lon = loc.coords.longitude;
-
-    var max_distance = 200000;
-    //This parameters are optional and needed for pagination! --> see swagger spec
-    var opts = {
-        page: 1,
-        perPage: 5,
-    };
-
-    var Cards = [];
-    const that = this;
-    ClientApi().getOffers(lat, lon, max_distance, opts).then(
-      (offers) => {
-        console.log('Successfully got the offers');
-        offers.forEach(function(offer){
-          var newCard ={
-            id: offer.id,
-            title: offer.title,
-            deadline : offer.deadline,
-            description: offer.description,
-            image: offer.image,
-            payment: offer.payment
-          };
-          Cards.push(newCard);
-        });
-        // Initiate new rendering
-        that.setState({
-          loaded: true,
-          cards: this.state.cards.concat(Cards)
-        });
-      },(error) => {
+        var Cards = [];
+        const that = this;
+        ClientApi().getOffers(lat, lon, max_distance, opts).then(
+          (offers) => {
+            console.log('Successfully got the offers');
+            offers.forEach(function(offer){
+              var newCard ={
+                id: offer.id,
+                title: offer.title,
+                deadline : offer.deadline,
+                description: offer.description,
+                image: offer.image,
+                payment: offer.payment
+              };
+              Cards.push(newCard);
+            });
+            // Initiate new rendering
+            that.setState({
+              loaded: true,
+              cards: this.state.cards.concat(Cards)
+            });
+          },(error) => {
+            console.error("Error:", error);
+            Alert.alert(
+              'Error',
+              error.error_description);
+          });
+      }, (error) => {
+        debugger
         console.error("Error:", error);
-        Alert.alert(
-          'Error',
-          error.error_description);
-      });
+      }
+    )
   }
 
   _handleYup (card) {
