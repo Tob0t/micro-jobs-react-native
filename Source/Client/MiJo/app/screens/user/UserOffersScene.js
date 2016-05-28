@@ -7,12 +7,15 @@ import NavBarStandard from 'MiJo/app/components/navbar/NavBarStandard'
 import MaterialFab from 'MiJo/app/components/buttons/MaterialFab'
 import Accordion from'react-native-collapsible/Accordion'
 import ClientApi from 'MiJo/app/ClientApi'
+import IconFont from 'react-native-vector-icons/FontAwesome'
+
 
 
 
 // global vars
 var {
   Alert,
+  Animated,
   AppRegistry,
   Image,
   ListView,
@@ -21,10 +24,10 @@ var {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   TouchableHighlight,
   View,
 } = React;
-
 
 class UserOffersScene extends React.Component {
   constructor(props) {
@@ -35,14 +38,16 @@ class UserOffersScene extends React.Component {
       //ds:Database.getUserOffers(1),
       dataSource:ds,
       loaded: false,
-      }
+    }
+    this._renderContent = this._renderContent.bind(this);
   }
 
   componentDidMount(){
     this._getOfferInterests();
-    /*this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(this.state.ds),
-    })*/
+  }
+
+  componentWillReceiveProps() {
+    this._getOfferInterests();
   }
 
   _getOfferInterests(){
@@ -68,35 +73,61 @@ class UserOffersScene extends React.Component {
           error.error_description);
       });
   }
+
+  _editOffer(offerId){
+    console.log('Edit Offer pressed');
+    console.log(offerId);
+    this.props.navigator.push({
+      id: 'EditOffer',
+      passProps: {
+        offerId: offerId
+      }
+    });
+  }
+
    _renderHeader(rowData) {
     return (
        <View style={styles.rowContainer}>
-         <Image style={styles.thumb} source={{ uri: rowData.img_url }} />
+         <Image style={styles.offerPicture} source={{ uri: rowData.img_url }} />
          <View  style={styles.textContainer}>
            <Text style={styles.price}>{rowData.offerTitle}</Text>
-           <Text style={styles.title}>{rowData.users.length} people interested</Text>
+           <Text style={styles.title}>{rowData.takers.length} people interested</Text>
          </View>
+
+           <View style={styles.colIcon}>
+             <TouchableOpacity onPress={() => this._editOffer(rowData.offerId)}>
+             <IconFont name="edit" size={24}/>
+             </TouchableOpacity>
+           </View>
+
       </View>
     );
   }
 
   _renderContent(rowData) {
     var that = this;
-    var interestedPeople = rowData.users;
+    var checked = false;
+    var interestedPeople = rowData.takers;
     var rows = interestedPeople.map(function(interestedPeople,i){
+      if (interestedPeople.status === 'ACCEPTED'){
+        checked = true;
+      }
       return (
         <View style={styles.detailRowContainer} key={interestedPeople.id}>
+          <Image style={styles.profilePicture} source={{uri: interestedPeople.image}}/>
           <View style={styles.personContainer}>
-            <Text style={styles.textPerson} >{interestedPeople.prename}</Text>
+            <Text style={styles.textPerson} >{interestedPeople.prename} {interestedPeople.surname.charAt(0)}.</Text>
             <Text style={styles.agePerson} >{interestedPeople.surname} years</Text>
           </View>
-            <MKSwitch style={styles.switch}
-              //checked={interestedPeople.connected}
-              checked={false}
-              onPress={() => console.log('orange switch pressed')}
-              onCheckedChange={(e) => that._changeConnection(rowData.offerId, interestedPeople.id,e)}
-              />
+
+          <MKSwitch style={styles.switch}
+            checked={checked}
+            onPress={() => console.log('orange switch pressed')}
+            onCheckedChange={(e) => that._changeConnection(rowData.offerId, interestedPeople.id,e)}
+            />
         </View>
+
+
         );
     });
 
@@ -105,7 +136,7 @@ class UserOffersScene extends React.Component {
         {rows}
       </View>
     );
-  }            
+  }
 
   renderRow(rowData, sectionID, rowID) {
     return (
@@ -118,7 +149,7 @@ class UserOffersScene extends React.Component {
       <View style={styles.separator}/>
     </View>
 
-     
+
     );
   }
 
@@ -141,10 +172,22 @@ class UserOffersScene extends React.Component {
       (contactInfo) => {
         console.log('Successfully created match: ', contactInfo);
         Alert.alert(
-          'Contact Data of userId '+userId,
+          'Contact Data of user',
           'Tel.:'+contactInfo.phone+'\n'+
           'E-Mail:'+contactInfo.mail);
         //alert("Contact Data of "+userId+": \nTel.: 01/12312323 \nE-Mail: max.mustermann@example.com");
+      },(error) => {
+        console.error("Error:", error.error_description);
+        Alert.alert(
+          'Error',
+          error.error_description);
+      });
+
+    } else{
+      console.log("Attemp to delete connection to: ", userId);
+      ClientApi().declineUserForOffer(offerId, userId).then(
+      (status) => {
+        console.log('Successfully removed match: ', status);
       },(error) => {
         debugger
         console.error("Error:", error.error_description);
@@ -152,11 +195,6 @@ class UserOffersScene extends React.Component {
           'Error',
           error.error_description);
       });
-      
-    } else{
-      console.log("Attemp to delete connection to: ", id);
-      // Database.removeConnection(id);
-      alert("connection removed");
     }
   }
 
@@ -167,11 +205,7 @@ class UserOffersScene extends React.Component {
       });
 
   }
-
-
 }
-
-
 
 var styles = StyleSheet.create({
   thumb: {
@@ -181,8 +215,19 @@ var styles = StyleSheet.create({
     borderRadius: 24,
     resizeMode: 'contain',
   },
+  offerPicture:{
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    justifyContent: 'center',
+  },
   textContainer: {
-    flex: 1
+    flex: 4,
+  },
+  colIcon:{
+    flex: 1,
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
   separator: {
     height: 1,
@@ -210,6 +255,12 @@ var styles = StyleSheet.create({
     flex: 1,
     paddingLeft: 15,
     padding: 5,
+  },
+  profilePicture:{
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    justifyContent: 'center',
   },
   textPerson:{
     fontSize: 18,

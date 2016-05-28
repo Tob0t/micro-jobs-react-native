@@ -23,6 +23,9 @@ class ClientApi {
     this.OfferCreateApi = new MiJoClientApi.OfferCreateApi();
     this.YourOffersApi = new MiJoClientApi.YourOffersApi();
     this.YourRequestsApi = new MiJoClientApi.YourRequestsApi();
+    this.UserApi = new MiJoClientApi.UserApi();
+    this.OfferDetailsApi = new MiJoClientApi.OfferDetailsApi();
+    this.OfferEditApi = new MiJoClientApi.OfferEditApi();
 
   }
 
@@ -144,12 +147,30 @@ class ClientApi {
     return p;
   }
 
+  declineUserForOffer(offerId, userId){
+    var that = this;
+
+    // create promise
+    var p = new Promise(function (resolve, reject) {
+      that.YourOffersApi.declineUserForOffer(offerId, userId, (error, data, response) => {
+        if (error) {
+          //debugger
+          reject(error);
+        } else {
+          resolve(data);
+        }
+      });
+    });
+    // return promise
+    return p;
+  }
+
   getMatchedRequests(opts){
     var that = this;
 
     // create promise
     var p = new Promise(function (resolve, reject) {
-      that.YourOffersApi.getMatchedRequests(opts, (error, data, response) => {
+      that.YourRequestsApi.getMatchedRequests(opts, (error, data, response) => {
         if (error) {
           //debugger
           reject(error);
@@ -163,7 +184,89 @@ class ClientApi {
     return p;
   }
 
+  getUserProfile(){
+    var that = this;
+
+    // create promise
+    var p = new Promise(function (resolve, reject) {
+      that.UserApi.getUserProfile((error, data, response) => {
+        if (error) {
+          //debugger
+          reject(error);
+        } else {
+          console.log(data);
+          resolve(data);
+        }
+      });
+    });
+    // return promise
+    return p;
+  }
+  updateUserProfile(userProfile){
+    var that = this;
+
+    // create promise
+    var p = new Promise(function (resolve, reject) {
+      that.UserApi.updateUserProfile(userProfile,(error, data, response) => {
+        if (error) {
+          //debugger
+          reject(error);
+        } else {
+          console.log(data);
+          resolve(data);
+        }
+      });
+    });
+    // return promise
+    return p;
+  }
+
+  getOffer(offerId){
+    var that = this;
+    console.log(offerId);
+
+    // create promise
+    var p = new Promise(function (resolve, reject) {
+      that.OfferDetailsApi.getOffer(offerId,(error, data, response) => {
+        if (error) {
+          //debugger
+          reject(error);
+        } else {
+          console.log(data);
+          resolve(data);
+        }
+      });
+    });
+    // return promise
+    return p;
+  }
+
+  updateOffer(id, offer) {
+    var that = this;
+
+    console.log(offer);
+    console.log(id);
+    // create promise
+    var p = new Promise(function (resolve, reject) {
+      that.OfferEditApi.updateOffer(id, offer, (error, data, response) => {
+        if (error) {
+          //debugger
+          reject(error);
+        } else {
+          console.log("Response code", response.status);
+          resolve();
+        }
+      });
+    });
+    // return promise
+    return p;
+  }
+
+
 }
+
+
+
 
 
 // Hack to get everytime the same api (Singleton)
@@ -173,4 +276,3 @@ export default () => {
   api = api || new ClientApi();
   return api;
 }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
