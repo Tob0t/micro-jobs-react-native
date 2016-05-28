@@ -217,18 +217,12 @@ class EditOffer extends React.Component {
         ()=> {
           console.log("Offer updated succesfully!");
           that.props.navigator.pop();
-
         },(error) => {
           console.error("Error:", error);
           Alert.alert(
             'Error',
             error.message);
       });
-
-      console.log('New offer created');
-
-
-
     }
 
 }

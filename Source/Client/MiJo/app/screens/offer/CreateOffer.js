@@ -42,7 +42,7 @@
       }
 
       render() {
-    
+
           return (
 
           <ScrollView style={styles.scrollView}
@@ -190,6 +190,7 @@
         ClientApi().createOffer(offer).then(
           ()=> {
             console.log("Offer created succesfully!");
+            this.props.navigator.pop();
           },(error) => {
             console.error("Error:", error);
             Alert.alert(
@@ -197,9 +198,7 @@
               error.message);
         });
 
-        console.log('New offer created');
 
-        this.props.navigator.pop();
 
       }
 
