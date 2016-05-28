@@ -33,9 +33,8 @@ class UserOffersScene extends React.Component {
   constructor(props) {
     super(props);
     var ds = new ListView.DataSource(
-      {rowHasChanged: (r1, r2) => r1.guid !== r2.guid});
+      {rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      //ds:Database.getUserOffers(1),
       dataSource:ds,
       loaded: false,
     }
@@ -54,7 +53,7 @@ class UserOffersScene extends React.Component {
     //This parameters are optional and needed for pagination! --> see swagger spec
     var opts = {
         page: 1,
-        perPage: 5,
+        perPage: 10,
     };
 
     ClientApi().getOfferInterests(opts).then(
@@ -88,7 +87,7 @@ class UserOffersScene extends React.Component {
    _renderHeader(rowData) {
     return (
        <View style={styles.rowContainer}>
-         <Image style={styles.offerPicture} source={{ uri: rowData.img_url }} />
+         <Image style={styles.offerPicture} source={{ uri: rowData.offerImage }} />
          <View  style={styles.textContainer}>
            <Text style={styles.price}>{rowData.offerTitle}</Text>
            <Text style={styles.title}>{rowData.takers.length} people interested</Text>
@@ -155,7 +154,7 @@ class UserOffersScene extends React.Component {
 
   render() {
     return (
-      <View>
+      <View style={{flex:1}}>
         <NavBarStandard title="Your Offers" onPressLeft={() => this.props.navigator.pop()} onPressRight={() => this._createNewOffer()}/>
           <ListView
             dataSource={this.state.dataSource}
@@ -223,6 +222,7 @@ var styles = StyleSheet.create({
   },
   textContainer: {
     flex: 4,
+    marginLeft: 10
   },
   colIcon:{
     flex: 1,
