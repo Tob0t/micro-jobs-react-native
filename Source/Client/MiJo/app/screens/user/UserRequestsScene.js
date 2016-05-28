@@ -95,12 +95,18 @@ class UserRequestsScene extends React.Component {
   }
 
   render() {
+    var list =
+      <ListView
+        dataSource={this.state.dataSource}
+        renderRow={this.renderRow.bind(this)}/>;
+    var loading =
+      <View style={styles.col}>
+        <MKProgress.Indeterminate style={styles.progress}/>
+      </View>;
     return (
-      <View>
+      <View style={{flex:1}}>
         <NavBarStandard title="Your Requests" onPressLeft={() => this.props.navigator.pop()} onPressRight={() => this._createNewOffer()}/>
-          <ListView
-            dataSource={this.state.dataSource}
-            renderRow={this.renderRow.bind(this)}/>
+        {this.state.loaded ? list : loading}
       </View>
     );
   }
