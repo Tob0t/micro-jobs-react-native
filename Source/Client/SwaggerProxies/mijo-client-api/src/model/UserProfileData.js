@@ -97,7 +97,6 @@
   exports.prototype['age'] = undefined;
 
   /**
-   * The contact information of the user.
    * @member {module:model/ContactInformation} contactInformation
    */
   exports.prototype['contactInformation'] = undefined;
