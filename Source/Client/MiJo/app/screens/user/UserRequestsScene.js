@@ -5,6 +5,7 @@ import React from 'react-native'
 import MK, {MKProgress} from 'react-native-material-kit'
 import NavBarStandard from 'MiJo/app/components/navbar/NavBarStandard'
 import Database from 'MiJo/app/Database'
+import ClientApi from 'MiJo/app/ClientApi'
 
 
 
@@ -29,16 +30,40 @@ class UserRequestsScene extends React.Component {
     var ds = new ListView.DataSource(
       {rowHasChanged: (r1, r2) => r1.guid !== r2.guid});
     this.state = {
-      ds: Database.getUserRequests(1),
+      //ds: Database.getUserRequests(1),
       dataSource:ds,
+      loaded: false,
       }
   }
 
   componentDidMount(){
-    this.setState({
+    this._getMatchedRequests();
+    /*this.setState({
       dataSource: this.state.dataSource.cloneWithRows(this.state.ds),
-    })
+    })*/
+  }
 
+  _getMatchedRequests(){
+    //This parameters are optional and needed for pagination! --> see swagger spec
+    var opts = {
+        page: 1,
+        perPage: 5,
+    };
+
+    ClientApi().getMatchedRequests(opts).then(
+      (requests) => {
+        console.log('Successfully got the requests: ', requests);
+        // Initiate new rendering
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(requests),
+          loaded: true,
+        });
+      },(error) => {
+        console.error("Error:", error.error_description);
+        Alert.alert(
+          'Error',
+          error.error_description);
+      });
   }
 
   renderRow(rowData, sectionID, rowID) {
@@ -49,9 +74,9 @@ class UserRequestsScene extends React.Component {
        <View style={styles.rowContainer}>
          <Image style={styles.thumb} source={{ uri: rowData.img_url }} />
          <View  style={styles.textContainer}>
-           <Text style={styles.price}>{rowData.title}</Text>
+           <Text style={styles.price}>{rowData.offerTitle}</Text>
            <Text style={styles.title}
-                 numberOfLines={1}>{rowData.owner}</Text>
+                 numberOfLines={1}>{rowData.offerer.prename} {rowData.offerer.surname.charAt(0)}.</Text>
          </View>
        </View>
        <View style={styles.separator}/>
