@@ -1,6 +1,6 @@
 {
   "name": "mijo-client-api",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "API for MiJo clients.",
   "main": "src/index.js",
   "scripts": {
