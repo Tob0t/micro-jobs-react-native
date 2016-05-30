@@ -42,7 +42,7 @@
 
     /**
      * Returns the offer with the given id.
-     * Returns the offer with the given id. The offer must have been created by the given user.
+     * Returns the offer with the given id.
      * @param {String} id ID of the offer to fetch.
      * @param {module:api/OfferDetailsApi~getOfferCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {module:model/Offer}
@@ -72,7 +72,7 @@
       var returnType = Offer;
 
       return this.apiClient.callApi(
-        '/user/offers/{id}', 'GET',
+        '/offers/{id}', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );
