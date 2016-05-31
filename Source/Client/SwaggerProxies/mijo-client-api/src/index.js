@@ -1,12 +1,12 @@
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['./ApiClient', './model/ApiError', './model/AuthorizationError', './model/ContactInformation', './model/Location', './model/Offer', './model/OfferData', './model/OfferInterest', './model/OfferRequest', './model/OffererInformation', './model/Payment', './model/ServerError', './model/TakerInformation', './model/UserProfileData', './api/OfferCreateApi', './api/OfferDetailsApi', './api/OfferEditApi', './api/OfferFeedApi', './api/UserApi', './api/YourOffersApi', './api/YourRequestsApi'], factory);
+    define(['./ApiClient', './model/ApiError', './model/AuthorizationError', './model/ContactInformation', './model/Location', './model/Offer', './model/OfferData', './model/OfferInterest', './model/OfferRequest', './model/OffererInformation', './model/Payment', './model/ServerError', './model/TakerInformation', './model/UserProfileData', './api/OfferCreateApi', './api/OfferDetailsApi', './api/OfferEditApi', './api/OfferFeedApi', './api/UserApi', './api/YourOffersApi', './api/YourRequestApi', './api/YourRequestsApi'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('./ApiClient'), require('./model/ApiError'), require('./model/AuthorizationError'), require('./model/ContactInformation'), require('./model/Location'), require('./model/Offer'), require('./model/OfferData'), require('./model/OfferInterest'), require('./model/OfferRequest'), require('./model/OffererInformation'), require('./model/Payment'), require('./model/ServerError'), require('./model/TakerInformation'), require('./model/UserProfileData'), require('./api/OfferCreateApi'), require('./api/OfferDetailsApi'), require('./api/OfferEditApi'), require('./api/OfferFeedApi'), require('./api/UserApi'), require('./api/YourOffersApi'), require('./api/YourRequestsApi'));
+    module.exports = factory(require('./ApiClient'), require('./model/ApiError'), require('./model/AuthorizationError'), require('./model/ContactInformation'), require('./model/Location'), require('./model/Offer'), require('./model/OfferData'), require('./model/OfferInterest'), require('./model/OfferRequest'), require('./model/OffererInformation'), require('./model/Payment'), require('./model/ServerError'), require('./model/TakerInformation'), require('./model/UserProfileData'), require('./api/OfferCreateApi'), require('./api/OfferDetailsApi'), require('./api/OfferEditApi'), require('./api/OfferFeedApi'), require('./api/UserApi'), require('./api/YourOffersApi'), require('./api/YourRequestApi'), require('./api/YourRequestsApi'));
   }
-}(function(ApiClient, ApiError, AuthorizationError, ContactInformation, Location, Offer, OfferData, OfferInterest, OfferRequest, OffererInformation, Payment, ServerError, TakerInformation, UserProfileData, OfferCreateApi, OfferDetailsApi, OfferEditApi, OfferFeedApi, UserApi, YourOffersApi, YourRequestsApi) {
+}(function(ApiClient, ApiError, AuthorizationError, ContactInformation, Location, Offer, OfferData, OfferInterest, OfferRequest, OffererInformation, Payment, ServerError, TakerInformation, UserProfileData, OfferCreateApi, OfferDetailsApi, OfferEditApi, OfferFeedApi, UserApi, YourOffersApi, YourRequestApi, YourRequestsApi) {
   'use strict';
 
   /**
@@ -141,6 +141,11 @@
      * @property {module:api/YourOffersApi}
      */
     YourOffersApi: YourOffersApi,
+    /**
+     * The YourRequestApi service constructor.
+     * @property {module:api/YourRequestApi}
+     */
+    YourRequestApi: YourRequestApi,
     /**
      * The YourRequestsApi service constructor.
      * @property {module:api/YourRequestsApi}

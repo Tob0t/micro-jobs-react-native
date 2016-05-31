@@ -10,13 +10,40 @@ var object = require('lodash/fp/object');
 var userGateway = require("../../gateway/sender/user");
 
 module.exports = {
+    getOffer: getOffer,
     getOfferInterests: getOfferInterests,
     createMatch: createMatch,
     declineUserForOffer: declineUserForOffer,
     createOffer: createOffer,
-    getOffer: getOffer,
     updateOffer: updateOffer
 };
+
+function getOffer(req, res) {
+    var params = req.swagger.params;
+
+    var offerId = params.id.value;
+    Offer.findOne({_id: offerId}, function (err, offer) {
+        if (err) {
+            log.error("Error getting offer " + offerId);
+            //TODO send error
+            res.statusCode = 400;
+            res.send("Error");
+            return;
+        }
+        res.json({
+            title: offer.title,
+            description: offer.description,
+            image: offer.image,
+            location: {
+                lon: offer.location[0],
+                lat: offer.location[1]
+            },
+            payment: offer.payment,
+            deadline: offer.deadline
+        })
+    });
+
+}
 
 function getOfferInterests(req, res) {
     var params = req.swagger.params;
@@ -222,33 +249,7 @@ function createOffer(req, res) {
         });
     });
 }
-function getOffer(req, res) {
-    var params = req.swagger.params;
-    var userId = req.userId;
 
-    var offerId = params.id.value;
-    Offer.findOne({_id: offerId, user: userId}, function (err, offer) {
-        if (err) {
-            log.error("Error getting offer " + offerId + " of user " + userId);
-            //TODO send error
-            res.statusCode = 400;
-            res.send("Error");
-            return;
-        }
-        res.json({
-            title: offer.title,
-            description: offer.description,
-            image: offer.image,
-            location: {
-                lon: offer.location[0],
-                lat: offer.location[1]
-            },
-            payment: offer.payment,
-            deadline: offer.deadline
-        })
-    });
-
-}
 function updateOffer(req, res) {
     var params = req.swagger.params;
     var userId = req.userId;
