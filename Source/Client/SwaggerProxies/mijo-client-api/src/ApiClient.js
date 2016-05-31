@@ -133,13 +133,6 @@
    * @returns {Boolean} <code>true</code> if <code>param</code> represents a file. 
    */
   exports.prototype.isFileParam = function(param) {
-    // fs.ReadStream in Node.js (but not in runtime like browserify)
-    if (typeof window === 'undefined' &&
-        typeof require === 'function' &&
-        require('fs') &&
-        param instanceof require('fs').ReadStream) {
-      return true;
-    }
     // Buffer in Node.js
     if (typeof Buffer === 'function' && param instanceof Buffer) {
       return true;
