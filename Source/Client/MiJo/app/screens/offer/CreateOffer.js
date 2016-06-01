@@ -4,7 +4,7 @@
   import React from 'react-native'
   import GlobalStyle from './GlobalStyle'
   import MaterialButton from 'MiJo/app/components/buttons/MaterialButton'
-  import NavBarStandard from 'MiJo/app/components/navbar/NavBarStandard'
+  import NavBarSaveItem from 'MiJo/app/components/navbar/NavBarSaveItem'
   import MK, { MKColor, MKTextField } from 'react-native-material-kit'
   import LoginButton from 'MiJo/app/components/buttons/LoginButton'
   import ClientApi from 'MiJo/app/ClientApi'
@@ -49,7 +49,7 @@
               contentContainerStyle={styles.container}>
             <View style={styles.row}>
               <View style={styles.col}>
-                <NavBarStandard title="Create new offer" onPressLeft={() => this.props.navigator.pop()}/>
+                <NavBarSaveItem title="Create new offer" onPressLeft={() => this.props.navigator.pop()} onPressRight={() => this._createNewOffer()}/>
               </View>
             </View>
             <View style={styles.container}>
@@ -226,7 +226,7 @@
           elevation: 1,
       },
       bottom: {
-        marginBottom: 0
+        paddingBottom: 0
       },
       submenu: {
           width: 300,
