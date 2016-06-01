@@ -3,7 +3,7 @@
 // imports
 import React from 'react-native'
 import MK, {MKColor,MKProgress, MKSwitch} from 'react-native-material-kit'
-import NavBarStandard from 'MiJo/app/components/navbar/NavBarStandard'
+import NavBarAddItem from 'MiJo/app/components/navbar/NavBarAddItem'
 import MaterialFab from 'MiJo/app/components/buttons/MaterialFab'
 import Accordion from'react-native-collapsible/Accordion'
 import ClientApi from 'MiJo/app/ClientApi'
@@ -157,13 +157,13 @@ class UserOffersScene extends React.Component {
       <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderRow.bind(this)}/>;
-        var loading =
+    var loading =
           <View style={styles.col}>
             <MKProgress.Indeterminate style={styles.progress}/>
           </View>;
     return (
       <View style={{flex:1}}>
-        <NavBarStandard title="Your Offers" onPressLeft={() => this.props.navigator.pop()} onPressRight={() => this._createNewOffer()}/>
+        <NavBarAddItem title="Your Offers" onPressLeft={() => this.props.navigator.pop()} onPressRight={() => this._createNewOffer()}/>
         {this.state.loaded ? list : loading}
       </View>
     );

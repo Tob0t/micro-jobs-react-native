@@ -113,13 +113,13 @@ class UserSettingsScene extends React.Component {
     var that = this;
     return (
       <View>
-        <NavBarStandard title="Settings" onPressLeft={() => this.props.navigator.pop()}/>
+        <NavBarStandard title="Account Settings" onPressLeft={() => this.props.navigator.pop()}/>
         <View style={styles.container}>
           <TouchableHighlight onPress={this._pickImage}>
             <Image style={styles.thumbnail} source={{uri: this.state.image}}/>
           </TouchableHighlight>
            <SettingsList borderColor='#c8c7cc' defaultItemSize={50}>
-             <SettingsList.Header headerText='Account Settings' headerStyle={{color:'black'}}/>
+             <SettingsList.Header headerText='User Settings' headerStyle={{color:'black'}}/>
              <SettingsList.Item
                title='Prename'
                hasNavArrow={false}
