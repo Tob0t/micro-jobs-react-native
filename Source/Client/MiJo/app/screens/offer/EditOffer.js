@@ -4,7 +4,7 @@
 import React from 'react-native'
 import GlobalStyle from './GlobalStyle'
 import MaterialButton from 'MiJo/app/components/buttons/MaterialButton'
-import NavBarStandard from 'MiJo/app/components/navbar/NavBarStandard'
+import NavBarSaveItem from 'MiJo/app/components/navbar/NavBarSaveItem'
 import MK, { MKColor, MKTextField } from 'react-native-material-kit'
 import LoginButton from 'MiJo/app/components/buttons/LoginButton'
 import ClientApi from 'MiJo/app/ClientApi'
@@ -77,7 +77,7 @@ class EditOffer extends React.Component {
               contentContainerStyle={styles.container}>
         <View style={styles.row}>
           <View style={styles.col}>
-            <NavBarStandard title="Edit offer" onPressLeft={() => this.props.navigator.pop()}/>
+            <NavBarSaveItem title="Edit offer" onPressLeft={() => this.props.navigator.pop() } onPressRight={() => this._updateOffer()}/>
           </View>
         </View>
         <View style={styles.container}>
@@ -116,9 +116,13 @@ class EditOffer extends React.Component {
 	              onChangeText={(payment) => this.setState({payment})}/>
 	          </View>
         	</View>
-        <View style={styles.bottom}>
-            <LoginButton onPress={() => this._updateOffer()} text="Update offer"/>
-        </View>
+        {
+          // Show only big button on android
+          Platform.OS === 'android' &&
+	        <View style={styles.bottom}>
+	            <LoginButton onPress={() => this._updateOffer()} text="Update offer"/>
+	        </View>
+        }
         </View>
       </KeyboardAwareScrollView> : <View></View>
 

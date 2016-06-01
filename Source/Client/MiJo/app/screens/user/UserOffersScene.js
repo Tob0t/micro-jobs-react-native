@@ -8,6 +8,7 @@ import MaterialFab from 'MiJo/app/components/buttons/MaterialFab'
 import Accordion from'react-native-collapsible/Accordion'
 import ClientApi from 'MiJo/app/ClientApi'
 import IconFont from 'react-native-vector-icons/FontAwesome'
+import ActionButton from 'react-native-action-button'
 
 
 
@@ -19,6 +20,7 @@ var {
   AppRegistry,
   Image,
   ListView,
+  Platform,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -66,10 +68,7 @@ class UserOffersScene extends React.Component {
         });
       },(error) => {
         //debugger
-        console.error("Error:", error.error_description);
-        Alert.alert(
-          'Error',
-          error.error_description);
+        console.error("Error:", error);
       });
   }
 
@@ -165,6 +164,16 @@ class UserOffersScene extends React.Component {
       <View style={{flex:1}}>
         <NavBarAddItem title="Your Offers" onPressLeft={() => this.props.navigator.pop()} onPressRight={() => this._createNewOffer()}/>
         {this.state.loaded ? list : loading}
+        {
+          // Show only Action button on android
+          Platform.OS === 'android' &&
+          <ActionButton
+            buttonColor="rgba(231,76,60,1)"
+            onPress={() => this._createNewOffer()}
+            offsetX={10}
+            offsetY={10}
+          />
+        }
       </View>
     );
   }
@@ -182,10 +191,7 @@ class UserOffersScene extends React.Component {
           'E-Mail:'+contactInfo.mail);
         //alert("Contact Data of "+userId+": \nTel.: 01/12312323 \nE-Mail: max.mustermann@example.com");
       },(error) => {
-        console.error("Error:", error.error_description);
-        Alert.alert(
-          'Error',
-          error.error_description);
+        console.error("Error:", error);
       });
 
     } else{
@@ -195,10 +201,7 @@ class UserOffersScene extends React.Component {
         console.log('Successfully removed match: ', status);
       },(error) => {
         debugger
-        console.error("Error:", error.error_description);
-        Alert.alert(
-          'Error',
-          error.error_description);
+        console.error("Error:", error);
       });
     }
   }
