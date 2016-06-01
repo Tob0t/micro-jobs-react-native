@@ -77,7 +77,7 @@ class SignIn extends React.Component {
     console.log("Captured Password: " + this.state.password);
 
     // MOCK DATA
-    let username = this.state.username || "fabian.bouchal@gmx.at";
+    let username = this.state.username.toLowerCase() || "fabian.bouchal@gmx.at";
     let password = this.state.password || "password";
 
     console.log("Mock Username: " + username);
@@ -89,10 +89,7 @@ class SignIn extends React.Component {
           id: 'HomeScene',
         })
       }, (error) => {
-        console.error("Error:", error.error_description);
-        Alert.alert(
-          'Error',
-          error.error_description);
+        console.error("Error:", error);
       });
   }
 
