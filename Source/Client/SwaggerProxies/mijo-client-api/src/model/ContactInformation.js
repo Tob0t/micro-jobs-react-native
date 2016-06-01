@@ -1,7 +1,7 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient'], factory);
+    define(['ApiClient'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
     module.exports = factory(require('../ApiClient'));
@@ -14,6 +14,9 @@
   }
 }(this, function(ApiClient) {
   'use strict';
+
+
+
 
   /**
    * The ContactInformation model module.
@@ -29,8 +32,9 @@
    * @param mail
    */
   var exports = function(mail) {
+    var _this = this;
 
-    this['mail'] = mail;
+    _this['mail'] = mail;
 
   };
 
@@ -42,7 +46,7 @@
    * @return {module:model/ContactInformation} The populated <code>ContactInformation</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
-    if (data) { 
+    if (data) {
       obj = obj || new exports();
 
       if (data.hasOwnProperty('mail')) {
@@ -55,13 +59,11 @@
     return obj;
   }
 
-
   /**
    * The e-mail of the user.
    * @member {String} mail
    */
   exports.prototype['mail'] = undefined;
-
   /**
    * The phone number of the user.
    * @member {String} phone
@@ -73,3 +75,5 @@
 
   return exports;
 }));
+
+

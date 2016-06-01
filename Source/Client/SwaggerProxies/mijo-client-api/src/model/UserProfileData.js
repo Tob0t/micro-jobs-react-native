@@ -1,7 +1,7 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient', './ContactInformation'], factory);
+    define(['ApiClient', 'model/ContactInformation'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
     module.exports = factory(require('../ApiClient'), require('./ContactInformation'));
@@ -14,6 +14,9 @@
   }
 }(this, function(ApiClient, ContactInformation) {
   'use strict';
+
+
+
 
   /**
    * The UserProfileData model module.
@@ -33,12 +36,13 @@
    * @param contactInformation
    */
   var exports = function(image, prename, surname, age, contactInformation) {
+    var _this = this;
 
-    this['image'] = image;
-    this['prename'] = prename;
-    this['surname'] = surname;
-    this['age'] = age;
-    this['contactInformation'] = contactInformation;
+    _this['image'] = image;
+    _this['prename'] = prename;
+    _this['surname'] = surname;
+    _this['age'] = age;
+    _this['contactInformation'] = contactInformation;
   };
 
   /**
@@ -49,7 +53,7 @@
    * @return {module:model/UserProfileData} The populated <code>UserProfileData</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
-    if (data) { 
+    if (data) {
       obj = obj || new exports();
 
       if (data.hasOwnProperty('image')) {
@@ -71,31 +75,26 @@
     return obj;
   }
 
-
   /**
    * The profile image of the user encoded as base64 string.
    * @member {String} image
    */
   exports.prototype['image'] = undefined;
-
   /**
    * The prename of the user.
    * @member {String} prename
    */
   exports.prototype['prename'] = undefined;
-
   /**
    * The surname of the user.
    * @member {String} surname
    */
   exports.prototype['surname'] = undefined;
-
   /**
    * The age of the user in years.
    * @member {Number} age
    */
   exports.prototype['age'] = undefined;
-
   /**
    * @member {module:model/ContactInformation} contactInformation
    */
@@ -106,3 +105,5 @@
 
   return exports;
 }));
+
+

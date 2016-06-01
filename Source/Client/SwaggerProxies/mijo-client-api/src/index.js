@@ -1,12 +1,12 @@
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['./ApiClient', './model/ApiError', './model/AuthorizationError', './model/ContactInformation', './model/Location', './model/Offer', './model/OfferData', './model/OfferInterest', './model/OfferRequest', './model/OffererInformation', './model/Payment', './model/ServerError', './model/TakerInformation', './model/UserProfileData', './api/OfferCreateApi', './api/OfferDetailsApi', './api/OfferEditApi', './api/OfferFeedApi', './api/UserApi', './api/YourOffersApi', './api/YourRequestApi', './api/YourRequestsApi'], factory);
+    define(['ApiClient', 'model/ApiError', 'model/AuthorizationError', 'model/ContactInformation', 'model/Location', 'model/Offer', 'model/OfferData', 'model/OfferInterest', 'model/OfferRequest', 'model/OffererInformation', 'model/Payment', 'model/ServerError', 'model/TakerInformation', 'model/UserProfileData', 'api/OfferCreateApi', 'api/OfferDetailsApi', 'api/OfferEditApi', 'api/OfferFeedApi', 'api/UserApi', 'api/YourOffersApi', 'api/YourRequestsApi'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('./ApiClient'), require('./model/ApiError'), require('./model/AuthorizationError'), require('./model/ContactInformation'), require('./model/Location'), require('./model/Offer'), require('./model/OfferData'), require('./model/OfferInterest'), require('./model/OfferRequest'), require('./model/OffererInformation'), require('./model/Payment'), require('./model/ServerError'), require('./model/TakerInformation'), require('./model/UserProfileData'), require('./api/OfferCreateApi'), require('./api/OfferDetailsApi'), require('./api/OfferEditApi'), require('./api/OfferFeedApi'), require('./api/UserApi'), require('./api/YourOffersApi'), require('./api/YourRequestApi'), require('./api/YourRequestsApi'));
+    module.exports = factory(require('./ApiClient'), require('./model/ApiError'), require('./model/AuthorizationError'), require('./model/ContactInformation'), require('./model/Location'), require('./model/Offer'), require('./model/OfferData'), require('./model/OfferInterest'), require('./model/OfferRequest'), require('./model/OffererInformation'), require('./model/Payment'), require('./model/ServerError'), require('./model/TakerInformation'), require('./model/UserProfileData'), require('./api/OfferCreateApi'), require('./api/OfferDetailsApi'), require('./api/OfferEditApi'), require('./api/OfferFeedApi'), require('./api/UserApi'), require('./api/YourOffersApi'), require('./api/YourRequestsApi'));
   }
-}(function(ApiClient, ApiError, AuthorizationError, ContactInformation, Location, Offer, OfferData, OfferInterest, OfferRequest, OffererInformation, Payment, ServerError, TakerInformation, UserProfileData, OfferCreateApi, OfferDetailsApi, OfferEditApi, OfferFeedApi, UserApi, YourOffersApi, YourRequestApi, YourRequestsApi) {
+}(function(ApiClient, ApiError, AuthorizationError, ContactInformation, Location, Offer, OfferData, OfferInterest, OfferRequest, OffererInformation, Payment, ServerError, TakerInformation, UserProfileData, OfferCreateApi, OfferDetailsApi, OfferEditApi, OfferFeedApi, UserApi, YourOffersApi, YourRequestsApi) {
   'use strict';
 
   /**
@@ -15,7 +15,7 @@
    * <p>
    * An AMD (recommended!) or CommonJS application will generally do something equivalent to the following:
    * <pre>
-   * var MiJoClientApi = require('./index'); // See note below*.
+   * var MiJoClientApi = require('index'); // See note below*.
    * var xxxSvc = new MiJoClientApi.XxxApi(); // Allocate the API class we're going to use.
    * var yyyModel = new MiJoClientApi.Yyy(); // Construct a model instance.
    * yyyModel.someProperty = 'someValue';
@@ -23,8 +23,8 @@
    * var zzz = xxxSvc.doSomething(yyyModel); // Invoke the service.
    * ...
    * </pre>
-   * <em>*NOTE: For a top-level AMD script, use require(['./index'], function(){...}) and put the application logic within the
-   * callback function.</em>
+   * <em>*NOTE: For a top-level AMD script, use require(['index'], function(){...})
+   * and put the application logic within the callback function.</em>
    * </p>
    * <p>
    * A non-AMD browser application (discouraged) might do something like this:
@@ -141,11 +141,6 @@
      * @property {module:api/YourOffersApi}
      */
     YourOffersApi: YourOffersApi,
-    /**
-     * The YourRequestApi service constructor.
-     * @property {module:api/YourRequestApi}
-     */
-    YourRequestApi: YourRequestApi,
     /**
      * The YourRequestsApi service constructor.
      * @property {module:api/YourRequestsApi}
