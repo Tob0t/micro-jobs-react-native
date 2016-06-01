@@ -1,11 +1,14 @@
 'use strict';
 
-import React, {Alert, StyleSheet, Text, View, Image} from 'react-native'
+import React, {StyleSheet, Text, View, Image} from 'react-native'
 import SwipeCards from 'react-native-swipe-cards'
 import ClientApi from 'MiJo/app/ClientApi'
 import Moment from 'moment'
+import { Bubbles, DoubleBounce, Bars, Pulse } from 'react-native-loader'
 
-import { LocationManager } from 'MiJo/app/util/location/locationManager';
+import LocationManager from 'MiJo/app/util/location/LocationGPSManager'
+import SettingsManager from 'MiJo/app/util/settings/SettingsManager'
+
 
 class Card extends React.Component{
   constructor(props){
@@ -40,7 +43,7 @@ class NoMoreCards extends React.Component{
   render() {
     return (
       <View style={styles.noMoreCards}>
-        <Text>No more cards</Text>
+        <Text>No more offers available!</Text>
       </View>
     )
   }
@@ -70,14 +73,14 @@ class CardScene extends React.Component{
 
     // Request fo the offer feed
     //var loc = LocationManager.getLastKnownLocation();
-    LocationManager.getLastKnownLocationPromise().then(
+    LocationManager().getLastKnownLocationPromise().then(
       (location) => {
         console.log('Successfully got location ', location);
 
         var lat = location.coords.latitude || 48.346371;
         var lon = location.coords.longitude || 14.510034;
 
-        var max_distance = 200000;
+        var max_distance = SettingsManager().getOffers().maxDistance;
         //This parameters are optional and needed for pagination! --> see swagger spec
         var opts = {
             page: 1,
@@ -107,12 +110,8 @@ class CardScene extends React.Component{
             });
           },(error) => {
             console.error("Error:", error);
-            Alert.alert(
-              'Error',
-              error.error_description);
           });
       }, (error) => {
-        debugger
         console.error("Error:", error);
       }
     )
@@ -124,10 +123,7 @@ class CardScene extends React.Component{
       ()=> {
         console.log("Successfully voted up at Card ID ", card.id);
       },(error) => {
-        console.error("Error:", error.error_description);
-        Alert.alert(
-          'Error',
-          error.error_description);
+        console.error("Error:", error);
       });
   }
 
@@ -137,10 +133,7 @@ class CardScene extends React.Component{
       ()=> {
         console.log("Successfully voted down at Card ID ", card.id);
       },(error) => {
-        console.error("Error:", error.error_description);
-        Alert.alert(
-          'Error',
-          error.error_description);
+        console.error("Error:", error);
       });
   }
   _cardRemoved (index) {
@@ -166,7 +159,8 @@ class CardScene extends React.Component{
 
   }
   render() {
-    return (this.state.loaded ? <SwipeCards
+    var cards =
+      <SwipeCards
         cards={this.state.cards}
         loop={false}
 
@@ -178,7 +172,16 @@ class CardScene extends React.Component{
         handleYup={(card) => this._handleYup(card)}
         handleNope={(card) => this._handleNope(card)}
         cardRemoved={(index) => this._cardRemoved(index)}
-      /> : <View></View>
+      />;
+      
+    var loading =
+         <View style={styles.noMoreCards}>
+          <Pulse size={40} color="#52AB42"/>
+          <Text>Looking for GPS ...</Text>
+        </View>;
+    
+    return (
+      this.state.loaded ? cards : loading
     )
   }
 }
