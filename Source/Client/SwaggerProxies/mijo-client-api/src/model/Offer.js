@@ -1,7 +1,7 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient', './Location', './OfferData', './Payment'], factory);
+    define(['ApiClient', 'model/Location', 'model/OfferData', 'model/Payment'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
     module.exports = factory(require('../ApiClient'), require('./Location'), require('./OfferData'), require('./Payment'));
@@ -14,6 +14,9 @@
   }
 }(this, function(ApiClient, Location, OfferData, Payment) {
   'use strict';
+
+
+
 
   /**
    * The Offer model module.
@@ -33,8 +36,9 @@
    * @param id
    */
   var exports = function(title, description, deadline, id) {
-    OfferData.call(this, title, description, deadline);
-    this['id'] = id;
+    var _this = this;
+    OfferData.call(_this, title, description, deadline);
+    _this['id'] = id;
   };
 
   /**
@@ -45,7 +49,7 @@
    * @return {module:model/Offer} The populated <code>Offer</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
-    if (data) { 
+    if (data) {
       obj = obj || new exports();
       OfferData.constructFromObject(data, obj);
       if (data.hasOwnProperty('id')) {
@@ -58,7 +62,6 @@
   exports.prototype = Object.create(OfferData.prototype);
   exports.prototype.constructor = exports;
 
-
   /**
    * The id of the offer.
    * @member {String} id
@@ -70,3 +73,5 @@
 
   return exports;
 }));
+
+

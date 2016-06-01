@@ -1,7 +1,7 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient'], factory);
+    define(['ApiClient'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
     module.exports = factory(require('../ApiClient'));
@@ -14,6 +14,9 @@
   }
 }(this, function(ApiClient) {
   'use strict';
+
+
+
 
   /**
    * The Payment model module.
@@ -30,9 +33,10 @@
    * @param value
    */
   var exports = function(type, value) {
+    var _this = this;
 
-    this['type'] = type;
-    this['value'] = value;
+    _this['type'] = type;
+    _this['value'] = value;
   };
 
   /**
@@ -43,7 +47,7 @@
    * @return {module:model/Payment} The populated <code>Payment</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
-    if (data) { 
+    if (data) {
       obj = obj || new exports();
 
       if (data.hasOwnProperty('type')) {
@@ -56,13 +60,11 @@
     return obj;
   }
 
-
   /**
    * The type of the payment.
    * @member {module:model/Payment.TypeEnum} type
    */
   exports.prototype['type'] = undefined;
-
   /**
    * The value of the payment.
    * @member {String} value
@@ -75,19 +77,20 @@
    * @enum {String}
    * @readonly
    */
-  exports.TypeEnum = { 
+  exports.TypeEnum = {
     /**
-     * value: MONEY
+     * value: "MONEY"
      * @const
      */
-    MONEY: "MONEY",
-    
+    "MONEY": "MONEY",
     /**
-     * value: SERVICE
+     * value: "SERVICE"
      * @const
      */
-    SERVICE: "SERVICE"
-  };
+    "SERVICE": "SERVICE"  };
+
 
   return exports;
 }));
+
+

@@ -1,7 +1,7 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient', './Location', './Payment'], factory);
+    define(['ApiClient', 'model/Location', 'model/Payment'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
     module.exports = factory(require('../ApiClient'), require('./Location'), require('./Payment'));
@@ -14,6 +14,9 @@
   }
 }(this, function(ApiClient, Location, Payment) {
   'use strict';
+
+
+
 
   /**
    * The OfferData model module.
@@ -31,13 +34,14 @@
    * @param deadline
    */
   var exports = function(title, description, deadline) {
+    var _this = this;
 
-    this['title'] = title;
-    this['description'] = description;
+    _this['title'] = title;
+    _this['description'] = description;
 
 
 
-    this['deadline'] = deadline;
+    _this['deadline'] = deadline;
   };
 
   /**
@@ -48,7 +52,7 @@
    * @return {module:model/OfferData} The populated <code>OfferData</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
-    if (data) { 
+    if (data) {
       obj = obj || new exports();
 
       if (data.hasOwnProperty('title')) {
@@ -73,35 +77,29 @@
     return obj;
   }
 
-
   /**
    * The title of the offer.
    * @member {String} title
    */
   exports.prototype['title'] = undefined;
-
   /**
    * The description of the offer.
    * @member {String} description
    */
   exports.prototype['description'] = undefined;
-
   /**
    * The image of the offer as base64 string.
    * @member {String} image
    */
   exports.prototype['image'] = undefined;
-
   /**
    * @member {module:model/Location} location
    */
   exports.prototype['location'] = undefined;
-
   /**
    * @member {module:model/Payment} payment
    */
   exports.prototype['payment'] = undefined;
-
   /**
    * The deadline of the offer.
    * @member {Date} deadline
@@ -113,3 +111,5 @@
 
   return exports;
 }));
+
+

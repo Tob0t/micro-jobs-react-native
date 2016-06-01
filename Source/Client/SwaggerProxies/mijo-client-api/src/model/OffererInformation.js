@@ -1,7 +1,7 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient'], factory);
+    define(['ApiClient'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
     module.exports = factory(require('../ApiClient'));
@@ -14,6 +14,9 @@
   }
 }(this, function(ApiClient) {
   'use strict';
+
+
+
 
   /**
    * The OffererInformation model module.
@@ -32,11 +35,12 @@
    * @param surname
    */
   var exports = function(id, image, prename, surname) {
+    var _this = this;
 
-    this['id'] = id;
-    this['image'] = image;
-    this['prename'] = prename;
-    this['surname'] = surname;
+    _this['id'] = id;
+    _this['image'] = image;
+    _this['prename'] = prename;
+    _this['surname'] = surname;
   };
 
   /**
@@ -47,7 +51,7 @@
    * @return {module:model/OffererInformation} The populated <code>OffererInformation</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
-    if (data) { 
+    if (data) {
       obj = obj || new exports();
 
       if (data.hasOwnProperty('id')) {
@@ -66,25 +70,21 @@
     return obj;
   }
 
-
   /**
    * The unique user id of the offerer
    * @member {String} id
    */
   exports.prototype['id'] = undefined;
-
   /**
    * The profile image of the offerer encoded as base64 string.
    * @member {String} image
    */
   exports.prototype['image'] = undefined;
-
   /**
    * The prename of the offerer.
    * @member {String} prename
    */
   exports.prototype['prename'] = undefined;
-
   /**
    * The surname of the offerer.
    * @member {String} surname
@@ -96,3 +96,5 @@
 
   return exports;
 }));
+
+

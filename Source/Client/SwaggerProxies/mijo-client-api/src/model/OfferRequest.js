@@ -1,7 +1,7 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient', './OffererInformation'], factory);
+    define(['ApiClient', 'model/OffererInformation'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
     module.exports = factory(require('../ApiClient'), require('./OffererInformation'));
@@ -14,6 +14,9 @@
   }
 }(this, function(ApiClient, OffererInformation) {
   'use strict';
+
+
+
 
   /**
    * The OfferRequest model module.
@@ -32,11 +35,12 @@
    * @param offerer
    */
   var exports = function(offerId, offerTitle, offerImage, offerer) {
+    var _this = this;
 
-    this['offerId'] = offerId;
-    this['offerTitle'] = offerTitle;
-    this['offerImage'] = offerImage;
-    this['offerer'] = offerer;
+    _this['offerId'] = offerId;
+    _this['offerTitle'] = offerTitle;
+    _this['offerImage'] = offerImage;
+    _this['offerer'] = offerer;
   };
 
   /**
@@ -47,7 +51,7 @@
    * @return {module:model/OfferRequest} The populated <code>OfferRequest</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
-    if (data) { 
+    if (data) {
       obj = obj || new exports();
 
       if (data.hasOwnProperty('offerId')) {
@@ -66,25 +70,21 @@
     return obj;
   }
 
-
   /**
    * The id of the related offer.
    * @member {String} offerId
    */
   exports.prototype['offerId'] = undefined;
-
   /**
    * The title of the related offer.
    * @member {String} offerTitle
    */
   exports.prototype['offerTitle'] = undefined;
-
   /**
    * The image of the related offer as base64.
    * @member {String} offerImage
    */
   exports.prototype['offerImage'] = undefined;
-
   /**
    * @member {module:model/OffererInformation} offerer
    */
@@ -95,3 +95,5 @@
 
   return exports;
 }));
+
+

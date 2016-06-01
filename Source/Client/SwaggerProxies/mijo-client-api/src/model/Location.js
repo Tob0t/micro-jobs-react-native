@@ -1,7 +1,7 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient'], factory);
+    define(['ApiClient'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
     module.exports = factory(require('../ApiClient'));
@@ -14,6 +14,9 @@
   }
 }(this, function(ApiClient) {
   'use strict';
+
+
+
 
   /**
    * The Location model module.
@@ -30,9 +33,10 @@
    * @param lat
    */
   var exports = function(lon, lat) {
+    var _this = this;
 
-    this['lon'] = lon;
-    this['lat'] = lat;
+    _this['lon'] = lon;
+    _this['lat'] = lat;
   };
 
   /**
@@ -43,7 +47,7 @@
    * @return {module:model/Location} The populated <code>Location</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
-    if (data) { 
+    if (data) {
       obj = obj || new exports();
 
       if (data.hasOwnProperty('lon')) {
@@ -56,13 +60,11 @@
     return obj;
   }
 
-
   /**
    * The longitude of the location.
    * @member {Number} lon
    */
   exports.prototype['lon'] = undefined;
-
   /**
    * The latitude of the location.
    * @member {Number} lat
@@ -74,3 +76,5 @@
 
   return exports;
 }));
+
+
