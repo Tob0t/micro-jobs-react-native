@@ -152,7 +152,7 @@ paths:
         operationId: getOffer
         tags:
           - offer details
-          - your request
+          - your requests
         parameters:
           - in: path
             name: id
