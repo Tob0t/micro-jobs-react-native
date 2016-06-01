@@ -1,7 +1,7 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['../ApiClient'], factory);
+    define(['ApiClient'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
     module.exports = factory(require('../ApiClient'));
@@ -14,6 +14,9 @@
   }
 }(this, function(ApiClient) {
   'use strict';
+
+
+
 
   /**
    * The ServerError model module.
@@ -30,9 +33,10 @@
    * @param errorDescription
    */
   var exports = function(error, errorDescription) {
+    var _this = this;
 
-    this['error'] = error;
-    this['error_description'] = errorDescription;
+    _this['error'] = error;
+    _this['error_description'] = errorDescription;
   };
 
   /**
@@ -43,7 +47,7 @@
    * @return {module:model/ServerError} The populated <code>ServerError</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
-    if (data) { 
+    if (data) {
       obj = obj || new exports();
 
       if (data.hasOwnProperty('error')) {
@@ -56,13 +60,11 @@
     return obj;
   }
 
-
   /**
    * Indicates the type of the ServerError.
    * @member {module:model/ServerError.ErrorEnum} error
    */
   exports.prototype['error'] = undefined;
-
   /**
    * A detailed description of the ServerError.
    * @member {String} error_description
@@ -75,19 +77,20 @@
    * @enum {String}
    * @readonly
    */
-  exports.ErrorEnum = { 
+  exports.ErrorEnum = {
     /**
-     * value: general
+     * value: "general"
      * @const
      */
-    GENERAL: "general",
-    
+    "general": "general",
     /**
-     * value: database
+     * value: "database"
      * @const
      */
-    DATABASE: "database"
-  };
+    "database": "database"  };
+
 
   return exports;
 }));
+
+
