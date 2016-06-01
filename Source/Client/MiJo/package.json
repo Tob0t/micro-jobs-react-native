@@ -16,6 +16,8 @@
     "react-native-collapsible": "^0.5.6",
     "react-native-drawer": "^2.0.0",
     "react-native-image-picker": "^0.18.15",
+    "react-native-keyboard-aware-scroll-view": "^0.1.0",
+    "react-native-loader": "^1.1.0",
     "react-native-material-kit": "^0.3.1",
     "react-native-nav": "^1.1.1",
     "react-native-prompt": "^0.18.4",

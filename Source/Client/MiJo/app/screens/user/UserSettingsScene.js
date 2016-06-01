@@ -57,15 +57,12 @@ class UserSettingsScene extends React.Component {
           surname: user.surname,
           age: user.age,
           mail: user.contactInformation.mail,
-          phone: user.phone,
+          phone: user.contactInformation.phone,
           loaded: true,
         });
       },(error) => {
         debugger
         console.error("Error:", error.error_description);
-        Alert.alert(
-          'Error',
-          error.error_description);
       });
   }
 
@@ -116,13 +113,13 @@ class UserSettingsScene extends React.Component {
     var that = this;
     return (
       <View>
-        <NavBarStandard title="Settings" onPressLeft={() => this.props.navigator.pop()}/>
+        <NavBarStandard title="Account Settings" onPressLeft={() => this.props.navigator.pop()}/>
         <View style={styles.container}>
           <TouchableHighlight onPress={this._pickImage}>
             <Image style={styles.thumbnail} source={{uri: this.state.image}}/>
           </TouchableHighlight>
            <SettingsList borderColor='#c8c7cc' defaultItemSize={50}>
-             <SettingsList.Header headerText='Account Settings' headerStyle={{color:'black'}}/>
+             <SettingsList.Header headerText='User Settings' headerStyle={{color:'black'}}/>
              <SettingsList.Item
                title='Prename'
                hasNavArrow={false}
@@ -166,10 +163,10 @@ class UserSettingsScene extends React.Component {
                titleInfo={this.state.mail}
                titleStyle={{fontSize:16}}
                onPress={() => this.setState({
-                 promptVisible: true,
                  promptTitle: 'Your E-Mail',
                  promptValue: this.state.mail,
-                 promptKey: 'mail'
+                 promptKey: 'mail',
+                 promptVisible: true
                })}
              />
              <SettingsList.Item
@@ -187,7 +184,7 @@ class UserSettingsScene extends React.Component {
           </SettingsList>
          </View>
          <Prompt
-            title={this.state.promptTitle}
+            title={that.state.promptTitle}
             placeholder={this.state.promptTitle}
             defaultValue={String(this.state.promptValue)}
             visible={this.state.promptVisible}
@@ -236,11 +233,11 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     flex: 1,
     justifyContent: 'center',
-    marginTop: 10,
     backgroundColor: 'white'
   },
   thumbnail: {
       alignSelf: 'center',
+      marginTop: 10,
       width: 100,
       height: 100,
       borderRadius: 50,

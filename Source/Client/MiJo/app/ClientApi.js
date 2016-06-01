@@ -212,8 +212,7 @@ class ClientApi {
           //debugger
           reject(error);
         } else {
-          console.log(data);
-          resolve(data);
+          resolve();
         }
       });
     });
@@ -229,7 +228,6 @@ class ClientApi {
     var p = new Promise(function (resolve, reject) {
       that.OfferDetailsApi.getOffer(offerId,(error, data, response) => {
         if (error) {
-          //debugger
           reject(error);
         } else {
           console.log(data);
@@ -244,13 +242,10 @@ class ClientApi {
   updateOffer(id, offer) {
     var that = this;
 
-    console.log(offer);
-    console.log(id);
     // create promise
     var p = new Promise(function (resolve, reject) {
       that.OfferEditApi.updateOffer(id, offer, (error, data, response) => {
         if (error) {
-          //debugger
           reject(error);
         } else {
           console.log("Response code", response.status);

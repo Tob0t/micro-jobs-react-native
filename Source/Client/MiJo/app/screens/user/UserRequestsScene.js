@@ -72,7 +72,7 @@ class UserRequestsScene extends React.Component {
        underlayColor='#dddddd'>
      <View>
        <View style={styles.rowContainer}>
-         <Image style={styles.thumb} source={{ uri: rowData.img_url }} />
+         <Image style={styles.thumb} source={{ uri: rowData.offerImage }} />
          <View  style={styles.textContainer}>
            <Text style={styles.price}>{rowData.offerTitle}</Text>
            <Text style={styles.title}

@@ -22,8 +22,11 @@ const NavBarStandard = ({
         <NavTitle>
           {title}
         </NavTitle>
-        <NavGroup>
-        </NavGroup>
+        <NavButton onPress={onPressRight}>
+          <NavButtonText>
+            <Icon name="plus-round" size={25}/>
+          </NavButtonText>
+        </NavButton>
       </NavBar>
     )
 };
