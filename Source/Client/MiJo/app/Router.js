@@ -12,6 +12,7 @@ import DetailOffer from 'MiJo/app/screens/offer/DetailOffer'
 import UserOffersScene from 'MiJo/app/screens/user/UserOffersScene'
 import UserRequestsScene from 'MiJo/app/screens/user/UserRequestsScene'
 import UserSettingsScene from 'MiJo/app/screens/user/UserSettingsScene'
+import GeneralSettingsScene from 'MiJo/app/screens/user/GeneralSettingsScene'
 import Api from './Api'
 
 // global vars
@@ -34,7 +35,7 @@ export default class Router extends React.Component{
   render() {
     const {id, navigator} = this.props;
     const guardedScences = ['HomeScene', 'CreateOffer', 'UserOffersScene',
-     'UserRequestsScene', 'UserSettingsScene', 'CreateOffer', 'EditOffer', 'DetailOffer'];
+     'UserRequestsScene', 'UserSettingsScene', 'GeneralSettingsScene', 'CreateOffer', 'EditOffer', 'DetailOffer'];
 
     // check if user is allowed to view scene otherwise return to SignIn Page
     if(!Api().isLoggedIn() && guardedScences.indexOf(id) > -1) {
@@ -59,6 +60,8 @@ export default class Router extends React.Component{
             return <UserRequestsScene navigator={navigator}/>
         case 'UserSettings':
             return <UserSettingsScene navigator={navigator}/>
+        case 'GeneralSettingsScene':
+            return <GeneralSettingsScene navigator={navigator}/>
         case 'CreateOffer':
             return <CreateOffer navigator={navigator}/>
         case 'EditOffer':

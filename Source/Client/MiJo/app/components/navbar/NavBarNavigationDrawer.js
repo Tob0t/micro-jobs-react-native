@@ -22,11 +22,8 @@ const NavBarNavigationDrawer = ({
         <NavTitle>
           {title}
         </NavTitle>
-        <NavButton onPress={() => alert('adding item')}>
-          <NavButtonText>
-            {""}
-          </NavButtonText>
-        </NavButton>
+        <NavGroup>
+        </NavGroup>
       </NavBar>
     )
 };
