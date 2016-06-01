@@ -152,7 +152,7 @@ paths:
         operationId: getOffer
         tags:
           - offer details
-          - your requests
+          - your request
         parameters:
           - in: path
             name: id
@@ -336,6 +336,7 @@ paths:
       security:
         - MiJo API Key: []
   /user/offers/{id}:
+    x-swagger-router-controller: offers
     post:
         summary: Updates the given offer
         description: Updates the offer with the given id. The offer must have been created by the given user.
