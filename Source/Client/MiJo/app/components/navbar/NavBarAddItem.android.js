@@ -5,7 +5,7 @@ import React, { Component, Platform, PropTypes, StyleSheet } from 'react-native'
 import NavBar, { NavButton, NavButtonText, NavTitle, NavGroup } from 'react-native-nav'
 import Icon from 'react-native-vector-icons/Ionicons'
 
-const NavBarStandard = ({
+const NavBarAddItem = ({
   title,
   onPressLeft,
   onPressRight
@@ -22,16 +22,13 @@ const NavBarStandard = ({
         <NavTitle>
           {title}
         </NavTitle>
-        <NavButton onPress={onPressRight}>
-          <NavButtonText>
-            <Icon name="plus-round" size={25}/>
-          </NavButtonText>
-        </NavButton>
+        <NavGroup>
+        </NavGroup>
       </NavBar>
     )
 };
 
-NavBarStandard.PropTypes = {
+NavBarAddItem.PropTypes = {
   title: PropTypes.string,
   onPressLeft: PropTypes.function,
   onPressRight: PropTypes.function,
@@ -59,4 +56,4 @@ var styles = StyleSheet.create({
 })
 
 
-export default NavBarStandard;
+export default NavBarAddItem;
