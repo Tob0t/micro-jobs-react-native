@@ -47,7 +47,7 @@ class HomeScene extends React.Component {
         panCloseMask={0.2}
         closedDrawerOffset={-3}
         styles={{
-          drawer: {shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3},
+          //drawer: {shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3},
           main: {paddingLeft: 3}
         }}
         tweenHandler={(ratio) => ({

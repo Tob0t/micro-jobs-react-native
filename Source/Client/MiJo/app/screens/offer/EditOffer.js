@@ -25,6 +25,7 @@ var {
     Text,
     TextInput,
     Image,
+    Platform,
     ScrollView,
     TouchableHighlight,
 } = React;
@@ -58,7 +59,7 @@ class EditOffer extends React.Component {
         this.setState({
           jobTitle: offer.title,
           jobDescription: offer.description,
-          deadline: offer.deadline,
+          deadline: Moment(offer.deadline).format('DD.MM.YYYY'),
           payment: offer.payment.value,
           image: offer.image,
           loaded: true
@@ -104,7 +105,7 @@ class EditOffer extends React.Component {
 	              <MKTextField
 	                style={styles.textRightField}
 	                placeholder="MM.DD.YYYY"
-	                value={Moment(this.state.deadline).format('L')}
+	                value={this.state.deadline}
 	                onChangeText={(deadline) => this.setState({deadline})}/>
 	          </View>
 	          <View style={styles.text_container }>
@@ -192,10 +193,7 @@ class EditOffer extends React.Component {
 			'value': this.state.payment || "20$ per Hour"
 		};
 
-		// TODO convert inserted date
-		// See Moment.js docs beware of the location settings
-		var deadline = Moment().toDate();
-
+    var deadline = Moment(this.state.deadline, 'DD.MM.YYYY');
 
 		var loc = LocationManager().getLastPosition();
 		var location = {
@@ -230,6 +228,7 @@ var styles = StyleSheet.create({
     },
     textFieldDescr: {
         height: 150,
+        width: 300,
         paddingLeft: 15,
     },
     textRightField: {

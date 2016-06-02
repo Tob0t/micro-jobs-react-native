@@ -31,6 +31,7 @@
 		9B485FAF656C428998EC56A3 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 206D69201D0E4C4DBB26E06D /* Entypo.ttf */; };
 		ABEE2CA70271438F8ED24CD3 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 143DF00447354FB286EA5DB0 /* FontAwesome.ttf */; };
 		D285504C1CC59FEE00F67632 /* libRCTMaterialKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D285504B1CC59F5500F67632 /* libRCTMaterialKit.a */; };
+		D2DE7D8B1CFF9C8600DA6CE2 /* libART.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2DE7D7D1CFF9C4500DA6CE2 /* libART.a */; };
 		D326B7E36E5A4CA1AA25DE7E /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02EF141E034343348D62F7D5 /* libRNVectorIcons.a */; };
 		E4079F586CBF4FB9ACF8BF00 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C5F69D1B35534244AF717E6D /* Zocial.ttf */; };
 /* End PBXBuildFile section */
@@ -134,6 +135,13 @@
 			remoteGlobalIDString = 8A1B8E771B22E4E300DB45C2;
 			remoteInfo = RCTMaterialKit;
 		};
+		D2DE7D7C1CFF9C4500DA6CE2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D2DE7D781CFF9C4500DA6CE2 /* ART.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0CF68AC11AF0540F00FF9E5C;
+			remoteInfo = ART;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -170,6 +178,7 @@
 		83455B9440944E068B23318D /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 0; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		C5F69D1B35534244AF717E6D /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 0; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		D28550461CC59F5500F67632 /* RCTMaterialKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTMaterialKit.xcodeproj; path = "../node_modules/react-native-material-kit/iOS/RCTMaterialKit.xcodeproj"; sourceTree = "<group>"; };
+		D2DE7D781CFF9C4500DA6CE2 /* ART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ART.xcodeproj; path = "../node_modules/react-native/Libraries/ART/ART.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +193,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2DE7D8B1CFF9C8600DA6CE2 /* libART.a in Frameworks */,
 				1F6A4FD71CC92EF4003B1BD2 /* libRNImagePicker.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
@@ -326,6 +336,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				D2DE7D781CFF9C4500DA6CE2 /* ART.xcodeproj */,
 				1F6A4FC51CC92E4B003B1BD2 /* RNImagePicker.xcodeproj */,
 				D28550461CC59F5500F67632 /* RCTMaterialKit.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -391,6 +402,14 @@
 			isa = PBXGroup;
 			children = (
 				D285504B1CC59F5500F67632 /* libRCTMaterialKit.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D2DE7D791CFF9C4500DA6CE2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D2DE7D7D1CFF9C4500DA6CE2 /* libART.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -461,6 +480,10 @@
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = D2DE7D791CFF9C4500DA6CE2 /* Products */;
+					ProjectRef = D2DE7D781CFF9C4500DA6CE2 /* ART.xcodeproj */;
+				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
 					ProjectRef = 00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */;
@@ -612,6 +635,13 @@
 			fileType = archive.ar;
 			path = libRCTMaterialKit.a;
 			remoteRef = D285504A1CC59F5500F67632 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D2DE7D7D1CFF9C4500DA6CE2 /* libART.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libART.a;
+			remoteRef = D2DE7D7C1CFF9C4500DA6CE2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

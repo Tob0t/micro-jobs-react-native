@@ -15,7 +15,7 @@ const NavBarStandard = ({
         <NavGroup style={styles.navGroup}>
           <NavButton onPress={onPressLeft}>
             <NavButtonText>
-              <Icon name="ion-ios-arrow-back" size={25}/>
+              <Icon name="ios-arrow-back" size={25}/>
             </NavButtonText>
           </NavButton>
         </NavGroup>

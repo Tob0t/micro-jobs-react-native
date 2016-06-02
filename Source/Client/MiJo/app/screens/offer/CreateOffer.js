@@ -23,6 +23,7 @@
       Text,
       TextInput,
       Image,
+      Platform,
       ScrollView,
       TouchableHighlight,
   } = React;
@@ -88,9 +89,13 @@
                     onChangeText={(payment) => this.setState({payment})}/>
                 </View>
               </View>
-              <View style={styles.bottom}>
-                  <LoginButton onPress={() => this._createNewOffer()} text="Create offer"/>
-              </View>
+              {
+                // Show only big button on android
+                Platform.OS === 'android' &&
+                <View style={styles.bottom}>
+                    <LoginButton onPress={() => this._createNewOffer()} text="Create offer"/>
+                </View>
+              }
             </View>
         </KeyboardAwareScrollView>
 
@@ -159,10 +164,7 @@
           'type': this.state.paymentType || "MONEY",
           'value': this.state.payment || "20$ per Hour"
         };
-        console.log("deadline", this.state.deadline);
-        // TODO convert inserted date
-        // See Moment.js docs beware of the location settings
-        var deadline = Moment().toDate();
+        var deadline = Moment(this.state.deadline, 'DD.MM.YYYY');
 
         var loc = LocationManager().getLastPosition();
         var location = {
@@ -199,6 +201,7 @@
       textFieldDescr: {
           height: 150,
           paddingLeft: 15,
+          width: 300,
       },
       textRightField: {
           height: 25,
