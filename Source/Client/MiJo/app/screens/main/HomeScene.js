@@ -30,10 +30,10 @@ class HomeScene extends React.Component {
   }
 
   closeDrawer = () => {
-    this._drawer.close()
+    this._drawer.close();
   };
   openDrawer = () => {
-    this._drawer.open()
+    this._drawer.open();
   };
 
   render() {

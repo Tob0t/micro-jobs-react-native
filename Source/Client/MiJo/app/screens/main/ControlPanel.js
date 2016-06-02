@@ -117,8 +117,8 @@ class ControlPanel extends React.Component {
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => {
-          this.props.navigator.resetTo({id:'Logout'});
-          Api().logout();
+            Api().logout();
+            this.props.navigator.resetTo({id:'Logout'});
           }
         }>
           <View style={styles.row}>

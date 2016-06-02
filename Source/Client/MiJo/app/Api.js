@@ -2,6 +2,7 @@
 
 // imports
 import MiJoAuthorizationApi from 'mijo-authorization-api'
+import ClientApi from 'MiJo/app/ClientApi'
 
 
 class Api {
@@ -14,7 +15,6 @@ class Api {
     this.clientAuthentication.password = 'secret';
 
     this.tokenApi = new MiJoAuthorizationApi.TokenApi();
-
     this.grantType = "password"; // {String} The grant type. Should be password.
     this.mijoClientInstanceId = "SomeIdWhichIsUniqueForThisClientInstallation"; // {String} The client instance id which identifies the client of the user.
   }
@@ -30,6 +30,7 @@ class Api {
         } else {
           resolve();
           that.token = data.access_token;
+          ClientApi().setToken(data.access_token);
           // if successfull resolve promise with data
           // save token in instance variable in this.token
         }
@@ -50,7 +51,8 @@ class Api {
   logout(){
     console.log("Current token: ",this.token);
     this.token = null;
-    console.log("Deleted token: ",this.token);
+    ClientApi().setToken(null);
+    console.log("Set token to null");
   }
 }
 
@@ -60,12 +62,6 @@ class Api {
 let api;
 
 export default () => {
-  if(api && api.isLoggedIn()){
-    //console.log("key existing: ", api.getKey());
-    api = api;
-  } else{
-    //console.log("creating new Api");
-    api = new Api();
-  }
+  api = api || new Api();
   return api;
 }

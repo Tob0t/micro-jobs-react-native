@@ -9,15 +9,11 @@ class ClientApi {
 
   constructor() {
 
-    // get key from AuthorizationApi
-    var keyFromAuth = Api().getKey();
-    console.log("api-key:", keyFromAuth);
-
     // Set the access token --> must only be done once
     this.apiClient = MiJoClientApi.ApiClient.instance;
     this.clientAuthentication = this.apiClient.authentications['MiJo API Key'];
     this.clientAuthentication.apiKeyPrefix = "Bearer";
-    this.clientAuthentication.apiKey = keyFromAuth;
+    //this.clientAuthentication.apiKey = keyFromAuth;
 
     this.OfferFeedApi = new MiJoClientApi.OfferFeedApi();
     this.OfferCreateApi = new MiJoClientApi.OfferCreateApi();
@@ -27,6 +23,10 @@ class ClientApi {
     this.OfferDetailsApi = new MiJoClientApi.OfferDetailsApi();
     this.OfferEditApi = new MiJoClientApi.OfferEditApi();
 
+  }
+
+  setToken(token){
+    this.clientAuthentication.apiKey = token;
   }
 
   createOffer(offer) {
@@ -51,8 +51,7 @@ class ClientApi {
 
   getOffers(lat,lon, max_distance, opts) {
     var that = this;
-    console.log(opts);
-    console.log("current api-key", Api().getKey());
+    console.log("current api-key:", this.clientAuthentication.apiKey);
 
     // create promise
     var p = new Promise(function (resolve, reject) {

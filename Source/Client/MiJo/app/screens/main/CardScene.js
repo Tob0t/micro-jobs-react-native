@@ -3,6 +3,7 @@
 import React, {StyleSheet, Text, View, Image} from 'react-native'
 import SwipeCards from 'react-native-swipe-cards'
 import ClientApi from 'MiJo/app/ClientApi'
+import Api from 'MiJo/app/Api'
 import Moment from 'moment'
 import { Bubbles, DoubleBounce, Bars, Pulse } from 'react-native-loader'
 
@@ -70,9 +71,7 @@ class CardScene extends React.Component{
 
   _getOffers(){
     console.log('Get Offers');
-
     // Request fo the offer feed
-    //var loc = LocationManager.getLastKnownLocation();
     LocationManager().getLastKnownLocationPromise().then(
       (location) => {
         console.log('Successfully got location ', location);
@@ -173,13 +172,13 @@ class CardScene extends React.Component{
         handleNope={(card) => this._handleNope(card)}
         cardRemoved={(index) => this._cardRemoved(index)}
       />;
-      
+
     var loading =
          <View style={styles.noMoreCards}>
           <Pulse size={40} color="#52AB42"/>
           <Text>Looking for GPS ...</Text>
         </View>;
-    
+
     return (
       this.state.loaded ? cards : loading
     )
