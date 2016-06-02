@@ -4,18 +4,27 @@
 class SettingsManager {
 
   constructor() {
-    this.offers = {
+    this.requests = {
       'maxDistance': 200000,
-      'category': 'garden'
+      'category': 'garden',
+      'type': 'money/service'
+    };
+    this.offers = {
+      'minimumAge': 18,
+      'maximumAge': 70
     };
   }
 
   getOffers() {
     return this.offers;
   }
+  getRequests() {
+    return this.requests;
+  }
 
   updateSettings(newSettings){
     this.offers = newSettings.offers;
+    this.requests = newSettings.requests;
   }
 }
 

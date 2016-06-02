@@ -27,8 +27,11 @@ class GeneralSettingsScene extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        maxDistance: SettingsManager().getOffers().maxDistance,
-        category: SettingsManager().getOffers().category,
+        maxDistance: SettingsManager().getRequests().maxDistance,
+        category: SettingsManager().getRequests().category,
+        type: SettingsManager().getRequests().type,
+        minimumAge: SettingsManager().getOffers().minimumAge,
+        maximumAge: SettingsManager().getOffers().maximumAge,
         promptVisible: false,
         promptTitle: '',
         promptValue:'',
@@ -45,7 +48,7 @@ class GeneralSettingsScene extends React.Component {
         <NavBarStandard title="Settings" onPressLeft={() => this.props.navigator.pop()}/>
         <View style={styles.container}>
            <SettingsList borderColor='#c8c7cc' defaultItemSize={50}>
-             <SettingsList.Header headerText='Offer Settings' headerStyle={{color:'black'}}/>
+             <SettingsList.Header headerText='Request Settings' headerStyle={{color:'black'}}/>
              <SettingsList.Item
                title='Maximal Distance'
                hasNavArrow={false}
@@ -68,6 +71,43 @@ class GeneralSettingsScene extends React.Component {
                  promptTitle: 'Category',
                  promptValue: this.state.category,
                  promptKey: 'category'
+               })}
+             />
+             <SettingsList.Item
+               title='Type'
+               hasNavArrow={false}
+               titleInfo={this.state.type}
+               titleStyle={{fontSize:16}}
+               onPress={() => this.setState({
+                 promptVisible: true,
+                 promptTitle: 'Type',
+                 promptValue: this.state.type,
+                 promptKey: 'type'
+               })}
+             />
+           <SettingsList.Header headerText='Offer Settings' headerStyle={{color:'black'}}/>
+             <SettingsList.Item
+               title='Minimum Age'
+               hasNavArrow={false}
+               titleInfo={String(this.state.minimumAge)}
+               titleStyle={{fontSize:16}}
+               onPress={() => this.setState({
+                 promptVisible: true,
+                 promptTitle: 'Minimum Distance',
+                 promptValue: this.state.minimumAge,
+                 promptKey: 'minimumAge'
+               })}
+             />
+             <SettingsList.Item
+               title='Maximum Age'
+               hasNavArrow={false}
+               titleInfo={String(this.state.maximumAge)}
+               titleStyle={{fontSize:16}}
+               onPress={() => this.setState({
+                 promptVisible: true,
+                 promptTitle: 'Maximum Age',
+                 promptValue: this.state.maximumAge,
+                 promptKey: 'maximumAge'
                })}
              />
           </SettingsList>
@@ -93,14 +133,18 @@ class GeneralSettingsScene extends React.Component {
 
 
       var newSettings ={
-        'offers':{
+        'requests':{
           'maxDistance': Number(this.state.maxDistance),
           'category': this.state.category,
+          'type' : this.state.type
+        },
+        'offers':{
+          'minimumAge': Number(this.state.minimumAge),
+          'maximumAge': Number(this.state.maximumAge),
         }
       }
 
       SettingsManager().updateSettings(newSettings);
-      console.log('offers: ', SettingsManager().getOffers());
   }
 }
 
