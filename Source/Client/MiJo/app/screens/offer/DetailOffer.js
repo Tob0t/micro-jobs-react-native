@@ -61,8 +61,7 @@ class EditOffer extends React.Component {
           loaded: true
         });
       },(error) => {
-        debugger
-        console.error("Error:", error.error_description);
+        console.error("Error:", error);
       });
     }
 

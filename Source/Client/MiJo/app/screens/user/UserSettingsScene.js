@@ -243,11 +243,7 @@ class UserSettingsScene extends React.Component {
         ()=> {
           console.log("User updated succesfully!");
         },(error) => {
-          debugger
           console.error("Error:", error);
-          Alert.alert(
-            'Error',
-            error.message);
       });
   }
 }
