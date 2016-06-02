@@ -54,36 +54,48 @@ class GeneralSettingsScene extends React.Component {
                hasNavArrow={false}
                titleInfo={String(this.state.maxDistance)}
                titleStyle={{fontSize:16}}
-               onPress={() => this.setState({
-                 promptVisible: true,
-                 promptTitle: 'Maximal Distance',
-                 promptValue: this.state.maxDistance,
-                 promptKey: 'maxDistance'
-               })}
+               onPress={() => {
+                  this.setState({
+                   promptTitle: 'Maximal Distance',
+                   promptValue:this.state.maxDistance,
+                   promptKey: 'maxDistance',
+                  });
+                  this.setState({
+                    promptVisible: true,
+                  });
+                }}
              />
              <SettingsList.Item
                title='Category'
                hasNavArrow={false}
                titleInfo={this.state.category}
                titleStyle={{fontSize:16}}
-               onPress={() => this.setState({
-                 promptVisible: true,
-                 promptTitle: 'Category',
-                 promptValue: this.state.category,
-                 promptKey: 'category'
-               })}
+               onPress={() => {
+                  this.setState({
+                   promptTitle: 'Category',
+                   promptValue:this.state.category,
+                   promptKey: 'category',
+                  });
+                  this.setState({
+                    promptVisible: true,
+                  });
+                }}
              />
              <SettingsList.Item
                title='Type'
                hasNavArrow={false}
                titleInfo={this.state.type}
                titleStyle={{fontSize:16}}
-               onPress={() => this.setState({
-                 promptVisible: true,
-                 promptTitle: 'Type',
-                 promptValue: this.state.type,
-                 promptKey: 'type'
-               })}
+               onPress={() => {
+                  this.setState({
+                   promptTitle: 'Type',
+                   promptValue:this.state.type,
+                   promptKey: 'type',
+                  });
+                  this.setState({
+                    promptVisible: true,
+                  });
+                }}
              />
            <SettingsList.Header headerText='Offer Settings' headerStyle={{color:'black'}}/>
              <SettingsList.Item
@@ -91,24 +103,32 @@ class GeneralSettingsScene extends React.Component {
                hasNavArrow={false}
                titleInfo={String(this.state.minimumAge)}
                titleStyle={{fontSize:16}}
-               onPress={() => this.setState({
-                 promptVisible: true,
-                 promptTitle: 'Minimum Distance',
-                 promptValue: this.state.minimumAge,
-                 promptKey: 'minimumAge'
-               })}
+               onPress={() => {
+                  this.setState({
+                   promptTitle: 'Minimum Age',
+                   promptValue:this.state.minimumAge,
+                   promptKey: 'minimumAge',
+                  });
+                  this.setState({
+                    promptVisible: true,
+                  });
+                }}
              />
              <SettingsList.Item
                title='Maximum Age'
                hasNavArrow={false}
                titleInfo={String(this.state.maximumAge)}
                titleStyle={{fontSize:16}}
-               onPress={() => this.setState({
-                 promptVisible: true,
-                 promptTitle: 'Maximum Age',
-                 promptValue: this.state.maximumAge,
-                 promptKey: 'maximumAge'
-               })}
+               onPress={() => {
+                  this.setState({
+                   promptTitle: 'Maximum Age',
+                   promptValue:this.state.maximumAge,
+                   promptKey: 'maximumAge',
+                  });
+                  this.setState({
+                    promptVisible: true,
+                  });
+                }}
              />
           </SettingsList>
          </View>

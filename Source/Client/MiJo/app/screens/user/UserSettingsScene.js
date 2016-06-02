@@ -61,7 +61,6 @@ class UserSettingsScene extends React.Component {
           loaded: true,
         });
       },(error) => {
-        debugger
         console.error("Error:", error.error_description);
       });
   }
@@ -125,36 +124,51 @@ class UserSettingsScene extends React.Component {
                hasNavArrow={false}
                titleInfo={this.state.prename}
                titleStyle={{fontSize:16}}
-               onPress={() => this.setState({
-                 promptVisible: true,
-                 promptTitle: 'Your Prename',
-                 promptValue: this.state.prename,
-                 promptKey: 'prename'
-               })}
+               onPress={() => {
+                  this.setState({
+                   promptTitle: 'Your Prename',
+                   promptValue: this.state.prename,
+                   promptKey: 'prename',
+                  });
+                  this.setState({
+                    promptVisible: true,
+                  });
+                }
+              }
              />
              <SettingsList.Item
                title='Surname'
                hasNavArrow={false}
                titleInfo={this.state.surname}
                titleStyle={{fontSize:16}}
-               onPress={() => this.setState({
-                 promptVisible: true,
-                 promptTitle: 'Your Surname',
-                 promptValue: this.state.surname,
-                 promptKey: 'surname'
-               })}
+               onPress={() => {
+                  this.setState({
+                   promptTitle: 'Your Surname',
+                   promptValue: this.state.surname,
+                   promptKey: 'surname',
+                  });
+                  this.setState({
+                    promptVisible: true,
+                  });
+                }
+              }
              />
              <SettingsList.Item
                title='Age'
                hasNavArrow={false}
                titleInfo={String(this.state.age)}
                titleStyle={{fontSize:16}}
-               onPress={() => this.setState({
-                 promptVisible: true,
-                 promptTitle: 'Your Age',
-                 promptValue: this.state.age,
-                 promptKey: 'age'
-               })}
+               onPress={() => {
+                  this.setState({
+                   promptTitle: 'Your Age',
+                   promptValue: this.state.age,
+                   promptKey: 'age',
+                  });
+                  this.setState({
+                    promptVisible: true,
+                  });
+                }
+              }
              />
            <SettingsList.Header headerText='Contact Information' headerStyle={{color:'black'}}/>
              <SettingsList.Item
@@ -162,24 +176,34 @@ class UserSettingsScene extends React.Component {
                hasNavArrow={false}
                titleInfo={this.state.mail}
                titleStyle={{fontSize:16}}
-               onPress={() => this.setState({
-                 promptTitle: 'Your E-Mail',
-                 promptValue: this.state.mail,
-                 promptKey: 'mail',
-                 promptVisible: true
-               })}
+               onPress={() => {
+                  this.setState({
+                   promptTitle: 'Your E-Mail',
+                   promptValue: this.state.mail,
+                   promptKey: 'mail',
+                  });
+                  this.setState({
+                    promptVisible: true,
+                  });
+                }
+              }
              />
              <SettingsList.Item
                title='Phone Number'
                hasNavArrow={false}
                titleInfo={this.state.phone}
                titleStyle={{fontSize:16}}
-               onPress={() => this.setState({
-                 promptVisible: true,
-                 promptTitle: 'Your Phone number',
-                 promptValue: this.state.phone,
-                 promptKey: 'phone'
-               })}
+               onPress={() => {
+                  this.setState({
+                   promptTitle: 'Your Phone number',
+                   promptValue: this.state.phone || "",
+                   promptKey: 'phone',
+                  });
+                  this.setState({
+                    promptVisible: true,
+                  });
+                }
+              }
              />
           </SettingsList>
          </View>
