@@ -183,40 +183,46 @@ class EditOffer extends React.Component {
     }
 
     _updateOffer() {
-		var that = this;
-		// Vars for updating offer
-		var title = this.state.jobTitle;
-		var description = this.state.jobDescription;
-		var image = this.state.image;
-		var payment = {
-			'type': this.state.paymentType || "MONEY",
-			'value': this.state.payment || "20$ per Hour"
-		};
+      var deadline = Moment(this.state.deadline, 'DD.MM.YYYY', true);
+      if(deadline.isValid()){
 
-    var deadline = Moment(this.state.deadline, 'DD.MM.YYYY');
+        var that = this;
+    		// Vars for updating offer
+    		var title = this.state.jobTitle;
+    		var description = this.state.jobDescription;
+    		var image = this.state.image;
+    		var payment = {
+    			'type': this.state.paymentType || "MONEY",
+    			'value': this.state.payment || "20$ per Hour"
+    		};
 
-		var loc = LocationManager().getLastPosition();
-		var location = {
-		  'lat': loc.coords.latitude,
-		  'lon': loc.coords.longitude
-		};
+    		var loc = LocationManager().getLastPosition();
+    		var location = {
+    		  'lat': loc.coords.latitude,
+    		  'lon': loc.coords.longitude
+    		};
 
-		var offer ={
-		  'title': title,
-		  'description': description,
-		  'image': image,
-		  'location': location,
-		  'payment': payment,
-		  'deadline': deadline,
-		}
+    		var offer ={
+    		  'title': title,
+    		  'description': description,
+    		  'image': image,
+    		  'location': location,
+    		  'payment': payment,
+    		  'deadline': deadline,
+    		}
 
-		ClientApi().updateOffer(this.props.offerId, offer).then(
-		  ()=> {
-		    console.log("Offer updated succesfully!");
-		    that.props.navigator.pop();
-		  },(error) => {
-		    console.error("Error:", error);
-		});
+    		ClientApi().updateOffer(this.props.offerId, offer).then(
+    		  ()=> {
+    		    console.log("Offer updated succesfully!");
+    		    that.props.navigator.pop();
+    		  },(error) => {
+    		    console.error("Error:", error);
+    		});
+      } else{
+          Alert.alert(
+            'Invalid Date!',
+            'Please use the format DD.MM.YYYY');
+      }
   	}
 
 }

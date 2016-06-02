@@ -29,7 +29,7 @@ class Card extends React.Component{
         <Text style={styles.text_description}>{this.props.description}</Text>
         <View style={styles.text_container}>
           <Text style={styles.text_subtitle}>Deadline: </Text>
-          <Text style={styles.text_subtitle_flat}>{Moment(this.props.deadline).format('L')}</Text>
+          <Text style={styles.text_subtitle_flat}>{Moment(this.props.deadline).format('DD.MM.YYYY')}</Text>
         </View>
         <View style={styles.text_container}>
           <Text style={styles.text_subtitle}>Payment: </Text>
@@ -79,7 +79,7 @@ class CardScene extends React.Component{
         var lat = location.coords.latitude || 48.346371;
         var lon = location.coords.longitude || 14.510034;
 
-        var max_distance = SettingsManager().getOffers().maxDistance;
+        var max_distance = SettingsManager().getRequests().maxDistance;
         //This parameters are optional and needed for pagination! --> see swagger spec
         var opts = {
             page: 1,

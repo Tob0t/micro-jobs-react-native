@@ -156,41 +156,50 @@
 
       _createNewOffer() {
         // Vars for creating offer
-        var title = this.state.jobTitle || "Template Title";
-        var description = this.state.jobDescription || "Example Job description";
-        var image = this.state.image || imageTemplate;
+        var deadline = Moment(this.state.deadline, 'DD.MM.YYYY', true);
+        if(deadline.isValid()){
 
-        var payment = {
-          'type': this.state.paymentType || "MONEY",
-          'value': this.state.payment || "20$ per Hour"
-        };
-        var deadline = Moment(this.state.deadline, 'DD.MM.YYYY');
+          var title = this.state.jobTitle || "Template Title";
+          var description = this.state.jobDescription || "Example Job description";
+          var image = this.state.image || imageTemplate;
 
-        var loc = LocationManager().getLastPosition();
-        var location = {
-          'lat': loc.coords.latitude || 48.346371,
-          'lon': loc.coords.longitude || 14.510034
-        };
+          var payment = {
+            'type': this.state.paymentType || "MONEY",
+            'value': this.state.payment || "20$ per Hour"
+          };
 
-        var offer ={
-          'title': title,
-          'description': description,
-          'image': image,
-          'location': location,
-          'payment': payment,
-          'deadline': deadline,
-        }
-        console.log("Send offer to Api: ", offer);
 
-        ClientApi().createOffer(offer).then(
-          ()=> {
-            console.log("Offer created succesfully!");
-            this.props.navigator.pop();
-          },(error) => {
-            console.error("Error:", error);
-        });
+
+          var loc = LocationManager().getLastPosition();
+          var location = {
+            'lat': loc.coords.latitude || 48.346371,
+            'lon': loc.coords.longitude || 14.510034
+          };
+
+          var offer ={
+            'title': title,
+            'description': description,
+            'image': image,
+            'location': location,
+            'payment': payment,
+            'deadline': deadline,
+          }
+          console.log("Send offer to Api: ", offer);
+
+          ClientApi().createOffer(offer).then(
+            ()=> {
+              console.log("Offer created succesfully!");
+              this.props.navigator.pop();
+            },(error) => {
+              console.error("Error:", error);
+          });
+
+      } else{
+        Alert.alert(
+          'Invalid Date!',
+          'Please use the format DD.MM.YYYY');
       }
-
+    }
   }
 
   var styles = StyleSheet.create({
