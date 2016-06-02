@@ -72,7 +72,7 @@ class UserRequestsScene extends React.Component {
        underlayColor='#dddddd'>
      <View>
        <View style={styles.rowContainer}>
-         <Image style={styles.thumb} source={{ uri: rowData.offerImage }} />
+         <Image style={styles.offerPicture} source={{ uri: rowData.offerImage }} />
          <View  style={styles.textContainer}>
            <Text style={styles.price}>{rowData.offerTitle}</Text>
            <Text style={styles.title}
@@ -120,7 +120,14 @@ var styles = StyleSheet.create({
     borderRadius: 24,
     resizeMode: 'contain',
   },
+  offerPicture:{
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    justifyContent: 'center',
+  },
   textContainer: {
+    marginLeft: 10,
     flex: 1
   },
   separator: {
